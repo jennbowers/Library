@@ -5,25 +5,24 @@ import com.jennbowers.library.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController {
+public class SearchAllController {
     @Autowired
     BookRepository bookRepo;
 
     @Autowired
     UserRepository userRepo;
 
-//    GET request for home page
-    @RequestMapping("/")
-    public String index (){
-        return "index";
+//    GET request for search all page
+    @RequestMapping("/search")
+    public String search () {
+        return "search";
     }
 
-//    POST request for home page when searching for books
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String indexPost() {
-        return "index";
+//    POST request for search all page
+    @RequestMapping("/search")
+    public String seachPost () {
+        return "search";
     }
 }
