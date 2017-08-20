@@ -60,9 +60,63 @@ public class HomeController {
     }
 
 //    POST request for removing a shelf...this will be on the shelf detail page
-    @RequestMapping(value = "/shelf/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/shelf/{shelfId}/remove", method = RequestMethod.POST)
     public String shelfRemove () {
         return "redirect:/shelf";
+    }
+
+//    GET request for shelf edit page
+    @RequestMapping("/shelf/{shelfId}/edit")
+    public String editShelf () {
+        return "editShelf";
+    }
+
+//    POST request for shelf edit page
+    @RequestMapping(value = "/shelf/{shelfId}/edit", method = RequestMethod.POST)
+    public String editShelfPost () {
+        return "redirect:/shelf/{shelfId}";
+    }
+
+//    GET request for user's book detail page
+    @RequestMapping("/book/{bookId}")
+    public String bookDetail () {
+        return "bookDetail";
+    }
+
+//    POST request for adding a book
+    @RequestMapping(value = "/book/add", method = RequestMethod.POST)
+    public String addBook () {
+        return "redirect:/";
+    }
+
+//    GET request for book edit page
+    @RequestMapping("/book/{bookId}/edit")
+    public String editBook () {
+        return "editBook";
+    }
+
+//    POST request for book edit page
+    @RequestMapping(value = "/book/{boookId}/edit", method = RequestMethod.POST)
+    public String editBookPost () {
+        return "redirect:/book/{bookId}";
+    }
+
+//    POST request for removing a book
+    @RequestMapping(value = "/book/{bookId}/remove", method = RequestMethod.POST)
+    public String removeBookPost () {
+        return "redirect:/";
+    }
+
+//    GET request for search all page
+    @RequestMapping("/search")
+    public String search () {
+        return "search";
+    }
+
+//    POST request for search all page
+    @RequestMapping("/search")
+    public String seachPost () {
+        return "search";
     }
 
 //    GET request for friend's home page
@@ -81,5 +135,11 @@ public class HomeController {
     @RequestMapping("/{userId}/shelf/{shelfId}")
     public String friendShelfDetail () {
         return "friendShelfDetail";
+    }
+
+//    GET request to see the details of a specific book owned by a friend
+    @RequestMapping("/{userId}/book/{bookId}")
+    public String friendBookDetail () {
+        return "friendBookDetail";
     }
 }
