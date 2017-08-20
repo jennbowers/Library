@@ -27,28 +27,28 @@ public class HomeController {
         return "index";
     }
 
-//    GET request for friend's home page
-    @RequestMapping("/{userId}")
-    public String friendHome () {
-        return "friendHome";
-    }
-
 //    POST request for friend's home page when searching for books
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
     public String friendHomePost () {
         return "friendHome";
     }
 
-//    GET request for displaying all books on shelf... shelf detail page
-    @RequestMapping("/shelf/{shelfId}")
+//    GET request for seeing all the user's shelves
+    @RequestMapping("/shelf")
     public String shelf () {
         return "shelf";
+    }
+
+//    GET request for displaying all books on shelf... shelf detail page
+    @RequestMapping("/shelf/{shelfId}")
+    public String shelfDetail () {
+        return "shelfDetail";
     }
 
 //    POST request for searching through books on shelf... on shelf detail page
     @RequestMapping("/shelf/{shelfId}")
     public String shelfPost () {
-        return "shelf";
+        return "shelfDetail";
     }
 
 //    POST request for adding a shelf... this form will be at the bottom of the list of all the shelves with just a simple name input in the sidebar and a plus icon to add it
@@ -65,5 +65,21 @@ public class HomeController {
         return "redirect:/shelf";
     }
 
-//
+//    GET request for friend's home page
+    @RequestMapping("/{userId}")
+    public String friendHome () {
+        return "friendHome";
+    }
+
+//    GET request to see all of friend's shelves
+    @RequestMapping("/{userId}/shelf")
+    public String friendShelf () {
+        return "friendShelf";
+    }
+
+//    GET request to see a specific shelf owned by a friend
+    @RequestMapping("/{userId}/shelf/{shelfId}")
+    public String friendShelfDetail () {
+        return "friendShelfDetail";
+    }
 }
