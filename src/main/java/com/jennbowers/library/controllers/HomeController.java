@@ -39,15 +39,31 @@ public class HomeController {
         return "friendHome";
     }
 
-//    GET request for displaying all books on shelf
+//    GET request for displaying all books on shelf... shelf detail page
     @RequestMapping("/shelf/{shelfId}")
     public String shelf () {
         return "shelf";
     }
 
-//    POST request for searching through books on shelf
+//    POST request for searching through books on shelf... on shelf detail page
     @RequestMapping("/shelf/{shelfId}")
     public String shelfPost () {
         return "shelf";
     }
+
+//    POST request for adding a shelf... this form will be at the bottom of the list of all the shelves with just a simple name input in the sidebar and a plus icon to add it
+    @RequestMapping(value = "/shelf/add", method = RequestMethod.POST)
+    public String shelfAdd () {
+//        REDIRECT BACK TO PAGE THAT USER CAME FROM
+//        NEED TO LOOK THIS UP
+        return "redirect:/";
+    }
+
+//    POST request for removing a shelf...this will be on the shelf detail page
+    @RequestMapping(value = "/shelf/remove", method = RequestMethod.POST)
+    public String shelfRemove () {
+        return "redirect:/shelf";
+    }
+
+//
 }
