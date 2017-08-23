@@ -5,6 +5,7 @@ import com.jennbowers.library.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class SearchAllController {
@@ -21,8 +22,8 @@ public class SearchAllController {
     }
 
 //    POST request for search all page
-    @RequestMapping("/search")
-    public String seachPost () {
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String searchPost () {
         return "search";
     }
 }

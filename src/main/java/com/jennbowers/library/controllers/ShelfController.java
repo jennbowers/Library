@@ -28,7 +28,7 @@ public class ShelfController {
     }
 
 //    POST request for searching through books on shelf... on shelf detail page
-    @RequestMapping("/shelf/{shelfId}")
+    @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.POST)
     public String shelfPost () {
         return "shelfDetail";
     }
@@ -50,7 +50,7 @@ public class ShelfController {
 //    GET request for shelf edit page
     @RequestMapping("/shelf/{shelfId}/edit")
     public String editShelf () {
-        return "editShelf";
+        return "shelfEdit";
     }
 
 //    POST request for shelf edit page
