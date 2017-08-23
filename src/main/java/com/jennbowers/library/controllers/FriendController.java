@@ -15,6 +15,12 @@ public class FriendController {
     @Autowired
     UserRepository userRepo;
 
+//    GET request for seeing all friends
+    @RequestMapping("/friends")
+    public String friendAll () {
+        return "friendAll";
+    }
+
 //    GET request for friend's home page
     @RequestMapping("/{userId}")
     public String friendHome () {
