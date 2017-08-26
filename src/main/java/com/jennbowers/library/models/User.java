@@ -19,8 +19,8 @@ public class User implements UserDetails{
     private String last_name;
     private String username;
     private String password;
+    private boolean active;
     private String email;
-    private boolean enabled;
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -104,6 +104,14 @@ public class User implements UserDetails{
         this.books = books;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -128,10 +136,7 @@ public class User implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 }
