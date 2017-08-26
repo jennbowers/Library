@@ -13,6 +13,7 @@ public class User {
     private String last_name;
     private String username;
     private String password;
+    private String email;
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -22,11 +23,12 @@ public class User {
 
     public User() { }
 
-    public User(String first_name, String last_name, String username, String password, Role role, List<Book> books) {
+    public User(String first_name, String last_name, String username, String password, String email, Role role, List<Book> books) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
         this.password = password;
+        this.email = email;
         this.role = role;
         this.books = books;
     }
@@ -53,6 +55,14 @@ public class User {
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

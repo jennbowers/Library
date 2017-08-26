@@ -16,7 +16,7 @@ public class HomeController {
     UserRepository userRepo;
 
 //    GET request for home page
-    @RequestMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index (){
         return "index";
     }
@@ -26,6 +26,5 @@ public class HomeController {
     public String indexPost() {
         return "index";
     }
-
 
 }
