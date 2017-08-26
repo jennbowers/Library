@@ -8,14 +8,15 @@
 </head>
 <body>
     <h1>Login or Sign up</h1>
-    <form action="/login" method="post">
+    <div th:text="${error}"></div>
+    <form th:action="@{/login}" th:object="${user}" method="post">
         <div>
             <label for="username-login">Username: </label>
-            <input type="text" name="usernameLogin" id="username-login"/>
+            <input type="text" name="usernameLogin" id="username-login" th:field="*{username}"/>
         </div>
         <div>
             <label for="password-login">Password: </label>
-            <input type="password" name="passwordLogin" id="password-login"/>
+            <input type="password" name="passwordLogin" id="password-login" th:field="*{password}"/>
         </div>
         <button type="submit">Login!</button>
     </form>
