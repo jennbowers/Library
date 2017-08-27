@@ -10,7 +10,10 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <section class="row col-md-12">
-            <h1>User's home page</h1>
+            <h1>
+                <span>Welcome </span>
+                <span th:text="${user.firstName}"></span>
+            </h1>
             <form class="form-inline" action="">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search"/>
@@ -31,17 +34,23 @@
                 </div>
                 <input type="submit" class="btn btn-info" value="Search"/>
             </form>
-            <div class="panel panel-default container flex-container">
-                <div class="flex-info">
-                    <p>Title</p>
-                    <p>Author</p>
-                    <p>Brief Description</p>
+            <h3>My Books</h3>
+            <div th:each="book: ${books}" class="panel panel-default container">
+                <div class="book-info">
+                    <img th:src="${book.img}" alt="book cover"/>
+                    <p th:text="${book.title}"></p>
+                    <p th:text="${book.author}"></p>
                 </div>
-                <div class="flex-btns">
-                    <button class="btn btn-success">+</button>
-                    <button class="btn btn-success">See Details</button>
+                <div class="book-btns">
+                    <a th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+                    <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
                 </div>
-
+            </div>
+            <h3>My Shelves</h3>
+            <div class="panel panel-default container">
+                <div class="shelf-info">
+                    <p>shelf name</p>
+                </div>
             </div>
         </section>
     </div>

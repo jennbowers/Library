@@ -12,26 +12,30 @@ public class Book {
     private String author;
     private String img;
     private String summary;
-    private String date_published;
+    @Column(name = "datepublished")
+    private String datePublished;
     private int copies;
     private int rating;
     private boolean active;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "ownerid")
     private User user;
+    @Column(name = "googleid")
+    private String googleId;
 
     public Book() { }
 
-    public Book(String title, String author, String img, String summary, String date_published, int copies, int rating, boolean active, User user) {
+    public Book(String title, String author, String img, String summary, String datePublished, int copies, int rating, boolean active, User user, String googleId) {
         this.title = title;
         this.author = author;
         this.img = img;
         this.summary = summary;
-        this.date_published = date_published;
+        this.datePublished = datePublished;
         this.copies = copies;
         this.rating = rating;
         this.active = active;
         this.user = user;
+        this.googleId = googleId;
     }
 
     public long getId() {
@@ -74,12 +78,12 @@ public class Book {
         this.summary = summary;
     }
 
-    public String getDate_published() {
-        return date_published;
+    public String getDatePublished() {
+        return datePublished;
     }
 
-    public void setDate_published(String date_published) {
-        this.date_published = date_published;
+    public void setDatePublished(String datePublished) {
+        this.datePublished = datePublished;
     }
 
     public int getCopies() {
@@ -112,5 +116,13 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }
