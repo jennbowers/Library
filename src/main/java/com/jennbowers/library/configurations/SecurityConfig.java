@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Qualifier("dataSource")
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
     private String usersQuery = "select username, password, active from user_data where username=?";
     private String rolesQuery = "select u.username, r.name from user_data u inner join role r on(u.role_id=r.id) where u.username=?";
@@ -53,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
+            .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/signup").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
             .formLogin()
@@ -64,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
             .logout()
                 .permitAll()
-                .logoutSuccessUrl("/logout");
+                .logoutSuccessUrl("/login");
     }
 
     public AuthenticationSuccessHandler loginSuccessHandler() {
