@@ -2,10 +2,17 @@ package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 public class FriendController {
@@ -16,8 +23,29 @@ public class FriendController {
     UserRepository userRepo;
 
 //    GET request for seeing all friends
-    @RequestMapping("/friends")
-    public String friendAll () {
+    @RequestMapping(value = "/friends", method = RequestMethod.GET)
+    public String friendAll (Model model) {
+        Iterable<User> users = userRepo.findAll();
+        model.addAttribute("users", users);
+        return "friendAll";
+    }
+
+//    POST request for searching for a friend by name
+    @RequestMapping(value = "/friends/search/name", method = RequestMethod.POST)
+    public String friendSearchName (Model model,
+                                    @RequestParam("firstName") String firstName,
+                                    @RequestParam("lastName") String lastName) {
+        Iterable<User> users = userRepo.findByFirstNameAndLastName(firstName, lastName);
+        model.addAttribute("users", users);
+        return "friendAll";
+    }
+
+//    POST request for searching for a friend by username
+    @RequestMapping(value = "/friends/search/username", method = RequestMethod.POST)
+    public String friendSearchUsername (Model model,
+                                        @RequestParam("username") String username) {
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("user", user);
         return "friendAll";
     }
 

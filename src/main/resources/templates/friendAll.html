@@ -10,8 +10,43 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1>User's friends</h1>
-    </div>
+        <h4>Search for users by their name:</h4>
+        <p th:text="${nameMessage}"></p>
+        <form th:action="'/friends/search/name'" method="post">
+            <div class="form-group">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="firstName" class="form-control" placeholder="First Name"/>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="lastName" class="form-control" placeholder="Last Name"/>
+            </div>
+            <input type="submit" class="btn btn-success" value="Search by Name"/>
+        </form>
+        <form th:action="'/friends'">
+            <input type="submit" class="btn btn-success" value="Reset Search and See All Friends"/>
+        </form>
 
+        <h4>Search for users by their username:</h4>
+        <p th:text="${usernameMessage}"></p>
+        <form th:action="'/friends/search/username'" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username"/>
+            </div>
+            <input type="submit" class="btn btn-success" value="Search by Username"/>
+        </form>
+        <form th:action="'/friends'">
+            <input type="submit" class="btn btn-success" value="Reset Search and See All Friends"/>
+        </form>
+        
+        <div th:if="${users}" th:each="user: ${users}" class="panel panel-default container">
+            <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
+        </div>
+        <div th:if="${user}" class="panel panel-default container">
+            <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
+        </div>
+    </div>
     <span th:include="includes :: js"></span>
 </body>
 </html>
