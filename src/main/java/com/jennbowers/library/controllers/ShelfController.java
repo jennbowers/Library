@@ -4,8 +4,11 @@ import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.security.Principal;
 
 @Controller
 public class ShelfController {
@@ -17,7 +20,9 @@ public class ShelfController {
 
 //    GET request for seeing all the user's shelves
     @RequestMapping("/shelf")
-    public String shelf () {
+    public String shelf (Principal principal,
+                         Model model) {
+        String username = principal.getName();
         return "shelf";
     }
 

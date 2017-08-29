@@ -30,9 +30,12 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Book> books;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Shelf> shelves;
+
     public User() { }
 
-    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books) {
+    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books, List<Shelf> shelves) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -41,6 +44,7 @@ public class User implements UserDetails{
         this.email = email;
         this.role = role;
         this.books = books;
+        this.shelves = shelves;
     }
 
     public long getId() {
@@ -105,6 +109,14 @@ public class User implements UserDetails{
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public List<Shelf> getShelves() {
+        return shelves;
+    }
+
+    public void setShelves(List<Shelf> shelves) {
+        this.shelves = shelves;
     }
 
     public boolean isActive() {
