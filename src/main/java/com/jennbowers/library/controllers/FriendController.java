@@ -71,7 +71,19 @@ public class FriendController {
 
 //    POST request for friend's home page when searching for books
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-    public String friendHomePost () {
+    public String friendHomePost (Model model,
+                                  @PathVariable("userId") Long userId,
+                                  @RequestParam("searchQuery") String searchQuery,
+                                  @RequestParam("searchType") String searchType) {
+        User user = userRepo.findOne(userId);
+        Iterable<Book> books = null;
+        if(searchType.equals("title")) {
+            books = bookRepo.findAllByUserAndTitle(user, searchQuery);
+        } else if (searchType.equals("author")) {
+            books = bookRepo.findAllByUserAndAuthor(user, searchQuery);
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("books", books);
         return "friendHome";
     }
 
@@ -87,9 +99,4 @@ public class FriendController {
         return "friendShelfDetail";
     }
 
-//    GET request to see the details of a specific book owned by a friend
-    @RequestMapping("/{userId}/book/{bookId}")
-    public String friendBookDetail () {
-        return "friendBookDetail";
-    }
 }
