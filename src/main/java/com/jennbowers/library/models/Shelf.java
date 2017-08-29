@@ -1,6 +1,8 @@
 package com.jennbowers.library.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "shelf")
@@ -13,9 +15,14 @@ public class Shelf {
     @JoinColumn(name = "userid")
     private User user;
 
-    public Shelf(String name, User user) {
+    @ManyToMany(mappedBy = "shelves", cascade = CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
+
+
+    public Shelf(String name, User user, List<Book> books) {
         this.name = name;
         this.user = user;
+        this.books = books;
     }
 
     public long getId() {
@@ -40,5 +47,13 @@ public class Shelf {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

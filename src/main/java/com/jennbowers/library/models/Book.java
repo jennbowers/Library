@@ -1,6 +1,8 @@
 package com.jennbowers.library.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -12,30 +14,41 @@ public class Book {
     private String author;
     private String img;
     private String summary;
+
+    @Column(name = "googleid")
+    private String googleId;
+
     @Column(name = "datepublished")
     private String datePublished;
     private int copies;
     private int rating;
     private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "ownerid")
     private User user;
-    @Column(name = "googleid")
-    private String googleId;
+
+    @ManyToMany
+    @JoinTable(name = "book_shelf",
+            joinColumns = { @JoinColumn(name = "fk_book")},
+            inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
+    private List<Shelf> shelves = new ArrayList<>();
+
 
     public Book() { }
 
-    public Book(String title, String author, String img, String summary, String datePublished, int copies, int rating, boolean active, User user, String googleId) {
+    public Book(String title, String author, String img, String summary, String googleId, String datePublished, int copies, int rating, boolean active, User user, List<Shelf> shelves) {
         this.title = title;
         this.author = author;
         this.img = img;
         this.summary = summary;
+        this.googleId = googleId;
         this.datePublished = datePublished;
         this.copies = copies;
         this.rating = rating;
         this.active = active;
         this.user = user;
-        this.googleId = googleId;
+        this.shelves = shelves;
     }
 
     public long getId() {
@@ -124,5 +137,13 @@ public class Book {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+    }
+
+    public List<Shelf> getShelves() {
+        return shelves;
+    }
+
+    public void setShelves(List<Shelf> shelves) {
+        this.shelves = shelves;
     }
 }
