@@ -11,6 +11,20 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1>All Requests</h1>
+        <div class="friend-requests">
+            <h3>Friend Requests</h3>
+            <p>{Friend Name} has sent you a friend request!</p>
+            <button class="btn btn-success">Accept</button>
+            <button class="btn btn-success">Deny</button>
+        </div>
+        <hr/>
+        <div class="book-requests">
+            <h3>Book Requests</h3>
+            <p>{Friend Name} would like to borrow {Book Name}</p>
+            <p>{Message they've included goes here}</p>
+            <button class="btn btn-success">Accept</button>
+            <button class="btn btn-success">Deny</button>
+        </div>
     </div>
     <span th:include="includes :: js"></span>
 </body>
