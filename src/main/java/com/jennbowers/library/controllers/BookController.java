@@ -2,10 +2,17 @@ package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 @Controller
 public class BookController {
@@ -17,7 +24,14 @@ public class BookController {
 
 //    GET request for user's book detail page
     @RequestMapping("/book/{bookId}")
-    public String bookDetail () {
+    public String bookDetail (Model model,
+                              @PathVariable("bookId") Long bookId,
+                              Principal principal) {
+        String currentUser = principal.getName();
+        User user = userRepo.findByUsername(currentUser);
+        model.addAttribute("currentUser", user);
+        Book book = bookRepo.findOne(bookId);
+        model.addAttribute("book", book);
         return "bookDetail";
     }
 
@@ -29,13 +43,38 @@ public class BookController {
 
 //    GET request for book edit page
     @RequestMapping("/book/{bookId}/edit")
-    public String editBook () {
-        return "editBook";
+    public String editBook (Model model,
+                            @PathVariable("bookId") Long bookId,
+                            Principal principal) {
+        String currentUser = principal.getName();
+        User user = userRepo.findByUsername(currentUser);
+        model.addAttribute("currentUser", user);
+
+        Book book = bookRepo.findOne(bookId);
+        User bookOwner = book.getUser();
+        String bookOwnerString = bookOwner.getUsername();
+        model.addAttribute("book", book);
+
+        if(currentUser.equals(bookOwnerString)) {
+            return "editBook";
+        } else {
+            return "bookDetail";
+        }
     }
 
 //    POST request for book edit page
-    @RequestMapping(value = "/book/{boookId}/edit", method = RequestMethod.POST)
-    public String editBookPost () {
+    @RequestMapping(value = "/book/{bookId}/edit", method = RequestMethod.POST)
+    public String editBookPost (@PathVariable("bookId") Long bookId,
+                                @RequestParam("rating") Integer rating,
+                                @RequestParam("copies") Integer copies) {
+        Book book = bookRepo.findOne(bookId);
+        book.setCopies(copies);
+        if(rating != null) {
+            book.setRating(rating);
+        } else {
+            book.setRating(0);
+        }
+        bookRepo.save(book);
         return "redirect:/book/{bookId}";
     }
 

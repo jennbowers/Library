@@ -2,14 +2,77 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Welcome to {USER's NAME}'s book: {BOOK NAME}</title>
+    <title th:text="${book.title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>User's book detail page</h1>
+        <h1>
+            <span th:text="${book.user.firstName}"></span>
+            <span>'s book: </span>
+            <span th:text="${book.title}"></span>
+        </h1>
+        <div class="book-detail-info">
+            <img th:src="${book.img}" alt="book cover"/>
+            <h4 th:text="${book.title}"></h4>
+            <p th:text="${book.author}"></p>
+            <p>
+                <span>Date Published:</span>
+                <span th:text="${book.datePublished}"></span>
+            </p>
+            <p>
+                <span th:if="${book.rating != 0}">Owner's Rating: </span>
+                <span th:if="${book.rating != 0}" th:switch="${book.rating}">
+                    <span th:case="5">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    </span>
+                    <span th:case="4">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                    </span>
+                    <span th:case="3">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                    </span>
+                    <span th:case="2">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                    </span>
+                    <span th:case="1">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </p>
+            <p>
+                <span>Copies Owned:</span>
+                <span th:text="${book.copies}"></span>
+            </p>
+            <p th:text="${book.summary}"></p>
+        </div>
+        <div class="book-btns">
+            <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
+            <a th:if="${book.user.username != currentUser.username}" href="#" class="btn btn-success">+</a>
+            <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+        </div>
     </div>
     <span th:include="includes :: js"></span>
 </body>
