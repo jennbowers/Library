@@ -5,7 +5,7 @@
 
 	<groupId>com.jennbowers</groupId>
 	<artifactId>library</artifactId>
-	<version>0.0.1-PREDEPLOY</version>
+	<version>1.0.0-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>library</name>
