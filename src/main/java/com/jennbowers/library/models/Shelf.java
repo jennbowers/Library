@@ -18,6 +18,8 @@ public class Shelf {
     @ManyToMany(mappedBy = "shelves", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
+    public Shelf() {
+    }
 
     public Shelf(String name, User user, List<Book> books) {
         this.name = name;

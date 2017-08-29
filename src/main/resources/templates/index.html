@@ -47,9 +47,9 @@
                 </div>
             </div>
             <h3>My Shelves</h3>
-            <div class="panel panel-default container">
-                <div class="shelf-info">
-                    <p>shelf name</p>
+            <div th:each="shelf : ${shelves}" class="panel panel-default container">
+                <div class="row shelf">
+                    <h4 th:text="${shelf.name}"></h4>
                 </div>
             </div>
         </section>
