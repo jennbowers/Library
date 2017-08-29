@@ -12,6 +12,10 @@
         <h1>All Shelves</h1>
     </div>
     <span th:include="includes :: js"></span>
-
+    <div th:each="shelf : ${shelves}" class="panel panel-default container">
+        <div class="row shelf">
+            <h4 th:text="${shelf.name}"></h4>
+        </div>
+    </div>
 </body>
 </html>

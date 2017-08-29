@@ -1,7 +1,10 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Shelf;
+import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +21,17 @@ public class ShelfController {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    ShelfRepository shelfRepo;
+
 //    GET request for seeing all the user's shelves
     @RequestMapping("/shelf")
     public String shelf (Principal principal,
                          Model model) {
         String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
+        model.addAttribute("shelves", shelves);
         return "shelf";
     }
 
