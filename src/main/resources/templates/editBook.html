@@ -28,7 +28,11 @@
                     </span>
                     <span class="stars-radio-group" id="stars-radio-group">
                         <label class="radio-inline">
-                            <input type="radio" name="rating" id="onestar" value="1"/>
+                            <input type="radio" name="rating" id="norating" th:checked="${book.rating == 0}" value="0"/>
+                            <span><p>No Rating</p></span>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rating" id="onestar" th:checked="${book.rating == 1}" value="1"/>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
@@ -36,7 +40,7 @@
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="rating" id="twostars" value="2"/>
+                            <input type="radio" name="rating" id="twostars" th:checked="${book.rating == 2}" value="2"/>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
@@ -44,7 +48,7 @@
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="rating" id="threestars" value="3"/>
+                            <input type="radio" name="rating" id="threestars" th:checked="${book.rating == 3}" value="3"/>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -52,7 +56,7 @@
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="rating" id="fourstars" value="4"/>
+                            <input type="radio" name="rating" id="fourstars" th:checked="${book.rating == 4}" value="4"/>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -60,7 +64,7 @@
                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="rating" id="fivestars" value="5"/>
+                            <input type="radio" name="rating" id="fivestars" th:checked="${book.rating == 5}" value="5"/>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
