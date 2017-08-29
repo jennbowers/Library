@@ -1,11 +1,15 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +25,9 @@ public class FriendController {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    ShelfRepository shelfRepo;
 
 //    GET request for seeing all friends
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
@@ -51,7 +58,14 @@ public class FriendController {
 
 //    GET request for friend's home page
     @RequestMapping("/{userId}")
-    public String friendHome () {
+    public String friendHome (Model model,
+                              @PathVariable("userId") Long userId) {
+        User user = userRepo.findOne(userId);
+        model.addAttribute("user", user);
+        Iterable<Book> books = bookRepo.findAllByUser(user);
+        model.addAttribute("books", books);
+        Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
+        model.addAttribute("shelves", shelves);
         return "friendHome";
     }
 

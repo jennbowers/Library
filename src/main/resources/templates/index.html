@@ -15,6 +15,7 @@
                 <span th:text="${user.firstName}"></span>
             </h1>
             <form class="form-inline" action="">
+                <input type="hidden" th:value="${user.id}"/>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search"/>
                 </div>
