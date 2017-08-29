@@ -2,19 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Welcome to your shelves</title>
+    <title>All Requests</title>
+
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>All Shelves</h1>
-    </div>
-    <div th:each="shelf : ${shelves}" class="panel panel-default container">
-        <div class="row shelf">
-            <h4 th:text="${shelf.name}"></h4>
-        </div>
+        <h1>All Requests</h1>
     </div>
     <span th:include="includes :: js"></span>
 </body>
