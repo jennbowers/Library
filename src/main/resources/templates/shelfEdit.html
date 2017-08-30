@@ -2,14 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Edit to your {SHELF NAME} shelf</title>
+    <title th:text="${shelf.name}"></title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>Edit Shelf page</h1>
+        <h1>
+            <span>Edit </span>
+            <span th:text="${shelf.name}"></span>
+        </h1>
+        <form th:action="'/shelf/' + ${shelf.id} + '/edit'" method="post">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" name="name" id="name" th:value="${shelf.name}"/>
+            </div>
+            <input type="submit" class="btn btn-success" value="Submit Changes"/>
+        </form>
+        <form th:action="'/shelf/' + ${shelf.id} + '/remove'" method="post">
+            <input type="submit" class="btn btn-danger" value="Delete Shelf"/>
+        </form>
     </div>
     <span th:include="includes :: js"></span>
 </body>
