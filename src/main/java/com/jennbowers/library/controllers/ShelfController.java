@@ -62,7 +62,8 @@ public class ShelfController {
 
 //    POST request for removing a shelf...this will be on the shelf detail page
     @RequestMapping(value = "/shelf/{shelfId}/remove", method = RequestMethod.POST)
-    public String shelfRemove () {
+    public String shelfRemove (@PathVariable("shelfId") Long shelfId) {
+        shelfRepo.delete(shelfId);
         return "redirect:/shelf";
     }
 
