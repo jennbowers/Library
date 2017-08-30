@@ -70,7 +70,7 @@
         </div>
         <div class="book-btns">
             <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
-            <a th:if="${book.user.username != currentUser.username}" href="#" class="btn btn-success">+</a>
+            <a th:if="${book.user.username != currentUser.username}" href="#" class="btn btn-success">Borrow</a>
             <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
         </div>
     </div>

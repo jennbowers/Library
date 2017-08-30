@@ -80,7 +80,8 @@ public class BookController {
 
 //    POST request for removing a book
     @RequestMapping(value = "/book/{bookId}/remove", method = RequestMethod.POST)
-    public String removeBookPost () {
+    public String removeBookPost (@PathVariable("bookId") Long bookId) {
+        bookRepo.delete(bookId);
         return "redirect:/";
     }
 }
