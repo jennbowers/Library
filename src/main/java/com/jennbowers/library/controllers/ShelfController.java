@@ -8,6 +8,7 @@ import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -37,7 +38,10 @@ public class ShelfController {
 
 //    GET request for displaying all books on shelf... shelf detail page
     @RequestMapping("/shelf/{shelfId}")
-    public String shelfDetail () {
+    public String shelfDetail (Model model,
+                               @PathVariable("shelfId") Long shelfId) {
+        Shelf shelf = shelfRepo.findOne(shelfId);
+        model.addAttribute("shelf", shelf);
         return "shelfDetail";
     }
 

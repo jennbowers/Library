@@ -50,6 +50,7 @@
             <div th:each="shelf : ${shelves}" class="panel panel-default container">
                 <div class="row shelf">
                     <h4 th:text="${shelf.name}"></h4>
+                    <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
                 </div>
             </div>
         </section>
