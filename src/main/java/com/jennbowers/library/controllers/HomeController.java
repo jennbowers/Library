@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -41,8 +42,40 @@ public class HomeController {
 
 //    POST request for home page when searching for books
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String indexPost() {
-        return "index";
+    public String indexPost(Model model,
+                            @RequestParam("userId") Long userId,
+                            @RequestParam("searchText") String searchText,
+                            @RequestParam("searchBy") String searchBy,
+                            @RequestParam("searchIn") String searchIn) {
+        User user = userRepo.findOne(userId);
+        Iterable<Book> books = null;
+        switch (searchIn) {
+//        Search in my books
+            case "mine":
+                if (searchBy.equals("title")){
+                    books = bookRepo.findAllByUserAndTitle(user, searchText);
+                } else if (searchBy.equals("author")) {
+                    books = bookRepo.findAllByUserAndAuthor(user, searchText);
+                }
+                model.addAttribute("books", books);
+                break;
+//        Search in friends & other's books
+            case "borrow":
+                if (searchBy.equals("title")){
+                    books = bookRepo.findAllByTitle(searchText);
+                } else if (searchBy.equals("author")) {
+                    books = bookRepo.findAllByAuthor(searchText);
+                }
+                model.addAttribute("books", books);
+                break;
+//        Search API
+            case "add":
+                break;
+            default:
+                break;
+        }
+
+        return "search";
     }
 
 }

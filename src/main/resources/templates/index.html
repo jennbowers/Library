@@ -14,19 +14,20 @@
                 <span>Welcome </span>
                 <span th:text="${user.firstName}"></span>
             </h1>
-            <form class="form-inline" action="">
-                <input type="hidden" th:value="${user.id}"/>
+            <form class="form-inline" action="/" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search"/>
+                    <input type="text" name="searchText" class="form-control" placeholder="Search"/>
                 </div>
                 <div class="form-group">
-                    <select class="form-control">
+                    <select name="searchBy" class="form-control">
                         <option value="title">Title</option>
                         <option value="author">Author</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control">
+                    <select name="searchIn" class="form-control">
                         <option value="mine">Search in My Collection</option>
                         <option value="borrow">Search to Borrow</option>
                         <option value="add">Search to Add a New Book</option>

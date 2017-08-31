@@ -10,6 +10,10 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1>Search to see who has your book</h1>
+        <div th:each="book : ${books}">
+            <p th:text="${book.title}"></p>
+            <p th:text="${book.author}"></p>
+        </div>
     </div>
     <span th:include="includes :: js"></span>
 </body>
