@@ -7,22 +7,24 @@
     <link rel="stylesheet" th:href="@{../static/styles.css}"/>
 </head>
 <body>
-    <h1>Login</h1>
-    <div style="color: red;" th:text="${error}"></div>
-    <form th:action="@{/login}" th:object="${user}" method="post">
-        <div>
-            <label for="username-login">Username: </label>
-            <input type="text" name="usernameLogin" id="username-login" th:field="*{username}"/>
-        </div>
-        <div>
-            <label for="password-login">Password: </label>
-            <input type="password" name="passwordLogin" id="password-login" th:field="*{password}"/>
-        </div>
-        <button type="submit">Login!</button>
-    </form>
+    <div class="container">
+        <h1>Login</h1>
+        <div style="color: red;" th:text="${error}"></div>
+        <form th:action="@{/login}" th:object="${user}" method="post">
+            <div>
+                <label for="username-login">Username: </label>
+                <input type="text" name="usernameLogin" id="username-login" th:field="*{username}"/>
+            </div>
+            <div>
+                <label for="password-login">Password: </label>
+                <input type="password" name="passwordLogin" id="password-login" th:field="*{password}"/>
+            </div>
+            <button type="submit">Login!</button>
+        </form>
 
-    <h3>Don't have an account?</h3>
-    <button><a th:href="@{/signup}">Sign Up Here!</a></button>
+        <h3>Don't have an account?</h3>
+        <button><a th:href="@{/signup}">Sign Up Here!</a></button>
+    </div>
 
 </body>
 </html>
