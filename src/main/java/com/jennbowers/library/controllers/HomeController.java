@@ -60,7 +60,7 @@ public class HomeController {
                 }
                 model.addAttribute("books", books);
                 break;
-//        Search in friends & other's books
+//        Search in friends & others books
             case "borrow":
                 if (searchBy.equals("title")){
                     books = bookRepo.findAllByTitle(searchText);
