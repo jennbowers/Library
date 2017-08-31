@@ -48,6 +48,7 @@ public class HomeController {
                             @RequestParam("searchBy") String searchBy,
                             @RequestParam("searchIn") String searchIn) {
         User user = userRepo.findOne(userId);
+        model.addAttribute("user", user);
         Iterable<Book> books = null;
         switch (searchIn) {
 //        Search in my books

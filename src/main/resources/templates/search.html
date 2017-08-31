@@ -10,9 +10,17 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1>Search to see who has your book</h1>
-        <div th:each="book : ${books}">
-            <p th:text="${book.title}"></p>
-            <p th:text="${book.author}"></p>
+        <div th:each="book: ${books}" class="panel panel-default container">
+            <div class="book-info">
+                <img th:src="${book.img}" alt="book cover"/>
+                <p th:text="${book.title}"></p>
+                <p th:text="${book.author}"></p>
+            </div>
+            <div class="book-btns">
+                <a  th:if="${book.user.id == user.id}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+                <a  th:if="${book.user.id != user.id}" href="#" class="btn btn-success">Borrow</a>
+                <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
+            </div>
         </div>
     </div>
     <span th:include="includes :: js"></span>
