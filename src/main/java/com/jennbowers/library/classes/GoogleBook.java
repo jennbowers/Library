@@ -1,25 +1,22 @@
 package com.jennbowers.library.classes;
 
+import com.google.api.client.util.Key;
+
+import java.util.List;
+
 public class GoogleBook {
-    private String kind;
+    @Key
     private String id;
-    private String etag;
+    @Key
     private String selfLink;
-    private Object volumeInfo;
-    private Object salesInfo;
-    private Object accessInfo;
-    private Object searchInfo;
+    @Key("volumeInfo")
+    private List<VolumeInfo> volumeInformation;
+    @Key("searchInfo")
+    private List<SearchInfo> searchInformation;
 
     public GoogleBook() {
     }
 
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
 
     public String getId() {
         return id;
@@ -27,14 +24,6 @@ public class GoogleBook {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
     }
 
     public String getSelfLink() {
@@ -45,35 +34,19 @@ public class GoogleBook {
         this.selfLink = selfLink;
     }
 
-    public Object getVolumeInfo() {
-        return volumeInfo;
+    public List<VolumeInfo> getVolumeInformation() {
+        return volumeInformation;
     }
 
-    public void setVolumeInfo(Object volumeInfo) {
-        this.volumeInfo = volumeInfo;
+    public void setVolumeInformation(List<VolumeInfo> volumeInformation) {
+        this.volumeInformation = volumeInformation;
     }
 
-    public Object getSalesInfo() {
-        return salesInfo;
+    public List<SearchInfo> getSearchInformation() {
+        return searchInformation;
     }
 
-    public void setSalesInfo(Object salesInfo) {
-        this.salesInfo = salesInfo;
-    }
-
-    public Object getAccessInfo() {
-        return accessInfo;
-    }
-
-    public void setAccessInfo(Object accessInfo) {
-        this.accessInfo = accessInfo;
-    }
-
-    public Object getSearchInfo() {
-        return searchInfo;
-    }
-
-    public void setSearchInfo(Object searchInfo) {
-        this.searchInfo = searchInfo;
+    public void setSearchInformation(List<SearchInfo> searchInformation) {
+        this.searchInformation = searchInformation;
     }
 }
