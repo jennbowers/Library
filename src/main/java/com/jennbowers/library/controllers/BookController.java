@@ -36,8 +36,9 @@ public class BookController {
     }
 
 //    POST request for adding a book
-    @RequestMapping(value = "/book/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/bookAdd", method = RequestMethod.POST)
     public String addBook () {
+
         return "redirect:/";
     }
 
