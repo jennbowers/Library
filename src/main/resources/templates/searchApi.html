@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Search to Add</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:include="includes :: navbar"></div>
+<div class="container">
+    <h1>Search to add a book</h1>
+    <div th:each="volume : ${volumes}" class="panel panel-default container">
+        <p>book</p>
+        <!--<div class="book-info">-->
+            <!--<img th:src="${book.img}" alt="book cover"/>-->
+            <!--<p th:text="${book.title}"></p>-->
+            <!--<p th:text="${book.author}"></p>-->
+        <!--</div>-->
+        <!--<div class="book-btns">-->
+            <!--<a  th:if="${book.user.id == user.id}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>-->
+            <!--<a  th:if="${book.user.id != user.id}" href="#" class="btn btn-success">Borrow</a>-->
+            <!--<a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>-->
+        <!--</div>-->
+    </div>
+</div>
+<span th:include="includes :: js"></span>
+</body>
+</html>

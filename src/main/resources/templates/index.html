@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Welcome to your Library</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{../static/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
@@ -14,9 +14,8 @@
                 <span>Welcome </span>
                 <span th:text="${user.firstName}"></span>
             </h1>
-            <form class="form-inline" action="/" method="post">
-                <input type="hidden" name="userId" th:value="${user.id}"/>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <form class="form-inline" th:action="@{/searchToAdd}">
+                <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
                 <div class="form-group">
                     <input type="text" name="searchText" class="form-control" placeholder="Search"/>
                 </div>

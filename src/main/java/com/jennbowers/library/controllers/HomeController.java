@@ -2,6 +2,8 @@ package com.jennbowers.library.controllers;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.books.model.Volume;
+import com.google.api.services.books.model.Volumes;
 import com.jennbowers.library.classes.GoogleBookRequestBuilder;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -45,13 +48,14 @@ public class HomeController {
     }
 
 //    POST request for home page when searching for books
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchToAdd", method = RequestMethod.GET)
     public String indexPost(Model model,
-                            @RequestParam("userId") Long userId,
+                            Principal principal,
                             @RequestParam("searchText") String searchText,
                             @RequestParam("searchBy") String searchBy,
                             @RequestParam("searchIn") String searchIn) {
-        User user = userRepo.findOne(userId);
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
         Iterable<Book> books = null;
         switch (searchIn) {
@@ -95,7 +99,9 @@ public class HomeController {
                     }
 
                     try {
-                        GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
+                        Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
+                        List<Volume> volumesList = volumes.getItems();
+                        model.addAttribute("volumes", volumesList);
                         // Success!
                         return "search";
                     } catch (IOException e) {
@@ -109,7 +115,7 @@ public class HomeController {
                 break;
         }
 
-        return "search";
+        return "searchApi";
     }
 
 }
