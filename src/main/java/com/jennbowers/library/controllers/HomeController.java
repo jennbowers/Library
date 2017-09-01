@@ -80,7 +80,7 @@ public class HomeController {
 //        Search API
             case "add":
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
+                System.out.println("jsonFactory" + jsonFactory);
                 String prefixParam = null;
 //                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
                 String searchTextModified = searchText.replaceAll("\\s+", "\\+");
@@ -91,19 +91,18 @@ public class HomeController {
                 }
 
                 try {
-//                Query format: "[<inauthor|intitle>:]<query>"
                     String query = searchTextModified;
 
                     if (prefixParam != null) {
                         query = prefixParam + query;
                     }
-
                     try {
                         Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                         List<Volume> volumesList = volumes.getItems();
+                        System.out.println("Something's working!" + volumesList);
                         model.addAttribute("volumes", volumesList);
                         // Success!
-                        return "search";
+                        return "searchApi";
                     } catch (IOException e) {
                         System.err.println(e.getMessage());
                     }

@@ -30,64 +30,38 @@ public class GoogleBookRequestBuilder {
 //            Set the query string
             System.out.println("Query: [" + query + "]");
             Books.Volumes.List volumesList = books.volumes().list(query);
-
+            System.out.println("volumeslist" + volumesList);
 //            Execute the query
             Volumes volumes = volumesList.execute();
             if (volumes.getTotalItems() == 0 || volumes.getItems() == null) {
                 System.out.println("No matches found.");
 
             }
-
             return volumes;
+        }
 
-//             Output the results
-//            for (Volume volume : volumes.getItems()){
-//                String volumeId = volume.getId();
-//                Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
-//                System.out.println("==========");
-////                 Title
-//                System.out.println("Title: " + volumeInfo.getTitle());
-////                 Author(s)
-//                java.util.List<String> authors = volumeInfo.getAuthors();
-//                if (authors != null && !authors.isEmpty()) {
-//                    System.out.print("Author(s): ");
-//                    for (int i = 0; i < authors.size(); ++i) {
-//                        System.out.print(authors.get(i));
-//                        if (i < authors.size() - 1) {
-//                            System.out.print(", ");
-//                        }
-//                    }
-//                    System.out.println();
+//        public static void main(String args, String prefixParam) {
+//            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//            try {
+////                Query format: "[<inauthor|intitle>:]<query>"
+//                String query = args;
+//
+//                if (prefixParam != null) {
+//                    query = prefixParam + query;
 //                }
-////                 Description (if any)
-//                if (volumeInfo.getDescription() != null && volumeInfo.getDescription().length() > 0) {
-//                    System.out.println("Description: " + volumeInfo.getDescription());
+//
+//                try {
+//                    queryGoogleBooks(jsonFactory, query);
+//                    // Success!
+//                    return;
+//                } catch (IOException e) {
+//                    System.err.println(e.getMessage());
 //                }
+//            } catch (Throwable t) {
+//                t.printStackTrace();
 //            }
-        }
-
-        public static void main(String args, String prefixParam) {
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            try {
-//                Query format: "[<inauthor|intitle>:]<query>"
-                String query = args;
-
-                if (prefixParam != null) {
-                    query = prefixParam + query;
-                }
-
-                try {
-                    queryGoogleBooks(jsonFactory, query);
-                    // Success!
-                    return;
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-
-            System.exit(0);
-        }
+//
+//            System.exit(0);
+//        }
 
 }
