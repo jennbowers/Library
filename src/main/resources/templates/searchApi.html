@@ -10,13 +10,19 @@
 <div th:include="includes :: navbar"></div>
 <div class="container">
     <h1>Search to add a book</h1>
-    <div th:each="volume : ${volumes}" class="panel panel-default container">
-        <p th:text="${volume.id}"></p>
+    <div th:if="${volumes}" th:each="volume : ${volumes}" class="panel panel-default container">
+        <!--<p th:text="${volume.id}"></p>-->
+        <img th:src="${volume.volumeInfo.imageLinks.thumbnail}" alt=""/>
         <p th:text="${volume.volumeInfo.title}"></p>
-        <p th:text="${volume.volumeInfo.description}"></p>
-        <div th:each="author : ${volume.volumeInfo.authors}">
+        <span th:each="author : ${volume.volumeInfo.authors}">
             <p th:text="${author}"></p>
+        </span>
+        <div class="book-btns">
+        <a href="#" class="btn btn-success">Add</a>
+            <!--th:href="'/searchDetail/' + ${volume.volumeInfo.industryIdentifiers[0].identifier}"-->
+        <a href="#" class="btn btn-success">See Details</a>
         </div>
+        <!--<p th:text="${volume.volumeInfo.description}"></p>-->
     </div>
 </div>
 <span th:include="includes :: js"></span>

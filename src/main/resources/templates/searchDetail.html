@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${book.title}"></title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<div th:include="includes :: navbar"></div>
+<div class="container">
+    <h1>
+        <span>Unowned book: </span>
+        <span th:text="${book.title}"></span>
+    </h1>
+    <div class="book-detail-info">
+        <img th:src="${book.img}" alt="book cover"/>
+        <h4 th:text="${book.title}"></h4>
+        <p th:text="${book.author}"></p>
+        <p>
+            <span>Date Published:</span>
+            <span th:text="${book.datePublished}"></span>
+        </p>
+        <p>
+            <span>Copies Owned:</span>
+            <span th:text="${book.copies}"></span>
+        </p>
+        <p th:text="${book.summary}"></p>
+    </div>
+    <div class="book-btns">
+        <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
+        <a th:if="${book.user.username != currentUser.username}" href="#" class="btn btn-success">Borrow</a>
+        <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+    </div>
+</div>
+<span th:include="includes :: js"></span>
+</body>
+</html>
