@@ -5,13 +5,9 @@ package com.jennbowers.library.classes;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.books.Books;
 import com.google.api.services.books.BooksRequestInitializer;
-import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
-
-import java.io.IOException;
 
 public class GoogleBookRequestBuilder {
 
