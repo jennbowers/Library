@@ -14,6 +14,7 @@ import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,14 +121,48 @@ public class HomeController {
     }
 
 //    GET request for search detail page
-@RequestMapping(value = "/searchDetail/{searchIndex}", method = RequestMethod.GET)
-public String searchDetailGet(Model model,
+    @RequestMapping(value = "/searchDetail/{searchIndex}", method = RequestMethod.GET)
+    public String searchDetailGet(Model model,
                         Principal principal,
+                        @PathVariable("searchIndex") Integer searchIndex,
                         @RequestParam("searchText") String searchText,
                         @RequestParam("searchBy") String searchBy) {
 
         String searchIn = "add";
-        return "searchDetail";
-}
+//        Search API
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        System.out.println("jsonFactory" + jsonFactory);
+        String prefixParam = null;
+//        https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
+        String searchTextModified = searchText.replaceAll("\\s+", "\\+");
+        if (searchBy.equals("title")) {
+            prefixParam = "intitle:";
+        } else if(searchBy.equals("author")){
+            prefixParam = "inauthor:";
+        }
+
+        try {
+            String query = searchTextModified;
+
+            if (prefixParam != null) {
+                query = prefixParam + query;
+            }
+            try {
+                Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
+                List<Volume> volumesList = volumes.getItems();
+                System.out.println("Something's working!" + volumesList);
+                model.addAttribute("volumes", volumesList);
+                // Success!
+                return "searchApi";
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        model.addAttribute("searchText", searchText);
+        model.addAttribute("searchBy", searchBy);
+        return "searchApi";
+    }
 
 }
