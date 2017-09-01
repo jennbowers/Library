@@ -58,6 +58,8 @@ public class HomeController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+        model.addAttribute("searchText", searchText);
+        model.addAttribute("searchBy", searchBy);
         Iterable<Book> books = null;
         switch (searchIn) {
 //        Search in my books
@@ -110,8 +112,7 @@ public class HomeController {
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
-                model.addAttribute("searchText", searchText);
-                model.addAttribute("searchBy", searchBy);
+
                 return "searchApi";
             default:
                 break;
@@ -127,8 +128,15 @@ public class HomeController {
                         @PathVariable("searchIndex") Integer searchIndex,
                         @RequestParam("searchText") String searchText,
                         @RequestParam("searchBy") String searchBy) {
-
+        System.out.println(searchText);
+        System.out.println(searchBy);
         String searchIn = "add";
+        model.addAttribute(("searchIn"), searchIn);
+        model.addAttribute("searchText", searchText);
+        model.addAttribute("searchBy", searchBy);
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        model.addAttribute("currentUser", currentUser);
 //        Search API
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         System.out.println("jsonFactory" + jsonFactory);
@@ -151,17 +159,18 @@ public class HomeController {
                 Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                 List<Volume> volumesList = volumes.getItems();
                 System.out.println("Something's working!" + volumesList);
-                model.addAttribute("volumes", volumesList);
+                Volume detailVolume = volumesList.get(searchIndex);
+                System.out.println("one volume" + detailVolume);
+                model.addAttribute("volume", detailVolume);
                 // Success!
-                return "searchApi";
+                return "searchDetail";
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        model.addAttribute("searchText", searchText);
-        model.addAttribute("searchBy", searchBy);
+
         return "searchApi";
     }
 

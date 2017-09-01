@@ -35,15 +35,15 @@
         <!--<p th:text="${volume.id}"></p>-->
         <img th:src="${volume.volumeInfo.imageLinks.thumbnail}" alt=""/>
         <p th:text="${volume.volumeInfo.title}"></p>
-        <span th:each="author : ${volume.volumeInfo.authors}">
-            <p th:text="${author}"></p>
-        </span>
+        <div th:each="author : ${volume.volumeInfo.authors}">
+            <span th:text="${author}"></span>
+        </div>
         <div class="book-btns">
         <a href="#" class="btn btn-success">Add</a>
             <!--th:href="'/searchDetail/' + ${volume.volumeInfo.industryIdentifiers[0].identifier}"-->
         <form th:action="'/searchDetail/' + ${volumeStat.index}">
-            <input type="hidden" th:value="${searchBy}"/>
-            <input type="hidden" th:value="${searchText}"/>
+            <input type="hidden" name="searchBy" th:value="${searchBy}"/>
+            <input type="hidden" name="searchText" th:value="${searchText}"/>
             <input type="submit" class="btn btn-success" value="See Details"/>
         </form>
             <!--th:href="'/searchDetail/' + ${volumeStat.index}"-->
