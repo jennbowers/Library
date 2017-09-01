@@ -13,11 +13,11 @@ import com.google.api.services.books.model.Volumes;
 
 import java.io.IOException;
 
-public class GoogleBookTest {
+public class GoogleBookRequestBuilder {
 
     public static final String APPLICATION_NAME = "JennBowers-LibraryApp";
 
-        public static void queryGoogleBooks(JsonFactory jsonFactory, String query) throws Exception {
+        public static Volumes queryGoogleBooks(JsonFactory jsonFactory, String query) throws Exception {
 
             ClientCredentials.errorIfNotSpecified();
 
@@ -35,33 +35,35 @@ public class GoogleBookTest {
             Volumes volumes = volumesList.execute();
             if (volumes.getTotalItems() == 0 || volumes.getItems() == null) {
                 System.out.println("No matches found.");
-                return;
+
             }
 
+            return volumes;
+
 //             Output the results
-            for (Volume volume : volumes.getItems()){
-                String volumeId = volume.getId();
-                Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
-                System.out.println("==========");
-//                 Title
-                System.out.println("Title: " + volumeInfo.getTitle());
-//                 Author(s)
-                java.util.List<String> authors = volumeInfo.getAuthors();
-                if (authors != null && !authors.isEmpty()) {
-                    System.out.print("Author(s): ");
-                    for (int i = 0; i < authors.size(); ++i) {
-                        System.out.print(authors.get(i));
-                        if (i < authors.size() - 1) {
-                            System.out.print(", ");
-                        }
-                    }
-                    System.out.println();
-                }
-//                 Description (if any)
-                if (volumeInfo.getDescription() != null && volumeInfo.getDescription().length() > 0) {
-                    System.out.println("Description: " + volumeInfo.getDescription());
-                }
-            }
+//            for (Volume volume : volumes.getItems()){
+//                String volumeId = volume.getId();
+//                Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
+//                System.out.println("==========");
+////                 Title
+//                System.out.println("Title: " + volumeInfo.getTitle());
+////                 Author(s)
+//                java.util.List<String> authors = volumeInfo.getAuthors();
+//                if (authors != null && !authors.isEmpty()) {
+//                    System.out.print("Author(s): ");
+//                    for (int i = 0; i < authors.size(); ++i) {
+//                        System.out.print(authors.get(i));
+//                        if (i < authors.size() - 1) {
+//                            System.out.print(", ");
+//                        }
+//                    }
+//                    System.out.println();
+//                }
+////                 Description (if any)
+//                if (volumeInfo.getDescription() != null && volumeInfo.getDescription().length() > 0) {
+//                    System.out.println("Description: " + volumeInfo.getDescription());
+//                }
+//            }
         }
 
         public static void main(String args, String prefixParam) {

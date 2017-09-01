@@ -1,6 +1,8 @@
 package com.jennbowers.library.controllers;
 
-import com.jennbowers.library.classes.GoogleBookTest;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.jennbowers.library.classes.GoogleBookRequestBuilder;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -72,7 +75,35 @@ public class HomeController {
                 break;
 //        Search API
             case "add":
+                JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
+                String prefixParam = null;
+//                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
+                String searchTextModified = searchText.replaceAll("\\s+", "\\+");
+                if (searchBy.equals("title")) {
+                    prefixParam = "intitle:";
+                } else if(searchBy.equals("author")){
+                    prefixParam = "inauthor:";
+                }
+
+                try {
+//                Query format: "[<inauthor|intitle>:]<query>"
+                    String query = searchTextModified;
+
+                    if (prefixParam != null) {
+                        query = prefixParam + query;
+                    }
+
+                    try {
+                        GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
+                        // Success!
+                        return "search";
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
                 break;
             default:
                 break;
