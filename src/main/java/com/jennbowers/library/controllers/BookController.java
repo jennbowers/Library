@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Controller
 public class BookController {
@@ -37,8 +38,34 @@ public class BookController {
 
 //    POST request for adding a book
     @RequestMapping(value = "/bookAdd", method = RequestMethod.POST)
-    public String addBook () {
-
+    public String addBook (Model model,
+                           Principal principal,
+                           @RequestParam("title") String title,
+                           @RequestParam("authors")ArrayList<String> authors,
+                           @RequestParam("img") String img,
+                           @RequestParam("summary") String summary,
+                           @RequestParam("publishedDate") String publishedDate,
+                           @RequestParam("googleId") String googleId) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        Book book = new Book();
+        book.setUser(user);
+        book.setTitle(title);
+        String allAuthors;
+        if(authors.size() > 1) {
+            allAuthors = String.join(", ", authors);
+            System.out.println(allAuthors);
+        } else {
+            allAuthors = authors.toString();
+            System.out.println(allAuthors);
+        }
+        allAuthors = allAuthors.replace("[", "").replace("]", "");
+        book.setAuthor(allAuthors);
+        book.setImg(img);
+        book.setSummary(summary);
+        book.setDatePublished(publishedDate);
+        book.setGoogleId(googleId);
+        bookRepo.save(book);
         return "redirect:/";
     }
 

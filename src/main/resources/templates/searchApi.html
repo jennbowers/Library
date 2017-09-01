@@ -40,14 +40,16 @@
         </div>
         <div class="book-btns">
             <form action="/bookAdd" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input type="hidden" name="title" th:value="${volume.volumeInfo.title}"/>
                 <input type="hidden" name="authors" th:value="${volume.volumeInfo.authors}"/>
                 <input type="hidden" name="img" th:value="${volume.volumeInfo.imageLinks.thumbnail}"/>
                 <input type="hidden" name="summary" th:value="${volume.volumeInfo.description}"/>
                 <input type="hidden" name="publishedDate" th:value="${volume.volumeInfo.publishedDate}"/>
-                <input type="submit" class="btn btn-success" value="See Details"/>
+                <input type="hidden" name="googleId" th:value="${volume.id}"/>
+                <input type="submit" class="btn btn-success" value="Add"/>
             </form>
-            <a href="#" class="btn btn-success">Add</a>
+            <!--<a href="#" class="btn btn-success">Add</a>-->
                 <!--th:href="'/searchDetail/' + ${volume.volumeInfo.industryIdentifiers[0].identifier}"-->
             <form th:action="'/searchDetail/' + ${volumeStat.index}">
                 <input type="hidden" name="searchBy" th:value="${searchBy}"/>
