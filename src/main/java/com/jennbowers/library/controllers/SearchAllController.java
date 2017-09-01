@@ -16,14 +16,15 @@ public class SearchAllController {
     UserRepository userRepo;
 
 //    GET request for search all page
-    @RequestMapping("/search")
-    public String search () {
-        return "search";
-    }
+//    @RequestMapping("/search")
+//    public String search () {
+//        return "search";
+//    }
 
 //    POST request for search all page
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchPost () {
-        return "search";
-    }
+//    @RequestMapping(value = "/search", method = RequestMethod.POST)
+//    public String searchPost () {
+//        return "search";
+//    }
+
 }

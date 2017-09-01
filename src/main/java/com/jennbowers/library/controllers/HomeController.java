@@ -49,7 +49,7 @@ public class HomeController {
 
 //    POST request for home page when searching for books
     @RequestMapping(value = "/searchToAdd", method = RequestMethod.GET)
-    public String indexPost(Model model,
+    public String searchGet(Model model,
                             Principal principal,
                             @RequestParam("searchText") String searchText,
                             @RequestParam("searchBy") String searchBy,
@@ -109,6 +109,8 @@ public class HomeController {
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
+                model.addAttribute("searchText", searchText);
+                model.addAttribute("searchBy", searchBy);
                 return "searchApi";
             default:
                 break;
@@ -116,5 +118,16 @@ public class HomeController {
 
         return "searchApi";
     }
+
+//    GET request for search detail page
+@RequestMapping(value = "/searchDetail/{searchIndex}", method = RequestMethod.GET)
+public String searchDetailGet(Model model,
+                        Principal principal,
+                        @RequestParam("searchText") String searchText,
+                        @RequestParam("searchBy") String searchBy) {
+
+        String searchIn = "add";
+        return "searchDetail";
+}
 
 }

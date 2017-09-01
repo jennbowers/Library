@@ -41,7 +41,13 @@
         <div class="book-btns">
         <a href="#" class="btn btn-success">Add</a>
             <!--th:href="'/searchDetail/' + ${volume.volumeInfo.industryIdentifiers[0].identifier}"-->
-        <a href="#" class="btn btn-success">See Details</a>
+        <form th:action="'/searchDetail/' + ${volumeStat.index}">
+            <input type="hidden" th:value="${searchBy}"/>
+            <input type="hidden" th:value="${searchText}"/>
+            <input type="submit" class="btn btn-success" value="See Details"/>
+        </form>
+            <!--th:href="'/searchDetail/' + ${volumeStat.index}"-->
+        <!--<a href="#" class="btn btn-success">See Details</a>-->
         </div>
         <!--<p th:text="${volume.volumeInfo.description}"></p>-->
     </div>
