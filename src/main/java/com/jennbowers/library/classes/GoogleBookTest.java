@@ -12,13 +12,12 @@ import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 
 public class GoogleBookTest {
 
     public static final String APPLICATION_NAME = "JennBowers-LibraryApp";
 
-        private static void queryGoogleBooks(JsonFactory jsonFactory, String query) throws Exception {
+        public static void queryGoogleBooks(JsonFactory jsonFactory, String query) throws Exception {
 
             ClientCredentials.errorIfNotSpecified();
 
@@ -41,12 +40,12 @@ public class GoogleBookTest {
 
 //             Output the results
             for (Volume volume : volumes.getItems()){
+                String volumeId = volume.getId();
                 Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
-                Volume.SaleInfo saleInfo = volume.getSaleInfo();
                 System.out.println("==========");
 //                 Title
                 System.out.println("Title: " + volumeInfo.getTitle());
-                // Author(s)
+//                 Author(s)
                 java.util.List<String> authors = volumeInfo.getAuthors();
                 if (authors != null && !authors.isEmpty()) {
                     System.out.print("Author(s): ");
