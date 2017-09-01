@@ -67,7 +67,7 @@ public class HomeController {
                     books = bookRepo.findAllByUserAndAuthor(user, searchText);
                 }
                 model.addAttribute("books", books);
-                break;
+                return "search";
 //        Search in friends & others books
             case "borrow":
                 if (searchBy.equals("title")){
@@ -76,7 +76,7 @@ public class HomeController {
                     books = bookRepo.findAllByAuthor(searchText);
                 }
                 model.addAttribute("books", books);
-                break;
+                return "search";
 //        Search API
             case "add":
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -109,7 +109,7 @@ public class HomeController {
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
-                break;
+                return "searchApi";
             default:
                 break;
         }
