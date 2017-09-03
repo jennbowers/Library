@@ -15,15 +15,16 @@ public class Shelf {
     @JoinColumn(name = "userid")
     private User user;
 
-//    @ManyToMany(mappedBy = "shelves", cascade = CascadeType.ALL)
-//    private List<Book> books = new ArrayList<>();
+    @ManyToMany(mappedBy = "shelves", cascade = CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
 
     public Shelf() {
     }
 
-    public Shelf(String name, User user) {
+    public Shelf(String name, User user, List<Book> books) {
         this.name = name;
         this.user = user;
+        this.books = books;
     }
 
     public long getId() {
@@ -50,4 +51,11 @@ public class Shelf {
         this.user = user;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 }

@@ -28,16 +28,16 @@ public class Book {
     @JoinColumn(name = "ownerid")
     private User user;
 
-//    @ManyToMany
-//    @JoinTable(name = "book_shelf",
-//            joinColumns = { @JoinColumn(name = "fk_book")},
-//            inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
-//    private List<Shelf> shelves = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "book_shelf",
+            joinColumns = { @JoinColumn(name = "fk_book")},
+            inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
+    private List<Shelf> shelves = new ArrayList<>();
 
 
     public Book() { }
 
-    public Book(String title, String author, String img, String summary, String googleId, String datePublished, int copies, int rating, boolean active, User user) {
+    public Book(String title, String author, String img, String summary, String googleId, String datePublished, int copies, int rating, boolean active, User user, List<Shelf> shelves) {
         this.title = title;
         this.author = author;
         this.img = img;
@@ -48,6 +48,7 @@ public class Book {
         this.rating = rating;
         this.active = active;
         this.user = user;
+        this.shelves = shelves;
     }
 
     public long getId() {
@@ -137,12 +138,12 @@ public class Book {
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
-//
-//    public List<Shelf> getShelves() {
-//        return shelves;
-//    }
-//
-//    public void setShelves(List<Shelf> shelves) {
-//        this.shelves = shelves;
-//    }
+
+    public List<Shelf> getShelves() {
+        return shelves;
+    }
+
+    public void setShelves(List<Shelf> shelves) {
+        this.shelves = shelves;
+    }
 }
