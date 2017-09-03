@@ -10,11 +10,23 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1>All Shelves</h1>
-    </div>
-    <div th:each="shelf : ${shelves}" class="panel panel-default container">
-        <div class="row shelf">
-            <h4 th:text="${shelf.name}"></h4>
-            <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
+        <hr/>
+        <h3>Add a new shelf</h3>
+        <!--MAKE THIS A BOOTSTRAP HORIZONTAL FORM-->
+        <form action="/shelf" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <label for="name">New Shelf Name: </label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="Shelf Name"/>
+            </div>
+            <input type="submit" class="btn btn-info" value="Create Shelf"/>
+        </form>
+        <hr/>
+        <div th:each="shelf : ${shelves}" class="panel panel-default container">
+            <div class="row shelf">
+                <h4 th:text="${shelf.name}"></h4>
+                <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
+            </div>
         </div>
     </div>
     <span th:include="includes :: js"></span>

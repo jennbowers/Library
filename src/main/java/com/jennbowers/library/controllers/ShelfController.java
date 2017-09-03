@@ -37,7 +37,20 @@ public class ShelfController {
         return "shelf";
     }
 
+    //    POST request for adding a shelf
+    @RequestMapping(value = "/shelf", method = RequestMethod.POST)
+    public String shelfAdd (Principal principal,
+                            @RequestParam("name") String name) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        Shelf shelf = new Shelf();
+        shelf.setUser(user);
+        shelf.setName(name);
+        shelfRepo.save(shelf);
+        return "redirect:/shelf";
+    }
 //    GET request for displaying all books on shelf... shelf detail page
+
     @RequestMapping("/shelf/{shelfId}")
     public String shelfDetail (Model model,
                                @PathVariable("shelfId") Long shelfId) {
@@ -45,20 +58,12 @@ public class ShelfController {
         model.addAttribute("shelf", shelf);
         return "shelfDetail";
     }
-
+    //        return "shelfDetail";
+    //    public String shelfPost () {
+    //    @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.POST)
 //    POST request for searching through books on shelf... on shelf detail page
-//    @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.POST)
-//    public String shelfPost () {
-//        return "shelfDetail";
-//    }
 
-//    POST request for adding a shelf... this form will be at the bottom of the list of all the shelves with just a simple name input in the sidebar and a plus icon to add it
-    @RequestMapping(value = "/shelf/add", method = RequestMethod.POST)
-    public String shelfAdd () {
-//        REDIRECT BACK TO PAGE THAT USER CAME FROM
-//        NEED TO LOOK THIS UP
-        return "redirect:/";
-    }
+//    }
 
 //    POST request for removing a shelf...this will be on the shelf detail page
     @RequestMapping(value = "/shelf/{shelfId}/remove", method = RequestMethod.POST)
