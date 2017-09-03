@@ -66,6 +66,13 @@
                 <span>Copies Owned:</span>
                 <span th:text="${book.copies}"></span>
             </p>
+            <p>
+                <span>Shelves:</span>
+                <span th:each="shelf : ${shelves}">
+                    <!--TH IF NOT LAST INDEX THEN COMMA AFTER-->
+                    <span th:text="${shelf.name}"></span>
+                </span>
+            </p>
             <p th:text="${book.summary}"></p>
         </div>
         <div class="book-btns">

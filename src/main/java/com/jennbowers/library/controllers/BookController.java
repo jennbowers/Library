@@ -1,8 +1,10 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -22,6 +25,9 @@ public class BookController {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    ShelfRepository shelfRepo;
 
 //    GET request for user's book detail page
     @RequestMapping("/book/{bookId}")
@@ -33,6 +39,8 @@ public class BookController {
         model.addAttribute("currentUser", user);
         Book book = bookRepo.findOne(bookId);
         model.addAttribute("book", book);
+        List<Shelf> shelves = book.getShelves();
+        model.addAttribute("shelves", shelves);
         return "bookDetail";
     }
 
@@ -82,7 +90,10 @@ public class BookController {
         User bookOwner = book.getUser();
         String bookOwnerString = bookOwner.getUsername();
         model.addAttribute("book", book);
-
+        List<Shelf> shelves = book.getShelves();
+        model.addAttribute("selectedShelves", shelves);
+        List<Shelf> allShelves = shelfRepo.findAllByUser(user);
+        model.addAttribute("allShelves", allShelves);
         if(currentUser.equals(bookOwnerString)) {
             return "editBook";
         } else {
