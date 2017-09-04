@@ -83,7 +83,6 @@
                         <!--<span th:text="${shelf.name}"></span>-->
                     <!--</span>-->
                     <select multiple="multiple" name="shelves" id="shelves" class="form-control">
-                        <option value="none">None</option>
                         <option th:each="shelf : ${allShelves}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
                     </select>
                 </p>

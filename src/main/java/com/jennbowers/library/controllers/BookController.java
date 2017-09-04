@@ -105,7 +105,8 @@ public class BookController {
     @RequestMapping(value = "/book/{bookId}/edit", method = RequestMethod.POST)
     public String editBookPost (@PathVariable("bookId") Long bookId,
                                 @RequestParam("rating") Integer rating,
-                                @RequestParam("copies") Integer copies) {
+                                @RequestParam("copies") Integer copies,
+                                @RequestParam("shelves") List<Shelf> shelves) {
         Book book = bookRepo.findOne(bookId);
         book.setCopies(copies);
         if(rating != null) {
@@ -113,6 +114,11 @@ public class BookController {
         } else {
             book.setRating(0);
         }
+
+        if(shelves != null) {
+            book.setShelves(shelves);
+        }
+
         bookRepo.save(book);
         return "redirect:/book/{bookId}";
     }
