@@ -26,6 +26,17 @@
             <div class="row shelf">
                 <h4 th:text="${shelf.name}"></h4>
                 <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
+                <div th:each="shelfBook : ${shelf.books}" class="panel panel-default">
+                    <div class="book-info">
+                        <img th:src="${shelfBook.img}" alt="book cover"/>
+                        <p th:text="${shelfBook.title}"></p>
+                        <p th:text="${shelfBook.author}"></p>
+                    </div>
+                    <div class="book-btns">
+                        <a th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-success">Edit</a>
+                        <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -35,7 +35,7 @@
         <!--<p th:text="${volume.id}"></p>-->
         <img th:if="${volume.volumeInfo.imageLinks != null}" th:src="${volume.volumeInfo.imageLinks.thumbnail}" alt=""/>
         <!--Image for blank cover from here: https://authors.bookfunnel.com/help/adding_and_editing_your_books/-->
-        <img th:if="${volume.volumeInfo.imageLinks == null}" class="no-cover" src="/img/no-cover-thumbnail.jpg" alt=""/>
+        <img th:if="${volume.volumeInfo.imageLinks == null}" src="/img/no-cover-thumbnail.jpg" alt=""/>
         <p th:text="${volume.volumeInfo.title}"></p>
         <div th:each="author : ${volume.volumeInfo.authors}">
             <span th:text="${author}"></span>

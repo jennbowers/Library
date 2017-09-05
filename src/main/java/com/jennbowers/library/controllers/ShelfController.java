@@ -53,7 +53,11 @@ public class ShelfController {
 
     @RequestMapping("/shelf/{shelfId}")
     public String shelfDetail (Model model,
+                               Principal principal,
                                @PathVariable("shelfId") Long shelfId) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("currentUser", user);
         Shelf shelf = shelfRepo.findOne(shelfId);
         model.addAttribute("shelf", shelf);
         return "shelfDetail";
