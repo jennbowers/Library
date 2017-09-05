@@ -13,3 +13,7 @@ body {
 .flex-btns {
     flex: 1 1 25%;
 }
+
+.no-cover {
+    width: 130px;
+}
