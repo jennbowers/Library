@@ -104,9 +104,9 @@ public class FriendController {
     }
 
 //    GET request to see a specific shelf owned by a friend
-    @RequestMapping("/{userId}/shelf/{shelfId}")
-    public String friendShelfDetail () {
-        return "friendShelfDetail";
-    }
+//    @RequestMapping("/{userId}/shelf/{shelfId}")
+//    public String friendShelfDetail () {
+//        return "friendShelfDetail";
+//    }
 
 }
