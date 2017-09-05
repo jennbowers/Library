@@ -73,6 +73,8 @@ public class BookController {
         book.setSummary(summary);
         book.setDatePublished(publishedDate);
         book.setGoogleId(googleId);
+        book.setCopies(1);
+        book.setActive(true);
         bookRepo.save(book);
         return "redirect:/";
     }
