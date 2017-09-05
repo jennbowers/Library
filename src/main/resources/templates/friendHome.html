@@ -50,6 +50,7 @@
             <span th:text="${user.firstName}"></span>
             <span>'s Shelves</span>
         </h3>
+        <a class="btn btn-success" th:href="${user.id} + '/shelf'">See All Shelves</a>
         <div th:if="${shelves}" th:each="shelf : ${shelves}" class="panel panel-default container">
             <div class="row shelf">
                 <h4 th:text="${shelf.name}"></h4>

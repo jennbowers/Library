@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -89,8 +90,17 @@ public class FriendController {
 
 //    GET request to see all of friend's shelves
     @RequestMapping("/{userId}/shelf")
-    public String friendShelf () {
-        return "friendShelf";
+    public String friendShelf (Model model,
+                               Principal principal,
+                               @PathVariable("userId") Long userId) {
+        User shelfOwner = userRepo.findOne(userId);
+        model.addAttribute("shelfOwner", shelfOwner);
+        Iterable<Shelf> shelves = shelfRepo.findAllByUser(shelfOwner);
+        model.addAttribute("shelves", shelves);
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        model.addAttribute("currentUser", currentUser);
+        return "shelf";
     }
 
 //    GET request to see a specific shelf owned by a friend
