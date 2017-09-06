@@ -44,7 +44,7 @@ public class FriendController {
                                     @RequestParam("firstName") String firstName,
                                     @RequestParam("lastName") String lastName) {
         Iterable<User> users = userRepo.findByFirstNameAndLastName(firstName, lastName);
-        model.addAttribute("users", users);
+        model.addAttribute("searchUsers", users);
         return "friendAll";
     }
 
@@ -53,7 +53,7 @@ public class FriendController {
     public String friendSearchUsername (Model model,
                                         @RequestParam("username") String username) {
         User user = userRepo.findByUsername(username);
-        model.addAttribute("user", user);
+        model.addAttribute("searchUsers", user);
         return "friendAll";
     }
 
