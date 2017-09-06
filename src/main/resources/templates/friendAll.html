@@ -49,9 +49,11 @@
         <p th:if="${searchUsers == null}">No Search Results</p>
         <div th:if="${searchUsers}" th:each="user: ${searchUsers}" class="panel panel-default container">
             <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
-        </div>
-        <div th:if="${user}" class="panel panel-default container">
-            <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
+            <form th:action="'/friends'" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input type="hidden" name="id" th:value="${user.id}"/>
+                <input type="submit" class="btn btn-success" value="Add Friend"/>
+            </form>
         </div>
         <hr/>
     </div>

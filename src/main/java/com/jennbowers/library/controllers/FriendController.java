@@ -57,6 +57,24 @@ public class FriendController {
         return "friendAll";
     }
 
+//    POST request for sending a friend request from a user search
+    @RequestMapping(value = "/friends", method = RequestMethod.POST)
+    public String addFriend (Principal principal,
+                             @RequestParam("id") Long id){
+        String username = principal.getName();
+        User toUser = userRepo.findByUsername(username);
+
+        User fromUser = userRepo.findOne(id);
+
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setTouser(toUser);
+        friendRequest.setFromuser(fromUser);
+        friendRequest.setActive(false);
+        friendRequest.setPending(true);
+        friendRequestRepo.save(friendRequest);
+        return "friendAll";
+    }
+
 //    POST request for searching for a friend by name
     @RequestMapping(value = "/friends/search/name", method = RequestMethod.POST)
     public String friendSearchName (Model model,
