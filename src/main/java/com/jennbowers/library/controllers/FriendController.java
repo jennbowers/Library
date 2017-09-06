@@ -1,9 +1,11 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.FriendRequest;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,29 @@ public class FriendController {
     @Autowired
     ShelfRepository shelfRepo;
 
+    @Autowired
+    FriendRequestRepository friendRequestRepo;
+
 //    GET request for seeing all friends
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
-    public String friendAll (Model model) {
-        Iterable<User> users = userRepo.findAll();
-        model.addAttribute("users", users);
+    public String friendAll (Principal principal,
+                             Model model) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        List<User> allFriends = new ArrayList<>();
+//        Iterable<FriendRequest> allFriends = friendRequestRepo.findAllByTouserOrFromuser(user, user);
+        Iterable<FriendRequest> toFriends = friendRequestRepo.findAllByTouserAndActive(user, true);
+        for(FriendRequest friend : toFriends) {
+            User otherFriend = friend.getFromuser();
+            allFriends.add(otherFriend);
+        }
+        Iterable<FriendRequest> fromFriends = friendRequestRepo.findAllByFromuserAndActive(user, true);
+        for(FriendRequest friend : fromFriends) {
+            User otherFriend = friend.getTouser();
+            allFriends.add(otherFriend);
+        }
+        System.out.println(allFriends);
+        model.addAttribute("friends", allFriends);
         return "friendAll";
     }
 
