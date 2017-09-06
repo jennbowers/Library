@@ -33,9 +33,17 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Shelf> shelves;
 
+    @OneToMany(mappedBy = "touser", cascade = CascadeType.ALL)
+    private List<FriendRequest> toUsers;
+
+    @OneToMany(mappedBy = "fromuser", cascade = CascadeType.ALL)
+    private List<FriendRequest> fromUsers;
+
+
+
     public User() { }
 
-    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books, List<Shelf> shelves) {
+    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books, List<Shelf> shelves, List<FriendRequest> toUsers, List<FriendRequest> fromUsers) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -45,6 +53,8 @@ public class User implements UserDetails{
         this.role = role;
         this.books = books;
         this.shelves = shelves;
+        this.toUsers = toUsers;
+        this.fromUsers = fromUsers;
     }
 
     public long getId() {
@@ -117,6 +127,22 @@ public class User implements UserDetails{
 
     public void setShelves(List<Shelf> shelves) {
         this.shelves = shelves;
+    }
+
+    public List<FriendRequest> getToUsers() {
+        return toUsers;
+    }
+
+    public void setToUsers(List<FriendRequest> toUsers) {
+        this.toUsers = toUsers;
+    }
+
+    public List<FriendRequest> getFromUsers() {
+        return fromUsers;
+    }
+
+    public void setFromUsers(List<FriendRequest> fromUsers) {
+        this.fromUsers = fromUsers;
     }
 
     public boolean isActive() {
