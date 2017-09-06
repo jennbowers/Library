@@ -13,7 +13,10 @@
         <h1>All Requests</h1>
         <div class="friend-requests">
             <h3>Friend Requests</h3>
-            <p>{Friend Name} has sent you a friend request!</p>
+            <div th:each="request : ${friendRequests}">
+                <span th:text="${request.fromuser.username}"></span>
+                <span> has sent you a friend request!</span>
+            </div>
             <button class="btn btn-success">Accept</button>
             <button class="btn btn-success">Deny</button>
         </div>
