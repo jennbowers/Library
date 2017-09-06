@@ -42,7 +42,6 @@ public class FriendController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         List<User> allFriends = new ArrayList<>();
-//        Iterable<FriendRequest> allFriends = friendRequestRepo.findAllByTouserOrFromuser(user, user);
         Iterable<FriendRequest> toFriends = friendRequestRepo.findAllByTouserAndActive(user, true);
         for(FriendRequest friend : toFriends) {
             User otherFriend = friend.getFromuser();
