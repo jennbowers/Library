@@ -62,9 +62,9 @@ public class FriendController {
     public String addFriend (Principal principal,
                              @RequestParam("id") Long id){
         String username = principal.getName();
-        User toUser = userRepo.findByUsername(username);
+        User fromUser = userRepo.findByUsername(username);
 
-        User fromUser = userRepo.findOne(id);
+        User toUser = userRepo.findOne(id);
 
         FriendRequest friendRequest = new FriendRequest();
         friendRequest.setTouser(toUser);
