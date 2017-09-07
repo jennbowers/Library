@@ -1,7 +1,9 @@
 package com.jennbowers.library.controllers;
 
+import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.FriendRequest;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Date;
 
 @Controller
 public class RequestController {
@@ -22,6 +25,9 @@ public class RequestController {
     @Autowired
     FriendRequestRepository friendRequestRepo;
 
+    @Autowired
+    BookRequestRepository bookRequestRepo;
+
     @RequestMapping(value = "/requests", method = RequestMethod.GET)
     public String request(Principal principal,
                           Model model) {
@@ -29,6 +35,9 @@ public class RequestController {
         User user = userRepo.findByUsername(username);
         Iterable<FriendRequest> friendRequests = friendRequestRepo.findAllByTouserAndPending(user, true);
         model.addAttribute("friendRequests", friendRequests);
+
+        Iterable<BookRequest> bookRequests = bookRequestRepo.findAllByTouserAndPending(user, true);
+        model.addAttribute("bookRequests", bookRequests);
         return "requests";
     }
 
@@ -43,6 +52,24 @@ public class RequestController {
 
         }
         friendRequestRepo.save(friendRequest);
+        return "redirect:/requests";
+    }
+
+    @RequestMapping(value = "/requests/book/{requestId}", method = RequestMethod.POST)
+    public String bookAnswer (@PathVariable("requestId") Long requestId,
+                              @RequestParam("answer") String answer,
+                              @RequestParam("dueDate") Date dueDate) {
+        BookRequest bookRequest = bookRequestRepo.findOne(requestId);
+        bookRequest.setPending(false);
+        if(answer.equals("Accept")) {
+            bookRequest.setActive(true);
+            Date borrowedDate = new Date();
+            bookRequest.setBorrowed(borrowedDate);
+            bookRequest.setDue(dueDate);
+        } else if (answer.equals("Deny")) {
+
+        }
+        bookRequestRepo.save(bookRequest);
         return "redirect:/requests";
     }
 }

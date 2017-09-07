@@ -106,7 +106,7 @@ public class BookController {
         bookRequest.setPending(true);
 
         bookRequestRepo.save(bookRequest);
-        return "/book/" + bookId;
+        return "redirect:/book/" + bookId;
     }
 
 //    GET request for book edit page

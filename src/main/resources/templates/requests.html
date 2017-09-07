@@ -25,10 +25,19 @@
         <hr/>
         <div class="book-requests">
             <h3>Book Requests</h3>
-            <p>{Friend Name} would like to borrow {Book Name}</p>
-            <p>{Message they've included goes here}</p>
-            <button class="btn btn-success">Accept</button>
-            <button class="btn btn-success">Deny</button>
+            <div th:each="request : ${bookRequests}">
+                <span th:text="${request.fromuser.username}"></span>
+                <span> would like to borrow </span>
+                <span th:text="${request.bookid.title}"></span>
+                <form th:action="'/requests/book/' + ${request.id}" method="post">
+                    <div class="form-group">
+                        <label for="due-date">Due Date:</label>
+                        <input type="date" name="dueDate" id="due-date"/>
+                    </div>
+                    <input type="submit" name="answer" class="btn btn-success" value="Accept"/>
+                    <input type="submit" name="answer" class="btn btn-success" value="Deny"/>
+                </form>
+            </div>
         </div>
     </div>
     <span th:include="includes :: js"></span>
