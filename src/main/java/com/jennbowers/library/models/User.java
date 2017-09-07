@@ -39,11 +39,17 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "fromuser", cascade = CascadeType.ALL)
     private List<FriendRequest> fromUsers;
 
+    @OneToMany(mappedBy = "touser", cascade = CascadeType.ALL)
+    private List<BookRequest> toUsersBookRequests;
+
+    @OneToMany(mappedBy = "fromuser", cascade = CascadeType.ALL)
+    private List<BookRequest> fromUsersBookRequests;
+
 
 
     public User() { }
 
-    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books, List<Shelf> shelves, List<FriendRequest> toUsers, List<FriendRequest> fromUsers) {
+    public User(String firstName, String lastName, String username, String password, boolean active, String email, Role role, List<Book> books, List<Shelf> shelves, List<FriendRequest> toUsers, List<FriendRequest> fromUsers, List<BookRequest> toUsersBookRequests, List<BookRequest> fromUsersBookRequests) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -55,6 +61,8 @@ public class User implements UserDetails{
         this.shelves = shelves;
         this.toUsers = toUsers;
         this.fromUsers = fromUsers;
+        this.toUsersBookRequests = toUsersBookRequests;
+        this.fromUsersBookRequests = fromUsersBookRequests;
     }
 
     public long getId() {
@@ -143,6 +151,22 @@ public class User implements UserDetails{
 
     public void setFromUsers(List<FriendRequest> fromUsers) {
         this.fromUsers = fromUsers;
+    }
+
+    public List<BookRequest> getToUsersBookRequests() {
+        return toUsersBookRequests;
+    }
+
+    public void setToUsersBookRequests(List<BookRequest> toUsersBookRequests) {
+        this.toUsersBookRequests = toUsersBookRequests;
+    }
+
+    public List<BookRequest> getFromUsersBookRequests() {
+        return fromUsersBookRequests;
+    }
+
+    public void setFromUsersBookRequests(List<BookRequest> fromUsersBookRequests) {
+        this.fromUsersBookRequests = fromUsersBookRequests;
     }
 
     public boolean isActive() {

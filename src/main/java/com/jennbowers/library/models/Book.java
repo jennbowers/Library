@@ -34,6 +34,9 @@ public class Book {
             inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
     private List<Shelf> shelves = new ArrayList<>();
 
+    @OneToMany(mappedBy = "bookid", cascade = CascadeType.ALL)
+    private List<BookRequest> bookRequests;
+
 
     public Book() { }
 
