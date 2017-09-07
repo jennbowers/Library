@@ -32,7 +32,7 @@ public class RequestController {
         return "requests";
     }
 
-    @RequestMapping(value = "/requests/{requestId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/requests/friend/{requestId}", method = RequestMethod.POST)
     public String friendAnswer (@PathVariable("requestId") Long requestId,
                                 @RequestParam("answer") String answer) {
         FriendRequest friendRequest = friendRequestRepo.findOne(requestId);

@@ -18,7 +18,6 @@ public class BookRequest {
     @ManyToOne
     @JoinColumn(name = "bookid")
     private Book bookid;
-    private String message;
     private Date borrowed;
     private Date due;
     private boolean active;
@@ -27,11 +26,10 @@ public class BookRequest {
     public BookRequest() {
     }
 
-    public BookRequest(User touser, User fromuser, Book bookid, String message, Date borrowed, Date due, boolean active, boolean pending) {
+    public BookRequest(User touser, User fromuser, Book bookid, Date borrowed, Date due, boolean active, boolean pending) {
         this.touser = touser;
         this.fromuser = fromuser;
         this.bookid = bookid;
-        this.message = message;
         this.borrowed = borrowed;
         this.due = due;
         this.active = active;
@@ -68,14 +66,6 @@ public class BookRequest {
 
     public void setBookid(Book bookid) {
         this.bookid = bookid;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Date getBorrowed() {

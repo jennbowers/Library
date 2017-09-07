@@ -1,9 +1,11 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +31,9 @@ public class BookController {
 
     @Autowired
     ShelfRepository shelfRepo;
+
+    @Autowired
+    BookRequestRepository bookRequestRepo;
 
 //    GET request for user's book detail page
     @RequestMapping("/book/{bookId}")
@@ -77,6 +83,30 @@ public class BookController {
         book.setActive(true);
         bookRepo.save(book);
         return "redirect:/";
+    }
+
+//    POST request for requesting to borrow a book
+    @RequestMapping("/book/{bookId}/borrow")
+    public String borrowBook (Principal principal,
+                              Model model,
+                              @PathVariable("bookId") long bookId) {
+        BookRequest bookRequest = new BookRequest();
+
+        String username = principal.getName();
+        User fromUser = userRepo.findByUsername(username);
+        bookRequest.setFromuser(fromUser);
+
+        Book book = bookRepo.findOne(bookId);
+        bookRequest.setBookid(book);
+
+        User toUser = book.getUser();
+        bookRequest.setTouser(toUser);
+
+        bookRequest.setActive(false);
+        bookRequest.setPending(true);
+
+        bookRequestRepo.save(bookRequest);
+        return "/book/" + bookId;
     }
 
 //    GET request for book edit page
