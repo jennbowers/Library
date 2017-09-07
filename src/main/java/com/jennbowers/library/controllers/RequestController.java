@@ -7,8 +7,10 @@ import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -28,5 +30,19 @@ public class RequestController {
         Iterable<FriendRequest> friendRequests = friendRequestRepo.findAllByTouserAndPending(user, true);
         model.addAttribute("friendRequests", friendRequests);
         return "requests";
+    }
+
+    @RequestMapping(value = "/requests/{requestId}", method = RequestMethod.POST)
+    public String friendAnswer (@PathVariable("requestId") Long requestId,
+                                @RequestParam("answer") String answer) {
+        FriendRequest friendRequest = friendRequestRepo.findOne(requestId);
+        friendRequest.setPending(false);
+        if(answer.equals("Accept")) {
+            friendRequest.setActive(true);
+        } else if (answer.equals("Deny")) {
+
+        }
+        friendRequestRepo.save(friendRequest);
+        return "redirect:/requests";
     }
 }

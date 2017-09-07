@@ -5,7 +5,7 @@
     <title>All Requests</title>
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
@@ -16,9 +16,11 @@
             <div th:each="request : ${friendRequests}">
                 <span th:text="${request.fromuser.username}"></span>
                 <span> has sent you a friend request!</span>
+                <form th:action="'/requests/' + ${request.id}" method="post">
+                    <input type="submit" name="answer" class="btn btn-success" value="Accept"/>
+                    <input type="submit" name="answer" class="btn btn-success" value="Deny"/>
+                </form>
             </div>
-            <button class="btn btn-success">Accept</button>
-            <button class="btn btn-success">Deny</button>
         </div>
         <hr/>
         <div class="book-requests">
