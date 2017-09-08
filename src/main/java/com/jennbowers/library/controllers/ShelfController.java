@@ -31,8 +31,10 @@ public class ShelfController {
     public String shelf (Principal principal,
                          Model model) {
         String username = principal.getName();
-        User user = userRepo.findByUsername(username);
-        Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
+        User currentUser = userRepo.findByUsername(username);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("shelfOwner", currentUser);
+        Iterable<Shelf> shelves = shelfRepo.findAllByUser(currentUser);
         model.addAttribute("shelves", shelves);
         return "shelf";
     }
