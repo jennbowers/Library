@@ -29,12 +29,14 @@
                 <span th:text="${request.fromuser.username}"></span>
                 <span> would like to borrow </span>
                 <span th:text="${request.bookid.title}"></span>
-                <form th:action="'/requests/book/' + ${request.id}" method="post">
+                <form class="form-inline" th:action="'/requests/book/accept/' + ${request.id}" method="post">
                     <div class="form-group">
                         <label for="due-date">Due Date:</label>
-                        <input type="date" name="dueDate" id="due-date"/>
+                        <input type="date" name="dueDate" id="due-date" required="required"/>
                     </div>
                     <input type="submit" name="answer" class="btn btn-success" value="Accept"/>
+                </form>
+                <form th:action="'/requests/book/deny/' + ${request.id}" method="post">
                     <input type="submit" name="answer" class="btn btn-success" value="Deny"/>
                 </form>
             </div>

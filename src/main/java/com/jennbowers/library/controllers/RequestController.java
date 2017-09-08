@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Date;
 
 @Controller
@@ -38,6 +39,10 @@ public class RequestController {
 
         Iterable<BookRequest> bookRequests = bookRequestRepo.findAllByTouserAndPending(user, true);
         model.addAttribute("bookRequests", bookRequests);
+
+        Calendar calendar = Calendar.getInstance();
+        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+        model.addAttribute("date", date);
         return "requests";
     }
 
@@ -55,20 +60,26 @@ public class RequestController {
         return "redirect:/requests";
     }
 
-    @RequestMapping(value = "/requests/book/{requestId}", method = RequestMethod.POST)
-    public String bookAnswer (@PathVariable("requestId") Long requestId,
-                              @RequestParam("answer") String answer,
+    @RequestMapping(value = "/requests/book/accept/{requestId}", method = RequestMethod.POST)
+    public String bookAnswer (Model model,
+                              @PathVariable("requestId") Long requestId,
                               @RequestParam("dueDate") java.sql.Date dueDate) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
         bookRequest.setPending(false);
-        if(answer.equals("Accept")) {
-            bookRequest.setActive(true);
-            Date borrowedDate = new Date();
-            bookRequest.setBorrowed(borrowedDate);
-            bookRequest.setDue(dueDate);
-        } else if (answer.equals("Deny")) {
+        bookRequest.setActive(true);
+        Date borrowedDate = new Date();
+        bookRequest.setBorrowed(borrowedDate);
+        bookRequest.setDue(dueDate);
+        bookRequestRepo.save(bookRequest);
+        return "redirect:/requests";
+    }
 
-        }
+    @RequestMapping(value = "/requests/book/deny/{requestId}", method = RequestMethod.POST)
+    public String bookAnswer (Model model,
+                              @PathVariable("requestId") Long requestId) {
+        BookRequest bookRequest = bookRequestRepo.findOne(requestId);
+        bookRequest.setPending(false);
+        bookRequest.setActive(false);
         bookRequestRepo.save(bookRequest);
         return "redirect:/requests";
     }
