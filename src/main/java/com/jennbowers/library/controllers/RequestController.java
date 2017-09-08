@@ -42,6 +42,12 @@ public class RequestController {
 
         Iterable<BookRequest> pendingBooksFromMe = bookRequestRepo.findAllByFromuserAndPending(user, true);
         model.addAttribute("pendingBooksFromMe", pendingBooksFromMe);
+
+        Iterable<BookRequest> booksIBorrowed = bookRequestRepo.findAllByFromuserAndActive(user, true);
+        model.addAttribute("booksIBorrowed", booksIBorrowed);
+
+        Iterable<BookRequest> myBooksThatAreBorrowed = bookRequestRepo.findAllByTouserAndActive(user, true);
+        model.addAttribute("myBooksThatAreBorrowed", myBooksThatAreBorrowed);
         return "requests";
     }
 
