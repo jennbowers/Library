@@ -19,7 +19,7 @@
             </div>
             <div class="book-btns">
                 <a th:if="${currentUser.id == shelf.user.id}" th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-success">Edit</a>
-                <a th:if="${currentUser.id != shelf.user.id}" href="#" class="btn btn-success">Borrow</a>
+                <a th:if="${currentUser.id != shelf.user.id}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
             </div>
         </div>

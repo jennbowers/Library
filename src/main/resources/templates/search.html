@@ -39,7 +39,7 @@
             </div>
             <div class="book-btns">
                 <a  th:if="${book.user.id == user.id}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
-                <a  th:if="${book.user.id != user.id}" href="#" class="btn btn-success">Borrow</a>
+                <a  th:if="${book.user.id != user.id}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
             </div>
         </div>

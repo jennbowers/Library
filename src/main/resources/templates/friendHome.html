@@ -62,7 +62,7 @@
                         <p th:text="${shelfBook.author}"></p>
                     </div>
                     <div class="book-btns">
-                        <a href="#" class="btn btn-success">Borrow</a>
+                        <a th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                         <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
                     </div>
                 </div>
