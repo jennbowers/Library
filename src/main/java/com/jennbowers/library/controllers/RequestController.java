@@ -40,9 +40,8 @@ public class RequestController {
         Iterable<BookRequest> bookRequests = bookRequestRepo.findAllByTouserAndPending(user, true);
         model.addAttribute("bookRequests", bookRequests);
 
-        Calendar calendar = Calendar.getInstance();
-        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
-        model.addAttribute("date", date);
+        Iterable<BookRequest> pendingBooksFromMe = bookRequestRepo.findAllByFromuserAndPending(user, true);
+        model.addAttribute("pendingBooksFromMe", pendingBooksFromMe);
         return "requests";
     }
 
