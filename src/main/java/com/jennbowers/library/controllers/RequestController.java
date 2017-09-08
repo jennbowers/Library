@@ -58,7 +58,7 @@ public class RequestController {
     @RequestMapping(value = "/requests/book/{requestId}", method = RequestMethod.POST)
     public String bookAnswer (@PathVariable("requestId") Long requestId,
                               @RequestParam("answer") String answer,
-                              @RequestParam("dueDate") Date dueDate) {
+                              @RequestParam("dueDate") java.sql.Date dueDate) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
         bookRequest.setPending(false);
         if(answer.equals("Accept")) {
