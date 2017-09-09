@@ -60,7 +60,6 @@ public class FriendController {
                                     @RequestParam("lastName") String lastName) {
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
-        System.out.println("current user: " + currentUser.getUsername());
 
         List<User> notFriends = new ArrayList<>();
         List<User> notActiveFriends = new ArrayList<>();
@@ -71,7 +70,6 @@ public class FriendController {
 
         Helpers helpers = new Helpers();
         List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
-
         List<User> allPendingFriends = helpers.findAllPendingFriends(currentUser, friendRequestRepo);
 
         for(User activeFriend : allActiveFriends) {
@@ -106,10 +104,47 @@ public class FriendController {
 //    POST request for searching for a friend by username
 
     @RequestMapping(value = "/friends/search/username", method = RequestMethod.POST)
-    public String friendSearchUsername (Model model,
+    public String friendSearchUsername (Principal principal,
+                                        Model model,
                                         @RequestParam("username") String username) {
+        String currentUsername = principal.getName();
+        User currentUser = userRepo.findByUsername(currentUsername);
+
+        List<User> notFriends = new ArrayList<>();
+        List<User> notActiveFriends = new ArrayList<>();
+        List<User> searchActiveFriends = new ArrayList<>();
+        List<User> searchPendingFriends = new ArrayList<>();
+
         User user = userRepo.findByUsername(username);
-        model.addAttribute("searchUsers", user);
+
+        Helpers helpers = new Helpers();
+        List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
+        List<User> allPendingFriends = helpers.findAllPendingFriends(currentUser, friendRequestRepo);
+
+        for(User activeFriend : allActiveFriends) {
+            if(activeFriend == user) {
+                searchActiveFriends.add(user);
+            } else {
+                notActiveFriends.add(user);
+            }
+        }
+
+        model.addAttribute("activeSearchFriends", searchActiveFriends);
+
+        for(User pendingFriend : allPendingFriends) {
+            for(User notActiveFriend : notActiveFriends) {
+                if(pendingFriend == notActiveFriend) {
+                    searchPendingFriends.add(notActiveFriend);
+                } else {
+                    notFriends.add(notActiveFriend);
+                }
+            }
+        }
+
+        model.addAttribute("pendingSearchFriends", searchPendingFriends);
+
+        model.addAttribute("notFriends", notFriends);
+
         return "friendAll";
     }
 
