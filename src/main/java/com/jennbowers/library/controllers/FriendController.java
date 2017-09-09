@@ -1,5 +1,6 @@
 package com.jennbowers.library.controllers;
 
+import com.jennbowers.library.classes.Helpers;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
@@ -36,29 +37,83 @@ public class FriendController {
     @Autowired
     FriendRequestRepository friendRequestRepo;
 
+
 //    GET request for seeing all friends
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
     public String friendAll (Principal principal,
                              Model model) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
-        List<User> allFriends = new ArrayList<>();
-        Iterable<FriendRequest> toFriends = friendRequestRepo.findAllByTouserAndActive(user, true);
-        for(FriendRequest friend : toFriends) {
-            User otherFriend = friend.getFromuser();
-            allFriends.add(otherFriend);
-        }
-        Iterable<FriendRequest> fromFriends = friendRequestRepo.findAllByFromuserAndActive(user, true);
-        for(FriendRequest friend : fromFriends) {
-            User otherFriend = friend.getTouser();
-            allFriends.add(otherFriend);
-        }
-//        System.out.println(allFriends);
+
+        Helpers helpers = new Helpers();
+        List<User> allFriends = helpers.findAllActiveFriends(user, friendRequestRepo);
+
         model.addAttribute("friends", allFriends);
         return "friendAll";
     }
 
-//    POST request for sending a friend request from a user search
+//    POST request for searching for a friend by name
+    @RequestMapping(value = "/friends/search/name", method = RequestMethod.POST)
+    public String friendSearchName (Principal principal,
+                                    Model model,
+                                    @RequestParam("firstName") String firstName,
+                                    @RequestParam("lastName") String lastName) {
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        System.out.println("current user: " + currentUser.getUsername());
+
+        List<User> notFriends = new ArrayList<>();
+        List<User> notActiveFriends = new ArrayList<>();
+        List<User> searchActiveFriends = new ArrayList<>();
+        List<User> searchPendingFriends = new ArrayList<>();
+
+        Iterable<User> searchUsers = userRepo.findByFirstNameAndLastName(firstName, lastName);
+
+        Helpers helpers = new Helpers();
+        List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
+
+        List<User> allPendingFriends = helpers.findAllPendingFriends(currentUser, friendRequestRepo);
+
+        for(User activeFriend : allActiveFriends) {
+            for(User searchUser : searchUsers) {
+                if(activeFriend == searchUser) {
+                    searchActiveFriends.add(searchUser);
+                } else {
+                    notActiveFriends.add(searchUser);
+                }
+            }
+        }
+
+        model.addAttribute("activeSearchFriends", searchActiveFriends);
+
+        for(User pendingFriend : allPendingFriends) {
+            for(User notActiveFriend : notActiveFriends) {
+                if(pendingFriend == notActiveFriend) {
+                    searchPendingFriends.add(notActiveFriend);
+                } else {
+                    notFriends.add(notActiveFriend);
+                }
+            }
+        }
+
+        model.addAttribute("pendingSearchFriends", searchPendingFriends);
+
+        model.addAttribute("notFriends", notFriends);
+        return "friendAll";
+    }
+
+
+//    POST request for searching for a friend by username
+
+    @RequestMapping(value = "/friends/search/username", method = RequestMethod.POST)
+    public String friendSearchUsername (Model model,
+                                        @RequestParam("username") String username) {
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("searchUsers", user);
+        return "friendAll";
+    }
+
+    //    POST request for sending a friend request from a user search
     @RequestMapping(value = "/friends", method = RequestMethod.POST)
     public String addFriend (Principal principal,
                              @RequestParam("id") Long id){
@@ -73,25 +128,6 @@ public class FriendController {
         friendRequest.setActive(false);
         friendRequest.setPending(true);
         friendRequestRepo.save(friendRequest);
-        return "friendAll";
-    }
-
-//    POST request for searching for a friend by name
-    @RequestMapping(value = "/friends/search/name", method = RequestMethod.POST)
-    public String friendSearchName (Model model,
-                                    @RequestParam("firstName") String firstName,
-                                    @RequestParam("lastName") String lastName) {
-        Iterable<User> users = userRepo.findByFirstNameAndLastName(firstName, lastName);
-        model.addAttribute("searchUsers", users);
-        return "friendAll";
-    }
-
-//    POST request for searching for a friend by username
-    @RequestMapping(value = "/friends/search/username", method = RequestMethod.POST)
-    public String friendSearchUsername (Model model,
-                                        @RequestParam("username") String username) {
-        User user = userRepo.findByUsername(username);
-        model.addAttribute("searchUsers", user);
         return "friendAll";
     }
 
