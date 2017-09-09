@@ -35,7 +35,7 @@ public class ScheduledTasks {
         for(BookRequest request : dueBooks) {
             Date dueDate = request.getDue();
             Calendar dueCal = Calendar.getInstance();
-            dueCal.setTime(todaysDate);
+            dueCal.setTime(dueDate);
             int dueYear = dueCal.get(Calendar.YEAR);
             int dueMonth = dueCal.get(Calendar.MONTH);
             int dueDay = dueCal.get(Calendar.DAY_OF_MONTH);
