@@ -83,7 +83,7 @@ public class HomeController {
 //        Search API
             case "add":
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-                System.out.println("jsonFactory" + jsonFactory);
+//                System.out.println("jsonFactory" + jsonFactory);
                 String prefixParam = null;
 //                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
                 String searchTextModified = searchText.replaceAll("\\s+", "\\+");
@@ -102,7 +102,7 @@ public class HomeController {
                     try {
                         Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                         List<Volume> volumesList = volumes.getItems();
-                        System.out.println("Something's working!" + volumesList);
+//                        System.out.println("Something's working!" + volumesList);
                         model.addAttribute("volumes", volumesList);
                         // Success!
                         return "searchApi";
@@ -128,8 +128,8 @@ public class HomeController {
                         @PathVariable("searchIndex") Integer searchIndex,
                         @RequestParam("searchText") String searchText,
                         @RequestParam("searchBy") String searchBy) {
-        System.out.println(searchText);
-        System.out.println(searchBy);
+//        System.out.println(searchText);
+//        System.out.println(searchBy);
         String searchIn = "add";
         model.addAttribute(("searchIn"), searchIn);
         model.addAttribute("searchText", searchText);
@@ -139,7 +139,7 @@ public class HomeController {
         model.addAttribute("currentUser", currentUser);
 //        Search API
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        System.out.println("jsonFactory" + jsonFactory);
+//        System.out.println("jsonFactory" + jsonFactory);
         String prefixParam = null;
 //        https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
         String searchTextModified = searchText.replaceAll("\\s+", "\\+");
@@ -158,9 +158,9 @@ public class HomeController {
             try {
                 Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                 List<Volume> volumesList = volumes.getItems();
-                System.out.println("Something's working!" + volumesList);
+//                System.out.println("Something's working!" + volumesList);
                 Volume detailVolume = volumesList.get(searchIndex);
-                System.out.println("one volume" + detailVolume);
+//                System.out.println("one volume" + detailVolume);
                 model.addAttribute("volume", detailVolume);
                 // Success!
                 return "searchDetail";

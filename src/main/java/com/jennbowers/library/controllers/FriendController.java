@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class FriendController {
             User otherFriend = friend.getTouser();
             allFriends.add(otherFriend);
         }
-        System.out.println(allFriends);
+//        System.out.println(allFriends);
         model.addAttribute("friends", allFriends);
         return "friendAll";
     }
