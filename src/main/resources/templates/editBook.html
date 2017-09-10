@@ -78,12 +78,10 @@
                     <input type="text" id="copies" name="copies" th:value="${book.copies}"/>
                 </div>
                 <p>
-                    <span>Shelves:</span>
-                    <!--<span th:each="shelf : ${shelves}">-->
-                        <!--<span th:text="${shelf.name}"></span>-->
-                    <!--</span>-->
+                    <span>Shelves*:</span>
+                    <p>*to select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves</p>
                     <select multiple="multiple" name="shelves" id="shelves" class="form-control">
-                        <option th:each="shelf : ${allShelves}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
+                        <option th:each="shelf : ${allShelves}" th:selected="${selectedShelves.contains(shelf)}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
                     </select>
                 </p>
                 <p th:text="${book.summary}"></p>
