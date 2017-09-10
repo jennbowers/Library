@@ -62,6 +62,11 @@ public class BookController {
                            @RequestParam("googleId") String googleId) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
+
+        Shelf unshelved = shelfRepo.findByName("Unshelved");
+        List<Shelf> starter = new ArrayList<>();
+        starter.add(unshelved);
+
         Book book = new Book();
         book.setUser(user);
         book.setTitle(title);
@@ -81,7 +86,9 @@ public class BookController {
         book.setGoogleId(googleId);
         book.setCopies(1);
         book.setActive(true);
+        book.setShelves(starter);
         bookRepo.save(book);
+
         return "redirect:/";
     }
 

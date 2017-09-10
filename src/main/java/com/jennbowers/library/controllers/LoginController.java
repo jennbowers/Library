@@ -2,8 +2,10 @@ package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.RoleRepository;
+import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Role;
+import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,9 @@ public class LoginController {
     RoleRepository roleRepo;
 
     @Autowired
+    ShelfRepository shelfRepo;
+
+    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //    GET request for login page
@@ -41,11 +46,6 @@ public class LoginController {
         } catch (Exception ex) {}
         return "login";
     }
-
-//    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-//    public String logout () {
-//        return "redirect:/";
-//    }
 
 //    GET request for signing up
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -73,6 +73,12 @@ public class LoginController {
         user.setRole(userRole);
         user.setActive(true);
         userRepo.save(user);
+
+        Shelf shelf = new Shelf();
+        shelf.setName("Unshelved");
+        shelf.setUser(user);
+        shelfRepo.save(shelf);
+
         return "redirect:/login";
     }
 }
