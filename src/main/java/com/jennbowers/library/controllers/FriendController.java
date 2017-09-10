@@ -184,7 +184,7 @@ public class FriendController {
         if(searchType.equals("title")) {
             books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchQuery);
         } else if (searchType.equals("author")) {
-            books = bookRepo.findAllByUserIgnoreCaseAndAuthorIgnoreCase(user, searchQuery);
+            books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchQuery);
         }
         model.addAttribute("user", user);
         model.addAttribute("books", books);

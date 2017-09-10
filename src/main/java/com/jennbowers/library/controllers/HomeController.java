@@ -67,7 +67,7 @@ public class HomeController {
                 if (searchBy.equals("title")){
                     books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchText);
                 } else if (searchBy.equals("author")) {
-                    books = bookRepo.findAllByUserIgnoreCaseAndAuthorIgnoreCase(user, searchText);
+                    books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchText);
                 }
                 model.addAttribute("books", books);
                 return "search";
