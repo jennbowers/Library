@@ -1,6 +1,7 @@
 package com.jennbowers.library.classes;
 
 import com.jennbowers.library.interfaces.FriendRequestRepository;
+import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.FriendRequest;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,65 @@ public class Helpers {
         return allPendingFriends;
     }
 
-    
-    
+    public List<User> findAllNotFriends (User user, FriendRequestRepository friendRequestRepo, UserRepository userRepo) {
+        List<User> allNotFriends = new ArrayList<>();
 
+        Helpers helpers = new Helpers();
+        List<User> allActiveFriends = helpers.findAllActiveFriends(user, friendRequestRepo);
+        List<User> allPendingFriends = helpers.findAllPendingFriends(user, friendRequestRepo);
+
+        List<User> allFriends = new ArrayList<>();
+        allFriends.addAll(allActiveFriends);
+        allFriends.addAll(allPendingFriends);
+
+        Iterable<User> allUsers = userRepo.findAll();
+        for (User oneUser : allUsers){
+            if(!allFriends.contains(oneUser)) {
+                allNotFriends.add(oneUser);
+            }
+        }
+
+
+        return allNotFriends;
+
+
+//        List<User> allNotActive = new ArrayList<>();
+//        List<User> allNotPending = new ArrayList<>();
+//
+//        Iterable<FriendRequest> toNotFriendsActive = friendRequestRepo.findAllByTouserAndActive(user, false);
+//        for(FriendRequest friend : toNotFriendsActive) {
+//            User otherFriend = friend.getFromuser();
+//            allNotActive.add(otherFriend);
+//            allNotFriends.add(otherFriend);
+//        }
+//
+//        Iterable<FriendRequest> fromNotFriendsActive = friendRequestRepo.findAllByFromuserAndActive(user, false);
+//        for(FriendRequest friend : fromNotFriendsActive) {
+//            User otherFriend = friend.getTouser();
+//            allNotActive.add(otherFriend);
+//            allNotFriends.add(otherFriend);
+//        }
+//
+//        Iterable<FriendRequest> toNotFriendsPending = friendRequestRepo.findAllByTouserAndPending(user, true);
+//        for(FriendRequest friend : toNotFriendsPending) {
+//            User otherFriend = friend.getFromuser();
+//            allNotPending.add(otherFriend);
+//        }
+//
+//        Iterable<FriendRequest> fromNotFriendsPending = friendRequestRepo.findAllByFromuserAndPending(user, false);
+//        for(FriendRequest friend : fromNotFriendsPending) {
+//            User otherFriend = friend.getTouser();
+//            allNotPending.add(otherFriend);
+//        }
+//
+//        for(User notActive: allNotActive) {
+//            for(User notPending : allNotPending) {
+//                if(notActive != notPending) {
+//                    allNotFriends.add(notPending);
+//                }
+//            }
+//        }
+
+    }
     
 }

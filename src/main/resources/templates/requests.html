@@ -16,7 +16,7 @@
             <div th:each="request : ${friendRequests}">
                 <span th:text="${request.fromuser.username}"></span>
                 <span> has sent you a friend request!</span>
-                <form th:action="'/requests/friend' + ${request.id}" method="post">
+                <form th:action="'/requests/friend/' + ${request.id}" method="post">
                     <input type="submit" name="answer" class="btn btn-success" value="Accept"/>
                     <input type="submit" name="answer" class="btn btn-success" value="Deny"/>
                 </form>

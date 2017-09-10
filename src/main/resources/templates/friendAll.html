@@ -45,8 +45,7 @@
         <hr/>
         <h4>Search Results: </h4>
         <div th:if="${notFriends}" th:each="user: ${notFriends}" class="panel panel-default container">
-            <p th:if="${user == null}">No Search Results</p>
-            <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
+            <p th:text="${user.username}"></p>
             <form th:action="'/friends'" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input type="hidden" name="id" th:value="${user.id}"/>
@@ -54,12 +53,10 @@
             </form>
         </div>
         <div th:if="${pendingSearchFriends}" th:each="user: ${pendingSearchFriends}" class="panel panel-default container">
-            <p th:if="${user == null}">No Search Results</p>
             <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
             <button class="btn btn-success">Pending Request</button>
         </div>
         <div th:if="${activeSearchFriends}" th:each="user: ${activeSearchFriends}" class="panel panel-default container">
-            <p th:if="${user == null}">No Search Results</p>
             <a th:href="'/' + ${user.id}" th:text="${user.username}"></a>
         </div>
     </div>
