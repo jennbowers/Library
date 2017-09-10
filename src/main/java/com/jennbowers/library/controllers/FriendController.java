@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -184,9 +182,9 @@ public class FriendController {
         User user = userRepo.findOne(userId);
         Iterable<Book> books = null;
         if(searchType.equals("title")) {
-            books = bookRepo.findAllByUserAndTitle(user, searchQuery);
+            books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchQuery);
         } else if (searchType.equals("author")) {
-            books = bookRepo.findAllByUserAndAuthor(user, searchQuery);
+            books = bookRepo.findAllByUserIgnoreCaseAndAuthorIgnoreCase(user, searchQuery);
         }
         model.addAttribute("user", user);
         model.addAttribute("books", books);

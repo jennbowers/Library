@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ShelfRepository extends CrudRepository<Shelf, Long>{
     List<Shelf> findAllByUser (User user);
-    Shelf findByName (String name);
+    Shelf findByNameIgnoreCase(String name);
 }

@@ -65,18 +65,18 @@ public class HomeController {
 //        Search in my books
             case "mine":
                 if (searchBy.equals("title")){
-                    books = bookRepo.findAllByUserAndTitle(user, searchText);
+                    books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchText);
                 } else if (searchBy.equals("author")) {
-                    books = bookRepo.findAllByUserAndAuthor(user, searchText);
+                    books = bookRepo.findAllByUserIgnoreCaseAndAuthorIgnoreCase(user, searchText);
                 }
                 model.addAttribute("books", books);
                 return "search";
 //        Search in friends & others books
             case "borrow":
                 if (searchBy.equals("title")){
-                    books = bookRepo.findAllByTitle(searchText);
+                    books = bookRepo.findAllByTitleIgnoreCase(searchText);
                 } else if (searchBy.equals("author")) {
-                    books = bookRepo.findAllByAuthor(searchText);
+                    books = bookRepo.findAllByAuthorIgnoreCase(searchText);
                 }
                 model.addAttribute("books", books);
                 return "search";

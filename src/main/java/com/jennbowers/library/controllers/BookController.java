@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -63,7 +62,7 @@ public class BookController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
 
-        Shelf unshelved = shelfRepo.findByName("Unshelved");
+        Shelf unshelved = shelfRepo.findByNameIgnoreCase("Unshelved");
         List<Shelf> starter = new ArrayList<>();
         starter.add(unshelved);
 
