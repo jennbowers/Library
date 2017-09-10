@@ -62,7 +62,6 @@ public class FriendController {
         User currentUser = userRepo.findByUsername(username);
 
         List<User> notFriends = new ArrayList<>();
-        List<User> notActiveFriends = new ArrayList<>();
         List<User> searchActiveFriends = new ArrayList<>();
         List<User> searchPendingFriends = new ArrayList<>();
 
@@ -72,41 +71,29 @@ public class FriendController {
         List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
         List<User> allPendingFriends = helpers.findAllPendingFriends(currentUser, friendRequestRepo);
 
-        for(User activeFriend : allActiveFriends) {
-            for(User searchUser : searchUsers) {
-                if(activeFriend == searchUser) {
-                    searchActiveFriends.add(searchUser);
-                }
+        for(User searchUser : searchUsers) {
+            if(allActiveFriends.contains(searchUser)) {
+                searchActiveFriends.add(searchUser);
             }
         }
 
         model.addAttribute("activeSearchFriends", searchActiveFriends);
 
-        for(User pendingFriend : allPendingFriends) {
-            for(User searchUser : searchUsers) {
-                if(pendingFriend == searchUser) {
-                    searchPendingFriends.add(searchUser);
-                }
+        for(User searchUser : searchUsers) {
+            if(allPendingFriends.contains(searchUser)) {
+                searchPendingFriends.add(searchUser);
             }
         }
 
         model.addAttribute("pendingSearchFriends", searchPendingFriends);
 
         List<User> allNotFriends = helpers.findAllNotFriends(currentUser, friendRequestRepo,userRepo);
-        for(User notFriend: allNotFriends) {
-            for(User searchUser : searchUsers) {
-                if(notFriend == searchUser) {
-                    notFriends.add(searchUser);
-                    System.out.println(searchUser.getUsername());
-                }
+
+        for(User searchUser : searchUsers) {
+            if(allNotFriends.contains(searchUser)) {
+                notFriends.add(searchUser);
             }
         }
-
-//        for(User searchUser : searchUsers) {
-//            if(allActiveFriends.contains(searchUser)) {
-//                searchActiveFriends.add(searchUser);
-//            }
-//        }
 
         model.addAttribute("notFriends", notFriends);
 
@@ -132,28 +119,24 @@ public class FriendController {
         Helpers helpers = new Helpers();
         List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
 
-        for(User activeFriend : allActiveFriends) {
-            if(activeFriend == user) {
-                searchActiveFriends.add(user);
-            }
+        if(allActiveFriends.contains(user)) {
+            searchActiveFriends.add(user);
         }
 
         model.addAttribute("activeSearchFriends", searchActiveFriends);
 
         List<User> allPendingFriends = helpers.findAllPendingFriends(currentUser, friendRequestRepo);
-        for(User pendingFriend : allPendingFriends) {
-            if(pendingFriend == user) {
-                searchPendingFriends.add(user);
-            }
+
+        if(allPendingFriends.contains(user)) {
+            searchPendingFriends.add(user);
         }
 
         model.addAttribute("pendingSearchFriends", searchPendingFriends);
 
         List<User> allNotFriends = helpers.findAllNotFriends(currentUser, friendRequestRepo, userRepo);
-        for(User friend: allNotFriends) {
-            if(friend == user){
-                notFriends.add(user);
-            }
+
+        if(allNotFriends.contains(user)){
+            notFriends.add(user);
         }
 
         model.addAttribute("notFriends", notFriends);
