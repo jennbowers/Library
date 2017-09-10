@@ -79,7 +79,7 @@
                 </div>
                 <p>
                     <span>Shelves*:</span>
-                    <p>*to select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves</p>
+                    <p>*To select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one shelf MUST be selected to save changes.</p>
                     <select multiple="multiple" name="shelves" id="shelves" class="form-control">
                         <option th:each="shelf : ${allShelves}" th:selected="${selectedShelves.contains(shelf)}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
                     </select>
