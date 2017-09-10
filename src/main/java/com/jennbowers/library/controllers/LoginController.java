@@ -63,8 +63,8 @@ public class LoginController {
                               @RequestParam("password") String password,
                               Model model) {
         User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setFirstName(firstName.toLowerCase());
+        user.setLastName(lastName.toLowerCase());
         user.setEmail(email);
         user.setUsername(username);
         String encryptedPassword = bCryptPasswordEncoder.encode(password);
