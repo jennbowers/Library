@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsername(String username);
-    Iterable<User> findByFirstNameAndLastNameIgnoreCase (String firstName, String lastName);
+    Iterable<User> findByFirstNameIgnoreCaseAndLastNameIgnoreCase (String firstName, String lastName);
 
 }

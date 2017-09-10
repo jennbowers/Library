@@ -65,7 +65,7 @@ public class FriendController {
         List<User> searchActiveFriends = new ArrayList<>();
         List<User> searchPendingFriends = new ArrayList<>();
 
-        Iterable<User> searchUsers = userRepo.findByFirstNameAndLastNameIgnoreCase(firstName, lastName);
+        Iterable<User> searchUsers = userRepo.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
 
         Helpers helpers = new Helpers();
         List<User> allActiveFriends = helpers.findAllActiveFriends(currentUser, friendRequestRepo);
