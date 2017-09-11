@@ -34,13 +34,16 @@ public class Book {
             inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
     private List<Shelf> shelves = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bookid", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookid", cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     private List<BookRequest> bookRequests;
 
 
     public Book() { }
 
-    public Book(String title, String author, String img, String summary, String googleId, String datePublished, int copies, int rating, boolean active, User user, List<Shelf> shelves) {
+    public Book(String title, String author, String img, String summary, String googleId, String datePublished, int copies, int rating, boolean active, User user, List<Shelf> shelves, List<BookRequest> bookRequests) {
         this.title = title;
         this.author = author;
         this.img = img;
@@ -52,6 +55,7 @@ public class Book {
         this.active = active;
         this.user = user;
         this.shelves = shelves;
+        this.bookRequests = bookRequests;
     }
 
     public long getId() {
@@ -148,5 +152,13 @@ public class Book {
 
     public void setShelves(List<Shelf> shelves) {
         this.shelves = shelves;
+    }
+
+    public List<BookRequest> getBookRequests() {
+        return bookRequests;
+    }
+
+    public void setBookRequests(List<BookRequest> bookRequests) {
+        this.bookRequests = bookRequests;
     }
 }

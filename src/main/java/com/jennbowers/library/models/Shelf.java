@@ -15,7 +15,10 @@ public class Shelf {
     @JoinColumn(name = "userid")
     private User user;
 
-    @ManyToMany(mappedBy = "shelves", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "shelves", cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     private List<Book> books = new ArrayList<>();
 
     public Shelf() {
