@@ -3,6 +3,7 @@ package com.jennbowers.library.controllers;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Book;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ShelfController {
@@ -71,7 +73,7 @@ public class ShelfController {
 
 //    }
 
-//    POST request for removing a shelf...this will be on the shelf detail page
+//    POST request for removing a shelf
     @RequestMapping(value = "/shelf/{shelfId}/remove", method = RequestMethod.POST)
     public String shelfRemove (@PathVariable("shelfId") Long shelfId) {
         shelfRepo.delete(shelfId);
@@ -80,20 +82,50 @@ public class ShelfController {
 
 //    GET request for shelf edit page
     @RequestMapping("/shelf/{shelfId}/edit")
-    public String editShelf (Model model,
+    public String editShelf (Principal principal,
+                             Model model,
                              @PathVariable("shelfId") Long shelfId) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+
         Shelf shelf = shelfRepo.findOne(shelfId);
         model.addAttribute("shelf", shelf);
+
+        List<Book> allBooks = bookRepo.findAllByUser(user);
+        model.addAttribute("allBooks", allBooks);
+
+        List<Book> booksOnShelf = shelf.getBooks();
+        model.addAttribute("booksOnShelf", booksOnShelf);
         return "shelfEdit";
     }
 
 //    POST request for shelf edit page
     @RequestMapping(value = "/shelf/{shelfId}/edit", method = RequestMethod.POST)
     public String editShelfPost (@PathVariable("shelfId") Long shelfId,
-                                 @RequestParam("name") String name) {
+                                 @RequestParam("name") String name,
+                                 @RequestParam("books") List<Book> books) {
         Shelf shelf = shelfRepo.findOne(shelfId);
         shelf.setName(name);
         shelfRepo.save(shelf);
+
+        for(Book book : books){
+            List<Shelf> booksShelves = book.getShelves();
+            if(!booksShelves.contains(shelf)) {
+                booksShelves.add(shelf);
+                book.setShelves(booksShelves);
+                bookRepo.save(book);
+            }
+        }
+
+        List<Book> shelvesBooks = shelf.getBooks();
+        for(Book book : shelvesBooks) {
+            if(!books.contains(book)){
+                List<Shelf> newShelves = book.getShelves();
+                newShelves.remove(shelf);
+                bookRepo.save(book);
+            }
+        }
+
         return "redirect:/shelf/{shelfId}";
     }
 

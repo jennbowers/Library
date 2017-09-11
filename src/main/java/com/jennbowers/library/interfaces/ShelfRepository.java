@@ -1,5 +1,6 @@
 package com.jennbowers.library.interfaces;
 
+import com.jennbowers.library.models.Book;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.data.repository.CrudRepository;
