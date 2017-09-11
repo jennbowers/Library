@@ -5,7 +5,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 import com.jennbowers.library.classes.GoogleBookRequestBuilder;
+import com.jennbowers.library.classes.Helpers;
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Book;
@@ -33,6 +35,9 @@ public class HomeController {
 
     @Autowired
     ShelfRepository shelfRepo;
+
+    @Autowired
+    FriendRequestRepository friendRequestRepo;
 
 //    GET request for home page
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -79,6 +84,20 @@ public class HomeController {
                     books = bookRepo.findAllByAuthorIgnoreCase(searchText);
                 }
                 model.addAttribute("books", books);
+
+                String searchInBorrow = "borrow";
+                model.addAttribute("searchInBorrow", searchInBorrow);
+
+                Helpers helpers = new Helpers();
+                List<User> notFriends = helpers.findAllNotFriends(user, friendRequestRepo, userRepo);
+                model.addAttribute("notFriends", notFriends);
+
+                List<User> pendingFriends = helpers.findAllPendingFriends(user, friendRequestRepo);
+                model.addAttribute("pendingFriends", pendingFriends);
+
+                List<User> allFriends = helpers.findAllActiveFriends(user, friendRequestRepo);
+                model.addAttribute("activeFriends", allFriends);
+
                 return "search";
 //        Search API
             case "add":

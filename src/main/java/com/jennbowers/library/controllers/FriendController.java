@@ -157,7 +157,7 @@ public class FriendController {
         friendRequest.setActive(false);
         friendRequest.setPending(true);
         friendRequestRepo.save(friendRequest);
-        return "friendAll";
+        return "redirect:/friends";
     }
 
 //    GET request for friend's home page

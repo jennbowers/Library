@@ -62,7 +62,7 @@ public class BookController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
 
-        Shelf unshelved = shelfRepo.findByNameIgnoreCase("Unshelved");
+        Shelf unshelved = shelfRepo.findByUserAndNameIgnoreCase(user,"Unshelved");
         List<Shelf> starter = new ArrayList<>();
         starter.add(unshelved);
 
