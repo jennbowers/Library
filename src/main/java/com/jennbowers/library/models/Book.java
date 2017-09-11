@@ -28,7 +28,10 @@ public class Book {
     @JoinColumn(name = "ownerid")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     @JoinTable(name = "book_shelf",
             joinColumns = { @JoinColumn(name = "fk_book")},
             inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})

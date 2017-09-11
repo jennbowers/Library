@@ -15,10 +15,13 @@ public class Shelf {
     @JoinColumn(name = "userid")
     private User user;
 
-    @ManyToMany(mappedBy = "shelves", cascade = {CascadeType.DETACH,
+    @ManyToMany(cascade = {CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
             CascadeType.PERSIST})
+    @JoinTable(name = "book_shelf",
+            joinColumns = { @JoinColumn(name = "fk_book")},
+            inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
     private List<Book> books = new ArrayList<>();
 
     public Shelf() {
