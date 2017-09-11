@@ -46,6 +46,9 @@ public class BookController {
         model.addAttribute("book", book);
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("shelves", shelves);
+        BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+        System.out.println(ifBorrowed);
+        model.addAttribute("ifBorrowed", ifBorrowed);
         return "bookDetail";
     }
 

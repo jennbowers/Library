@@ -1,5 +1,6 @@
 package com.jennbowers.library.interfaces;
 
+import com.jennbowers.library.models.Book;
 import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.User;
 import org.springframework.data.repository.CrudRepository;
@@ -14,5 +15,6 @@ public interface BookRequestRepository extends CrudRepository<BookRequest, Long>
     Iterable<BookRequest> findAllByFromuserAndActive(User user, Boolean booleanParam);
     Iterable<BookRequest> findAllByTouserAndPending(User user, Boolean booleanParam);
     Iterable<BookRequest> findAllByFromuserAndPending(User user, Boolean booleanParam);
+    BookRequest findAllByBookidAndActive(Book book, Boolean booleanParam);
     List<BookRequest> findAllByActive(Boolean booleanParam);
 }
