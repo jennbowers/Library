@@ -20,8 +20,8 @@ public class Shelf {
             CascadeType.REFRESH,
             CascadeType.PERSIST})
     @JoinTable(name = "book_shelf",
-            joinColumns = { @JoinColumn(name = "fk_book")},
-            inverseJoinColumns = { @JoinColumn(name = "fk_shelf")})
+            joinColumns = { @JoinColumn(name = "fk_shelf")},
+            inverseJoinColumns = { @JoinColumn(name = "fk_book")})
     private List<Book> books = new ArrayList<>();
 
     public Shelf() {

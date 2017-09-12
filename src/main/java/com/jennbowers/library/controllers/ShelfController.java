@@ -63,6 +63,12 @@ public class ShelfController {
         User user = userRepo.findByUsername(username);
         model.addAttribute("currentUser", user);
         Shelf shelf = shelfRepo.findOne(shelfId);
+        List<Book> test = shelf.getBooks();
+        for(Book book : test) {
+            System.out.println(book.getTitle());
+            System.out.println(book.getUser().getUsername());
+            System.out.println("===========");
+        }
         model.addAttribute("shelf", shelf);
         return "shelfDetail";
     }
@@ -106,19 +112,18 @@ public class ShelfController {
                                  @RequestParam("books") List<Book> books) {
         Shelf shelf = shelfRepo.findOne(shelfId);
         shelf.setName(name);
-        shelfRepo.save(shelf);
 
         for(Book book : books){
-            List<Shelf> booksShelves = book.getShelves();
-            if(!booksShelves.contains(shelf)) {
-                booksShelves.add(shelf);
-                book.setShelves(booksShelves);
+            List<Shelf> shelvesThatEachBookIsOn = book.getShelves();
+            if(!shelvesThatEachBookIsOn.contains(shelf)) {
+                shelvesThatEachBookIsOn.add(shelf);
+                book.setShelves(shelvesThatEachBookIsOn);
                 bookRepo.save(book);
             }
         }
 
-        List<Book> shelvesBooks = shelf.getBooks();
-        for(Book book : shelvesBooks) {
+        List<Book> booksThatAreOnTheShelf = shelf.getBooks();
+        for(Book book : booksThatAreOnTheShelf) {
             if(!books.contains(book)){
                 List<Shelf> newShelves = book.getShelves();
                 newShelves.remove(shelf);
@@ -126,6 +131,9 @@ public class ShelfController {
             }
         }
 
+        shelf.setBooks(books);
+
+        shelfRepo.save(shelf);
         return "redirect:/shelf/{shelfId}";
     }
 

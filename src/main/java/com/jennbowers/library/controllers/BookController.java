@@ -156,10 +156,37 @@ public class BookController {
             book.setRating(0);
         }
 
-        if(shelves != null) {
-            book.setShelves(shelves);
+        for(Shelf newShelf : shelves) {
+            System.out.println(newShelf.getName() + " and " + newShelf.getId());
         }
 
+        List<Shelf> oldShelves = book.getShelves();
+        for(Shelf oldShelf : oldShelves) {
+            if (!shelves.contains(oldShelf)) {
+                List<Book> oldShelfBooks = oldShelf.getBooks();
+                oldShelfBooks.remove(book);
+                oldShelf.setBooks(oldShelfBooks);
+                shelfRepo.save(oldShelf);
+                System.out.println("successfully removed book from old shelves" + oldShelf.getId());
+            }
+        }
+
+        for(Shelf shelf : shelves) {
+            System.out.println(shelf.getId());
+            List<Book> booksOnShelf = shelf.getBooks();
+            System.out.println(booksOnShelf);
+            if (!booksOnShelf.contains(book)) {
+                System.out.println("book wasn't on shelf");
+                booksOnShelf.add(book);
+                System.out.println("added book");
+                shelf.setBooks(booksOnShelf);
+                System.out.println("set books on shelf");
+                shelfRepo.save(shelf);
+                System.out.println("successfully added book to new shelves" + shelf.getId());
+            }
+        }
+
+        book.setShelves(shelves);
         bookRepo.save(book);
         return "redirect:/book/{bookId}";
     }
