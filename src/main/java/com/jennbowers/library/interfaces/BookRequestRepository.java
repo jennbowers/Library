@@ -13,8 +13,10 @@ import java.util.List;
 public interface BookRequestRepository extends CrudRepository<BookRequest, Long>{
     Iterable<BookRequest> findAllByTouserAndActive(User user, Boolean booleanParam);
     Iterable<BookRequest> findAllByFromuserAndActive(User user, Boolean booleanParam);
+    List<BookRequest> findAllByTouserAndFromuserAndActive(User touser, User fromuser, Boolean booleanParam);
     Iterable<BookRequest> findAllByTouserAndPending(User user, Boolean booleanParam);
     Iterable<BookRequest> findAllByFromuserAndPending(User user, Boolean booleanParam);
+    List<BookRequest> findAllByTouserAndFromuserAndPending(User touser, User fromuser, Boolean booleanParam);
     List<BookRequest> findAllByBookidAndActive(Book book, Boolean booleanParam);
     List<BookRequest> findAllByActive(Boolean booleanParam);
 }

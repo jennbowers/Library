@@ -70,45 +70,6 @@ public class Helpers {
 
 
         return allNotFriends;
-
-
-//        List<User> allNotActive = new ArrayList<>();
-//        List<User> allNotPending = new ArrayList<>();
-//
-//        Iterable<FriendRequest> toNotFriendsActive = friendRequestRepo.findAllByTouserAndActive(user, false);
-//        for(FriendRequest friend : toNotFriendsActive) {
-//            User otherFriend = friend.getFromuser();
-//            allNotActive.add(otherFriend);
-//            allNotFriends.add(otherFriend);
-//        }
-//
-//        Iterable<FriendRequest> fromNotFriendsActive = friendRequestRepo.findAllByFromuserAndActive(user, false);
-//        for(FriendRequest friend : fromNotFriendsActive) {
-//            User otherFriend = friend.getTouser();
-//            allNotActive.add(otherFriend);
-//            allNotFriends.add(otherFriend);
-//        }
-//
-//        Iterable<FriendRequest> toNotFriendsPending = friendRequestRepo.findAllByTouserAndPending(user, true);
-//        for(FriendRequest friend : toNotFriendsPending) {
-//            User otherFriend = friend.getFromuser();
-//            allNotPending.add(otherFriend);
-//        }
-//
-//        Iterable<FriendRequest> fromNotFriendsPending = friendRequestRepo.findAllByFromuserAndPending(user, false);
-//        for(FriendRequest friend : fromNotFriendsPending) {
-//            User otherFriend = friend.getTouser();
-//            allNotPending.add(otherFriend);
-//        }
-//
-//        for(User notActive: allNotActive) {
-//            for(User notPending : allNotPending) {
-//                if(notActive != notPending) {
-//                    allNotFriends.add(notPending);
-//                }
-//            }
-//        }
-
     }
     
 }

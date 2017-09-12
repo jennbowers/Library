@@ -11,7 +11,12 @@
     <div class="container">
         <h1>User's friends</h1>
         <div th:if="${friends}" th:each="friend: ${friends}" class="panel panel-default container">
-                <a th:href="'/' + ${friend.id}" th:text="${friend.username}"></a>
+            <a th:href="'/' + ${friend.id}" th:text="${friend.username}"></a>
+            <form action="/friends/remove" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input type="hidden" name="friendId" th:value="${friend.id}">
+                <input type="submit" name="deleteFriend" value="Delete Friend"/>
+            </form>
         </div>
         <hr/>
         <hr/>

@@ -157,6 +157,67 @@ public class FriendController {
         return "redirect:/friends";
     }
 
+//    POST request to remove a friend
+    @RequestMapping(value = "/friends/remove", method = RequestMethod.POST)
+    public String friendRemove (Principal principal,
+                                @RequestParam("friendId") Long friendId) {
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        User friendUser = userRepo.findOne(friendId);
+        List<BookRequest> allRequests = new ArrayList<>();
+//        find all book requests between the current user and the friendId
+        List<BookRequest> allActiveRequestsFromCurrentUser = bookRequestRepo.findAllByTouserAndFromuserAndActive(currentUser, friendUser, true);
+        allRequests.addAll(allActiveRequestsFromCurrentUser);
+
+        List<BookRequest> allActiveRequestsFromFriendUser = bookRequestRepo.findAllByTouserAndFromuserAndActive(friendUser, currentUser,true);
+        allRequests.addAll(allActiveRequestsFromFriendUser);
+
+        List<BookRequest> allPendingRequestsFromCurrentUser = bookRequestRepo.findAllByTouserAndFromuserAndPending(currentUser, friendUser, true);
+        allRequests.addAll(allPendingRequestsFromCurrentUser);
+
+        List<BookRequest> allPendingRequestsFromFriendUser = bookRequestRepo.findAllByTouserAndFromuserAndPending(friendUser, currentUser, true);
+        allRequests.addAll(allPendingRequestsFromFriendUser);
+
+//        set all those book requests to false active and false pending
+        for(BookRequest request : allRequests) {
+            request.setActive(false);
+            request.setPending(false);
+            bookRequestRepo.save(request);
+        }
+//        set friend request to false active and false pending
+        List<FriendRequest> allFriendRequests = new ArrayList<>();
+
+        Iterable<FriendRequest> allActiveFriendsToUser = friendRequestRepo.findAllByTouserAndActive(currentUser, true);
+        for(FriendRequest request : allActiveFriendsToUser) {
+            allFriendRequests.add(request);
+        }
+
+        Iterable<FriendRequest> allActiveFriendsFromUser = friendRequestRepo.findAllByFromuserAndActive(currentUser, true);
+        for(FriendRequest request : allActiveFriendsFromUser) {
+            allFriendRequests.add(request);
+        }
+
+        Iterable<FriendRequest> allPendingFriendsToUser = friendRequestRepo.findAllByTouserAndPending(currentUser, true);
+        for(FriendRequest request : allPendingFriendsToUser) {
+            allFriendRequests.add(request);
+        }
+
+        Iterable<FriendRequest> allPendingFriendsFromUser = friendRequestRepo.findAllByFromuserAndPending(currentUser, true);
+        for(FriendRequest request : allPendingFriendsFromUser) {
+            allFriendRequests.add(request);
+        }
+
+        for(FriendRequest request : allFriendRequests) {
+            if(request.getFromuser() == friendUser || request.getTouser() == friendUser){
+                request.setActive(false);
+                request.setPending(false);
+            }
+        }
+
+        return "redirect:/friends";
+    }
+
+
 //    GET request for friend's home page
     @RequestMapping("/{userId}")
     public String friendHome (Model model,
