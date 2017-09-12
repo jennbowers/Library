@@ -47,6 +47,7 @@
             <div class="book-btns">
                 <a  th:if="${book.user.id == user.id}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
                 <a th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+                <button th:if="${book.user != currentUser and allPendingBooks.contains(book)}" class="btn btn-success">Request is Pending</button>
                 <a th:if="${activeFriends != null and activeFriends.contains(book.user) and !allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <button th:if="${pendingFriends != null and pendingFriends.contains(book.user)}" class="btn btn-success">Pending Friend Request</button>
                 <form th:action="'/friends'" method="post" th:if="${notFriends != null and notFriends.contains(book.user)}">

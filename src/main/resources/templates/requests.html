@@ -13,6 +13,7 @@
         <h1>All Requests</h1>
         <div class="friend-requests">
             <h3>Friend Requests</h3>
+            <p th:if="${#lists.isEmpty(friendRequests)}">You have no pending friend requests to respond to</p>
             <div th:each="request : ${friendRequests}">
                 <span th:text="${request.fromuser.username}"></span>
                 <span> has sent you a friend request!</span>
@@ -26,7 +27,7 @@
         <div class="book-requests">
             <h3>Book Requests</h3>
             <h4>Pending Requests to Me:</h4>
-            <!--<p th:if="${bookRequests == null}">You have no pending borrow requests to respond to</p>-->
+            <p th:if="${#lists.isEmpty(bookRequests)}">You have no pending borrow requests to respond to</p>
             <p th:if="${message != null}" th:text="${message}"></p>
             <div th:each="request : ${bookRequests}">
                 <span th:text="${request.fromuser.username}"></span>
@@ -44,7 +45,7 @@
                 </form>
             </div>
             <h4>Pending Requests from Me:</h4>
-                <!--<p th:if="${pendingBooksFromMe}">You have no pending borrow requests you are waiting for others to reply to</p>-->
+                <p th:if="${#lists.isEmpty(pendingBooksFromMe)}">You have no pending borrow requests you are waiting for others to reply to</p>
                 <div th:if="${pendingBooksFromMe}" th:each="request : ${pendingBooksFromMe}">
                     <span>You have requested to borrow </span>
                     <span th:text="${request.bookid.title}"></span>
@@ -52,23 +53,24 @@
                     <span th:text="${request.touser.username}"></span>
                 </div>
             <h4>Books I'm borrowing: </h4>
-                <!--<p th:if="${booksIBorrowed == null}">You are not currently borrowing any books or they have all expired</p>-->
+                <p th:if="${#lists.isEmpty(booksIBorrowed)}">You are not currently borrowing any books or they have all expired</p>
                 <div th:each="request : ${booksIBorrowed}">
                     <span>You are borrowing </span>
                     <span th:text="${request.bookid.title}"></span>
                     <span> from </span>
                     <span th:text="${request.touser.username}"></span>
                     <span> and it is due on: </span>
-                    <span th:text="${request.due}"></span>
+                    <span th:text="${#dates.format(request.due, 'MM-dd-yyyy')}"></span>
                 </div>
             <h4>My Books that are Checked Out: </h4>
+                <p th:if="${#lists.isEmpty(myBooksThatAreBorrowed)}">You do not currently have any books from your collection that are being borrowed.</p>
                 <div th:each="request : ${myBooksThatAreBorrowed}">
                     <span>Your book </span>
                     <span th:text="${request.bookid.title}"></span>
                     <span> is being borrowed by </span>
                     <span th:text="${request.fromuser.username}"></span>
                     <span> and it is due on: </span>
-                    <span th:text="${request.due}"></span>
+                    <span th:text="${#dates.format(request.due, 'MM-dd-yyyy')}"></span>
                 </div>
         </div>
     </div>

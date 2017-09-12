@@ -78,6 +78,7 @@ public class HomeController {
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
         List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
         model.addAttribute("searchText", searchText);
         model.addAttribute("searchBy", searchBy);
         Iterable<Book> books = null;
@@ -95,8 +96,13 @@ public class HomeController {
                     if(ifBorrowed != null) {
                         allBorrowedBooks.add(book);
                     }
+                    List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+                    if(ifPending != null) {
+                        allPendingBooks.add(book);
+                    }
                 }
                 model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+                model.addAttribute("allPendingBooks", allPendingBooks);
 
                 return "search";
 //        Search in friends & others books
@@ -113,8 +119,14 @@ public class HomeController {
                     if(ifBorrowed != null) {
                         allBorrowedBooks.add(book);
                     }
+
+                    List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+                    if(ifPending != null) {
+                        allPendingBooks.add(book);
+                    }
                 }
                 model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+                model.addAttribute("allPendingBooks", allPendingBooks);
 
                 String searchInBorrow = "borrow";
                 model.addAttribute("searchInBorrow", searchInBorrow);

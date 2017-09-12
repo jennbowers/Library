@@ -264,13 +264,20 @@ public class FriendController {
         model.addAttribute("books", books);
 
         List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
         for(Book book : books) {
             List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
             if(ifBorrowed != null) {
                 allBorrowedBooks.add(book);
             }
+
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+            if(ifPending != null) {
+                allPendingBooks.add(book);
+            }
         }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+        model.addAttribute("allPendingBooks", allPendingBooks);
         return "friendHome";
     }
 

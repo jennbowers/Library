@@ -43,7 +43,7 @@
             </div>
             <div class="book-btns">
                 <a th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                <a th:if="${book.user != currentUser and allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Request is Pending</a>
+                <button th:if="${book.user != currentUser and allPendingBooks.contains(book)}" class="btn btn-success">Request is Pending</button>
                 <a th:if="${book.user != currentUser and !allBorrowedBooks.contains(book) and !allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
             </div>
@@ -66,6 +66,7 @@
                     </div>
                     <div class="book-btns">
                         <a th:if="${shelfBook.user != currentUser and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+                        <button th:if="${shelfBook.user != currentUser and allPendingBooks.contains(shelfBook)}" class="btn btn-success">Request is Pending</button>
                         <a th:if="${shelfBook.user != currentUser and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Borrow</a>
                         <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
                     </div>
