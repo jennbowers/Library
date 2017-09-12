@@ -47,7 +47,6 @@ public class BookController {
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("shelves", shelves);
         BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
-        System.out.println(ifBorrowed);
         model.addAttribute("ifBorrowed", ifBorrowed);
         return "bookDetail";
     }
@@ -135,6 +134,8 @@ public class BookController {
         model.addAttribute("selectedShelves", shelves);
         List<Shelf> allShelves = shelfRepo.findAllByUser(user);
         model.addAttribute("allShelves", allShelves);
+        BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+        model.addAttribute("ifBorrowed", ifBorrowed);
         if(currentUser.equals(bookOwnerString)) {
             return "editBook";
         } else {
@@ -156,10 +157,6 @@ public class BookController {
             book.setRating(0);
         }
 
-        for(Shelf newShelf : shelves) {
-            System.out.println(newShelf.getName() + " and " + newShelf.getId());
-        }
-
         List<Shelf> oldShelves = book.getShelves();
         for(Shelf oldShelf : oldShelves) {
             if (!shelves.contains(oldShelf)) {
@@ -167,22 +164,15 @@ public class BookController {
                 oldShelfBooks.remove(book);
                 oldShelf.setBooks(oldShelfBooks);
                 shelfRepo.save(oldShelf);
-                System.out.println("successfully removed book from old shelves" + oldShelf.getId());
             }
         }
 
         for(Shelf shelf : shelves) {
-            System.out.println(shelf.getId());
             List<Book> booksOnShelf = shelf.getBooks();
-            System.out.println(booksOnShelf);
             if (!booksOnShelf.contains(book)) {
-                System.out.println("book wasn't on shelf");
                 booksOnShelf.add(book);
-                System.out.println("added book");
                 shelf.setBooks(booksOnShelf);
-                System.out.println("set books on shelf");
                 shelfRepo.save(shelf);
-                System.out.println("successfully added book to new shelves" + shelf.getId());
             }
         }
 

@@ -14,6 +14,7 @@
             <span th:text="${book.title}"></span>
         </h1>
         <div class="book-detail-info">
+            <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}">This book has been borrowed</p>
             <img th:src="${book.img}" alt="book cover"/>
             <h4 th:text="${book.title}"></h4>
             <p th:text="${book.author}"></p>
@@ -87,7 +88,6 @@
                 <p th:text="${book.summary}"></p>
                 <div class="book-btns">
                     <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
-                    <a th:if="${book.user.username != currentUser.username}" href="#" class="btn btn-success">Borrow</a>
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </div>
             </form>

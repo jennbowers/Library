@@ -6,11 +6,9 @@ import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 import com.jennbowers.library.classes.GoogleBookRequestBuilder;
 import com.jennbowers.library.classes.Helpers;
-import com.jennbowers.library.interfaces.BookRepository;
-import com.jennbowers.library.interfaces.FriendRequestRepository;
-import com.jennbowers.library.interfaces.ShelfRepository;
-import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.interfaces.*;
 import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,6 +38,9 @@ public class HomeController {
     @Autowired
     FriendRequestRepository friendRequestRepo;
 
+    @Autowired
+    BookRequestRepository bookRequestRepo;
+
 //    GET request for home page
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index (Model model,
@@ -46,10 +48,22 @@ public class HomeController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
+
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Book book : books) {
+            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
         model.addAttribute("shelves", shelves);
+
         return "index";
     }
 

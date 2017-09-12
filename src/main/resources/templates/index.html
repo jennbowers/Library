@@ -45,6 +45,7 @@
                     <a th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
                     <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
                 </div>
+                <p th:if="${allBorrowedBooks.contains(book)}">This book has been borrowed</p>
             </div>
             <h3>My Shelves</h3>
             <div th:each="shelf : ${shelves}" class="panel panel-default container">
@@ -61,6 +62,7 @@
                             <a th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-success">Edit</a>
                             <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
                         </div>
+                        <p th:if="${allBorrowedBooks.contains(shelfBook)}">This book has been borrowed</p>
                     </div>
                 </div>
             </div>
