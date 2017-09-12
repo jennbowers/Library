@@ -1,14 +1,8 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.classes.Helpers;
-import com.jennbowers.library.interfaces.BookRepository;
-import com.jennbowers.library.interfaces.FriendRequestRepository;
-import com.jennbowers.library.interfaces.ShelfRepository;
-import com.jennbowers.library.interfaces.UserRepository;
-import com.jennbowers.library.models.Book;
-import com.jennbowers.library.models.FriendRequest;
-import com.jennbowers.library.models.Shelf;
-import com.jennbowers.library.models.User;
+import com.jennbowers.library.interfaces.*;
+import com.jennbowers.library.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +28,9 @@ public class FriendController {
 
     @Autowired
     FriendRequestRepository friendRequestRepo;
+
+    @Autowired
+    BookRequestRepository bookRequestRepo;
 
 
 //    GET request for seeing all friends
@@ -168,6 +165,14 @@ public class FriendController {
         model.addAttribute("user", user);
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Book book : books) {
+            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
         model.addAttribute("shelves", shelves);
         return "friendHome";
@@ -188,6 +193,15 @@ public class FriendController {
         }
         model.addAttribute("user", user);
         model.addAttribute("books", books);
+
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Book book : books) {
+            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         return "friendHome";
     }
 
@@ -200,6 +214,17 @@ public class FriendController {
         model.addAttribute("shelfOwner", shelfOwner);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(shelfOwner);
         model.addAttribute("shelves", shelves);
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Shelf shelf : shelves) {
+            List<Book> books = shelf.getBooks();
+            for(Book book : books) {
+                BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                if(ifBorrowed != null) {
+                    allBorrowedBooks.add(book);
+                }
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
         model.addAttribute("currentUser", currentUser);

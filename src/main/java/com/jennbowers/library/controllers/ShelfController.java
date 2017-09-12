@@ -1,9 +1,11 @@
 package com.jennbowers.library.controllers;
 
 import com.jennbowers.library.interfaces.BookRepository;
+import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
 import com.jennbowers.library.interfaces.UserRepository;
 import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.Shelf;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,6 +31,9 @@ public class ShelfController {
     @Autowired
     ShelfRepository shelfRepo;
 
+    @Autowired
+    BookRequestRepository bookRequestRepo;
+
 //    GET request for seeing all the user's shelves
     @RequestMapping("/shelf")
     public String shelf (Principal principal,
@@ -38,6 +44,17 @@ public class ShelfController {
         model.addAttribute("shelfOwner", currentUser);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(currentUser);
         model.addAttribute("shelves", shelves);
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Shelf shelf : shelves) {
+            List<Book> books = shelf.getBooks();
+            for(Book book : books) {
+                BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                if(ifBorrowed != null) {
+                    allBorrowedBooks.add(book);
+                }
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         return "shelf";
     }
 
@@ -63,13 +80,16 @@ public class ShelfController {
         User user = userRepo.findByUsername(username);
         model.addAttribute("currentUser", user);
         Shelf shelf = shelfRepo.findOne(shelfId);
-        List<Book> test = shelf.getBooks();
-        for(Book book : test) {
-            System.out.println(book.getTitle());
-            System.out.println(book.getUser().getUsername());
-            System.out.println("===========");
-        }
         model.addAttribute("shelf", shelf);
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> books = shelf.getBooks();
+        for(Book book : books) {
+            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         return "shelfDetail";
     }
     //        return "shelfDetail";
