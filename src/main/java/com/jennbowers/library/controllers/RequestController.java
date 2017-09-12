@@ -3,6 +3,7 @@ package com.jennbowers.library.controllers;
 import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Book;
 import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.FriendRequest;
 import com.jennbowers.library.models.User;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class RequestController {
@@ -51,6 +53,7 @@ public class RequestController {
         return "requests";
     }
 
+//    POST request to respond to friend request
     @RequestMapping(value = "/requests/friend/{requestId}", method = RequestMethod.POST)
     public String friendAnswer (@PathVariable("requestId") Long requestId,
                                 @RequestParam("answer") String answer) {
@@ -65,20 +68,26 @@ public class RequestController {
         return "redirect:/requests";
     }
 
+//    POST request to respond to book request—if accept
     @RequestMapping(value = "/requests/book/accept/{requestId}", method = RequestMethod.POST)
     public String bookAnswer (Model model,
                               @PathVariable("requestId") Long requestId,
                               @RequestParam("dueDate") java.sql.Date dueDate) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
-        bookRequest.setPending(false);
-        bookRequest.setActive(true);
-        Date borrowedDate = new Date();
-        bookRequest.setBorrowed(borrowedDate);
-        bookRequest.setDue(dueDate);
+        Book book = bookRequest.getBookid();
+        BookRequest activeBorrow = bookRequestRepo.findAllByBookidAndActive(book, true);
+        if (activeBorrow == null) {
+            bookRequest.setPending(false);
+            bookRequest.setActive(true);
+            Date borrowedDate = new Date();
+            bookRequest.setBorrowed(borrowedDate);
+            bookRequest.setDue(dueDate);
+        }
         bookRequestRepo.save(bookRequest);
         return "redirect:/requests";
     }
 
+//    POST request to respond to book request—if deny
     @RequestMapping(value = "/requests/book/deny/{requestId}", method = RequestMethod.POST)
     public String bookAnswer (Model model,
                               @PathVariable("requestId") Long requestId) {

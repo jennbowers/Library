@@ -96,7 +96,6 @@ public class BookController {
 //    POST request for requesting to borrow a book
     @RequestMapping("/book/{bookId}/borrow")
     public String borrowBook (Principal principal,
-                              Model model,
                               @PathVariable("bookId") long bookId) {
         BookRequest bookRequest = new BookRequest();
 

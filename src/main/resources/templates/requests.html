@@ -27,6 +27,7 @@
             <h3>Book Requests</h3>
             <h4>Pending Requests to Me:</h4>
             <!--<p th:if="${bookRequests == null}">You have no pending borrow requests to respond to</p>-->
+            <p th:if="${message != null}" th:text="${message}"></p>
             <div th:each="request : ${bookRequests}">
                 <span th:text="${request.fromuser.username}"></span>
                 <span> would like to borrow </span>
