@@ -46,7 +46,7 @@ public class BookController {
         model.addAttribute("book", book);
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("shelves", shelves);
-        BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+        List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
         model.addAttribute("ifBorrowed", ifBorrowed);
         return "bookDetail";
     }
@@ -133,7 +133,7 @@ public class BookController {
         model.addAttribute("selectedShelves", shelves);
         List<Shelf> allShelves = shelfRepo.findAllByUser(user);
         model.addAttribute("allShelves", allShelves);
-        BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+        List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
         model.addAttribute("ifBorrowed", ifBorrowed);
         if(currentUser.equals(bookOwnerString)) {
             return "editBook";

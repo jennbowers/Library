@@ -48,7 +48,7 @@ public class ShelfController {
         for(Shelf shelf : shelves) {
             List<Book> books = shelf.getBooks();
             for(Book book : books) {
-                BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
                 if(ifBorrowed != null) {
                     allBorrowedBooks.add(book);
                 }
@@ -84,7 +84,7 @@ public class ShelfController {
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> books = shelf.getBooks();
         for(Book book : books) {
-            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
             if(ifBorrowed != null) {
                 allBorrowedBooks.add(book);
             }

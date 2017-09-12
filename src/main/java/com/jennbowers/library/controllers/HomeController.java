@@ -54,7 +54,7 @@ public class HomeController {
 
         List<Book> allBorrowedBooks = new ArrayList<>();
         for(Book book : books) {
-            BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
             if(ifBorrowed != null) {
                 allBorrowedBooks.add(book);
             }
@@ -91,7 +91,7 @@ public class HomeController {
                 }
                 model.addAttribute("books", books);
                 for(Book book : books) {
-                    BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                    List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
                     if(ifBorrowed != null) {
                         allBorrowedBooks.add(book);
                     }
@@ -109,7 +109,7 @@ public class HomeController {
                 model.addAttribute("books", books);
 
                 for(Book book : books) {
-                    BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                    List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
                     if(ifBorrowed != null) {
                         allBorrowedBooks.add(book);
                     }

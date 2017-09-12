@@ -70,13 +70,12 @@ public class RequestController {
 
 //    POST request to respond to book request—if accept
     @RequestMapping(value = "/requests/book/accept/{requestId}", method = RequestMethod.POST)
-    public String bookAnswer (Model model,
-                              @PathVariable("requestId") Long requestId,
+    public String bookAnswer (@PathVariable("requestId") Long requestId,
                               @RequestParam("dueDate") java.sql.Date dueDate) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
         Book book = bookRequest.getBookid();
-        BookRequest activeBorrow = bookRequestRepo.findAllByBookidAndActive(book, true);
-        if (activeBorrow == null) {
+        List<BookRequest> activeBorrow = bookRequestRepo.findAllByBookidAndActive(book, true);
+        if (activeBorrow == null || activeBorrow.size() <= book.getCopies()) {
             bookRequest.setPending(false);
             bookRequest.setActive(true);
             Date borrowedDate = new Date();
@@ -89,8 +88,7 @@ public class RequestController {
 
 //    POST request to respond to book request—if deny
     @RequestMapping(value = "/requests/book/deny/{requestId}", method = RequestMethod.POST)
-    public String bookAnswer (Model model,
-                              @PathVariable("requestId") Long requestId) {
+    public String bookAnswer (@PathVariable("requestId") Long requestId) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
         bookRequest.setPending(false);
         bookRequest.setActive(false);
