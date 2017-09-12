@@ -160,7 +160,8 @@ public class FriendController {
 //    POST request to remove a friend
     @RequestMapping(value = "/friends/remove", method = RequestMethod.POST)
     public String friendRemove (Principal principal,
-                                @RequestParam("friendId") Long friendId) {
+                                @RequestParam("friendId") String friendIdString) {
+        Long friendId = Long.parseLong(friendIdString);
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
         User friendUser = userRepo.findOne(friendId);
@@ -211,10 +212,11 @@ public class FriendController {
             if(request.getFromuser() == friendUser || request.getTouser() == friendUser){
                 request.setActive(false);
                 request.setPending(false);
+                friendRequestRepo.save(request);
             }
         }
 
-        return "redirect:/friends";
+        return "redirect:/friend";
     }
 
 
