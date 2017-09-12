@@ -48,6 +48,8 @@ public class BookController {
         model.addAttribute("shelves", shelves);
         List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
         model.addAttribute("ifBorrowed", ifBorrowed);
+        List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+        model.addAttribute("ifPending", ifPending);
         return "bookDetail";
     }
 

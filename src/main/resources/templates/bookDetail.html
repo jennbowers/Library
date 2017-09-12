@@ -78,8 +78,9 @@
         </div>
         <div class="book-btns">
             <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
-            <a th:if="${book.user.username != currentUser.username and ifBorrowed != null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-            <a th:if="${book.user.username != currentUser.username and ifBorrowed == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
+            <a th:if="${book.user.username != currentUser.username and ifBorrowed != null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+            <p th:if="${book.user.username != currentUser.username and ifPending != null}" class="btn btn-success">Request is Pending</p>
+            <a th:if="${book.user.username != currentUser.username and ifBorrowed == null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
             <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
         </div>
     </div>
