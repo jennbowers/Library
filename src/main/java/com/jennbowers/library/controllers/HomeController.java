@@ -77,6 +77,7 @@ public class HomeController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+        List<Book> allBorrowedBooks = new ArrayList<>();
         model.addAttribute("searchText", searchText);
         model.addAttribute("searchBy", searchBy);
         Iterable<Book> books = null;
@@ -89,6 +90,14 @@ public class HomeController {
                     books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchText);
                 }
                 model.addAttribute("books", books);
+                for(Book book : books) {
+                    BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                    if(ifBorrowed != null) {
+                        allBorrowedBooks.add(book);
+                    }
+                }
+                model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+
                 return "search";
 //        Search in friends & others books
             case "borrow":
@@ -98,6 +107,14 @@ public class HomeController {
                     books = bookRepo.findAllByAuthorIgnoreCase(searchText);
                 }
                 model.addAttribute("books", books);
+
+                for(Book book : books) {
+                    BookRequest ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                    if(ifBorrowed != null) {
+                        allBorrowedBooks.add(book);
+                    }
+                }
+                model.addAttribute("allBorrowedBooks", allBorrowedBooks);
 
                 String searchInBorrow = "borrow";
                 model.addAttribute("searchInBorrow", searchInBorrow);

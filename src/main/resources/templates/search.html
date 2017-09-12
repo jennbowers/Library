@@ -39,13 +39,15 @@
                     <span th:if="${book.user.id != user.id}" th:text="${book.user.username}"></span>
 
                 </h4>
+                <p th:if="${allBorrowedBooks.contains(book)}">This book has been borrowed</p>
                 <img th:src="${book.img}" alt="book cover"/>
                 <p th:text="${book.title}"></p>
                 <p th:text="${book.author}"></p>
             </div>
             <div class="book-btns">
                 <a  th:if="${book.user.id == user.id}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
-                <a th:if="${activeFriends != null and activeFriends.contains(book.user)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
+                <a th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+                <a th:if="${activeFriends != null and activeFriends.contains(book.user) and !allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <button th:if="${pendingFriends != null and pendingFriends.contains(book.user)}" class="btn btn-success">Pending Friend Request</button>
                 <form th:action="'/friends'" method="post" th:if="${notFriends != null and notFriends.contains(book.user)}">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
