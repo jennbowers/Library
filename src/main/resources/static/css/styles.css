@@ -2,9 +2,9 @@
     margin-top: 7px;
 }
 
-.form-control{
-    width: 20%;
-}
+/*.form-control{*/
+    /*width: 20%;*/
+/*}*/
 
 .all-books, .heading{
     padding-top: 20px;
@@ -36,11 +36,36 @@
     padding-bottom: 15px;
 }
 
-.shelf-name, .all-books-name, .name-heading {
+.shelf-name, .all-books-name, .name-heading. .inline {
     display: inline;
 }
 
 .see-more {
     display: inline;
+    float: right;
+}
+
+.reset-search{
+    padding-top:5px;
+}
+
+.more-height {
+    margin-bottom: 200px;
+}
+
+.more-padding{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.more-margin-right{
+    margin-right: 10px;
+}
+
+.side-by-side-left{
+    float: left;
+}
+
+.side-by-side-right{
     float: right;
 }
