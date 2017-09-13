@@ -20,13 +20,13 @@
             </div>
             <h3>Add/Remove Books on your shelf</h3>
             <p>*To select multiple books, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one book MUST be selected to save changes.</p>
-            <select multiple="multiple" name="books" id="books" class="form-control">
+            <select multiple="multiple" name="books" id="books" class="form-control more-padding">
                 <option th:each="book : ${allBooks}" th:selected="${booksOnShelf.contains(book)}" th:value="${book.id}" th:text="${book.title}"></option>
             </select>
-            <input type="submit" class="btn btn-success" value="Submit Changes"/>
+            <input type="submit" class="btn btn-success more-margin" value="Submit Changes"/>
         </form>
         <form th:action="'/shelf/' + ${shelf.id} + '/remove'" method="post">
-            <input type="submit" class="btn btn-danger" value="Delete Shelf"/>
+            <input type="submit" class="btn btn-danger more-margin" value="Delete Shelf"/>
         </form>
 
     </div>
