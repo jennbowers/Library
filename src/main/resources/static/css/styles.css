@@ -1,15 +1,3 @@
-body {
-    /*background-color: darkred;*/
+.search-btn{
+    margin-top:22px;
 }
-
-/*.flex-container {*/
-    /*display: inline-flex;*/
-    /*flex-wrap: nowrap;*/
-    /*flex-direction: column;*/
-/*}*/
-/*.flex-info {*/
-    /*flex: 1 1 75%;*/
-/*}*/
-/*.flex-btns {*/
-    /*flex: 1 1 25%;*/
-/*}*/
