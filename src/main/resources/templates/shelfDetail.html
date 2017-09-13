@@ -9,22 +9,34 @@
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1 th:text="${shelf.name}"></h1>
-        <a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-info">Edit Shelf</a>
-        <div th:each="shelfBook : ${shelf.books}" class="panel panel-default">
-            <div class="book-info">
-                <img th:src="${shelfBook.img}" alt="book cover"/>
-                <p th:text="${shelfBook.title}"></p>
-                <p th:text="${shelfBook.author}"></p>
+        <section class="row col-md-12">
+            <div class="heading">
+                <h1 th:text="${shelf.name}" class="name-heading"></h1>
+                <span><a th:if="${currentUser == shelf.user}" href="/shelf" th:inline="text" class="btn btn-info see-more">Back to your Shelves</a></span>
+                <span><a th:if="${currentUser != shelf.user}" th:href="'/' + ${shelf.user.id} + '/shelf'" th:inline="text" class="btn btn-info see-more">Back to [[${shelf.user.username}]]'s Shelves</a></span>
             </div>
-            <div class="book-btns">
-                <a th:if="${currentUser.id == shelf.user.id}" th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-success">Edit</a>
-                <a th:if="${shelfBook.user.username != currentUser.username and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                <a th:if="${shelfBook.user.username != currentUser.username and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Borrow</a>
-                <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
+            <a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-info">Edit Shelf</a>
+        </section>
+        <section class="row col-md-12 container">
+            <div th:each="shelfBook : ${shelf.books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+                <div class="book-cover">
+                    <img th:src="${shelfBook.img}" alt="book cover"/>
+                </div>
+                <div class="caption">
+                    <div class="book-info">
+                        <p th:text="${shelfBook.title}"></p>
+                        <p th:text="${shelfBook.author}"></p>
+                        <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
+                    </div>
+                    <div class="book-btns">
+                        <a th:if="${currentUser.id == shelf.user.id}" th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
+                        <a th:if="${shelfBook.user.username != currentUser.username and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
+                        <a th:if="${shelfBook.user.username != currentUser.username and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
+                        <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-info btn-block">See Details</a>
+                    </div>
+                </div>
             </div>
-            <p th:if="${allBorrowedBooks.contains(shelfBook)}">This book has been borrowed</p>
-        </div>
+        </section>
     </div>
     <span th:include="includes :: js"></span>
 </body>

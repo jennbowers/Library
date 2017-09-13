@@ -281,6 +281,29 @@ public class FriendController {
         return "friendHome";
     }
 
+    //    GET request for all Books page
+    @RequestMapping(value = "/book/{userId}", method = RequestMethod.GET)
+    public String index (Model model,
+                         @PathVariable("userId") Long userId){
+
+        User user = userRepo.findOne(userId);
+        model.addAttribute("user", user);
+
+        Iterable<Book> books = bookRepo.findAllByUser(user);
+        model.addAttribute("books", books);
+
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Book book : books) {
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+
+        return "book";
+    }
+
 //    GET request to see all of friend's shelves
     @RequestMapping("/{userId}/shelf")
     public String friendShelf (Model model,

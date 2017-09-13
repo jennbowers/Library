@@ -6,14 +6,17 @@
     width: 20%;
 }
 
-.all-books{
+.all-books, .heading{
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
 .thumbnail{
     text-align: center;
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 8px;
 }
 
 .book-cover{
@@ -33,7 +36,7 @@
     padding-bottom: 15px;
 }
 
-.shelf-name, .all-books-name {
+.shelf-name, .all-books-name, .name-heading {
     display: inline;
 }
 

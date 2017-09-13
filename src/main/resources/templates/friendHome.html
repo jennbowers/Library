@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Welcome to a Friend's Library</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{../static/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 <div th:include="includes :: navbar"></div>
@@ -25,53 +25,73 @@
                 </select>
             </div>
             <span>
-                <input type="submit" class="btn btn-info" value="Search"/>
+                <input type="submit" class="btn btn-success" value="Search"/>
             </span>
             <span>
-                <a th:href="'/' + ${user.id}" class="btn btn-info">Clear Search</a>
+                <a th:href="'/' + ${user.id}" class="btn btn-warning">Clear Search</a>
             </span>
         </form>
-        <h3>
-            <span th:text="${user.firstName}"></span>
-            <span>'s Books</span>
-        </h3>
-        <div th:each="book: ${books}" class="panel panel-default container">
-            <div class="book-info">
-                <img th:src="${book.img}" alt="book cover"/>
-                <p th:text="${book.title}"></p>
-                <p th:text="${book.author}"></p>
-            </div>
-            <div class="book-btns">
-                <a th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                <button th:if="${book.user != currentUser and allPendingBooks.contains(book)}" class="btn btn-success">Request is Pending</button>
-                <a th:if="${book.user != currentUser and !allBorrowedBooks.contains(book) and !allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
-                <a th:href="'/book/' + ${book.id}" class="btn btn-success">See Details</a>
-            </div>
-            <p th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}">This book has been borrowed</p>
+        <hr/>
+    </section>
+    <section class="col-md-12">
+        <div class="all-books">
+            <h3 th:inline="text" class="all-books-name">[[${user.firstName}]]'s Books</h3>
+            <span><a class="btn btn-success see-more" th:href="'/book/' + ${user.id}">See More</a></span>
         </div>
-        <h3 th:if="${shelves}">
-            <span th:text="${user.firstName}"></span>
-            <span>'s Shelves</span>
-        </h3>
-        <a class="btn btn-success" th:href="${user.id} + '/shelf'">See All Shelves</a>
-        <div th:if="${shelves}" th:each="shelf : ${shelves}" class="panel panel-default container">
-            <div class="row shelf">
-                <h4 th:text="${shelf.name}"></h4>
-                <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
-                <div th:each="shelfBook : ${shelf.books}" class="panel panel-default">
+        <div class="row">
+            <div th:each="book, iterStat: ${books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+                <div class="book-cover">
+                    <img th:src="${book.img}" alt="book cover"/>
+                </div>
+                <div class="caption">
                     <div class="book-info">
-                        <img th:src="${shelfBook.img}" alt="book cover"/>
-                        <p th:text="${shelfBook.title}"></p>
-                        <p th:text="${shelfBook.author}"></p>
+                        <h5 th:text="${book.title}"></h5>
+                        <p th:text="${book.author}"></p>
+                        <p class="borrowed-text" th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}">This book has been borrowed</p>
                     </div>
                     <div class="book-btns">
-                        <a th:if="${shelfBook.user != currentUser and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                        <button th:if="${shelfBook.user != currentUser and allPendingBooks.contains(shelfBook)}" class="btn btn-success">Request is Pending</button>
-                        <a th:if="${shelfBook.user != currentUser and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Borrow</a>
-                        <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
+                        <a th:if="${book.user != currentUser and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
+                        <button th:if="${book.user != currentUser and allPendingBooks.contains(book)}" class="btn btn-info btn-block">Request is Pending</button>
+                        <a th:if="${book.user != currentUser and !allBorrowedBooks.contains(book) and !allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
+                        <a th:href="'/book/' + ${book.id}" class="btn btn-info btn-block">See Details</a>
                     </div>
-                    <p th:if="${allBorrowedBooks.contains(shelfBook)}">This book has been borrowed</p>
                 </div>
+            </div>
+        </div>
+        <hr/>
+    </section>
+    <section class="row col-md-12">
+        <div class="shelf-info">
+            <h3 th:inline="text" th:if="${shelves}" class="shelf-name">[[${user.firstName}]]'s Shelves</h3>
+            <span><a class="btn btn-success see-more" th:href="${user.id} + '/shelf'">See All Shelves</a></span>
+        </div>
+        <div class="container">
+            <div th:if="${shelves}" th:each="shelf : ${shelves}" class="row">
+                <div class="row shelf container">
+                    <div class="shelf-info">
+                        <h4 class="shelf-name" th:text="${shelf.name}"></h4>
+                        <span><a class="btn btn-success see-more" th:href="'/shelf/' + ${shelf.id}">See More</a></span>
+                    </div>
+                    <div th:each="shelfBook, iterStat : ${shelf.books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+                        <div class="book-cover">
+                            <img th:src="${shelfBook.img}" alt="book cover"/>
+                        </div>
+                        <div class="caption">
+                            <div class="book-info">
+                                <p th:text="${shelfBook.title}"></p>
+                                <p th:text="${shelfBook.author}"></p>
+                                <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
+                            </div>
+                            <div class="book-btns">
+                                <a th:if="${shelfBook.user != currentUser and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
+                                <button th:if="${shelfBook.user != currentUser and allPendingBooks.contains(shelfBook)}" class="btn btn-info btn-block">Request is Pending</button>
+                                <a th:if="${shelfBook.user != currentUser and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
+                                <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-info btn-block">See Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
             </div>
         </div>
     </section>

@@ -9,45 +9,54 @@
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>
-            <span>All </span>
-            <span th:text="${shelfOwner.username}"></span>
-            <span>'s Shelves</span>
-        </h1>
-        <hr th:if="${currentUser.id == shelfOwner.id}"/>
-        <div th:if="${currentUser.id == shelfOwner.id}">
-            <h3>Add a new shelf</h3>
-            <!--MAKE THIS A BOOTSTRAP HORIZONTAL FORM-->
-            <form action="/shelf" class="form-inline" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <div class="form-group">
-                    <label for="name">New Shelf Name: </label>
-                    <input type="text" id="name" class="form-control" name="name" placeholder="Shelf Name"/>
-                </div>
-                <input type="submit" class="btn btn-info" value="Create Shelf"/>
-            </form>
-        </div>
-        <hr/>
-        <div th:each="shelf : ${shelves}" class="panel panel-default container">
-            <div class="row shelf">
-                <h4 th:text="${shelf.name}"></h4>
-                <a class="btn btn-success" th:href="'/shelf/' + ${shelf.id}">See More</a>
-                <div th:each="shelfBook : ${shelf.books}" class="panel panel-default">
-                    <div class="book-info">
-                        <p th:if="${allBorrowedBooks.contains(shelfBook)}">This book has been borrowed</p>
-                        <img th:src="${shelfBook.img}" alt="book cover"/>
-                        <p th:text="${shelfBook.title}"></p>
-                        <p th:text="${shelfBook.author}"></p>
-                    </div>
-                    <div class="book-btns">
-                        <a th:if="${currentUser.id == shelfOwner.id}" th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-success">Edit</a>
-                        <a th:if="${shelfBook.user.username != currentUser.username and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                        <a th:if="${currentUser.id != shelfOwner.id and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-success">Borrow</a>
-                        <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-success">See Details</a>
-                    </div>
-                </div>
+        <section class="row col-md-12">
+            <div class="heading">
+                <h1 th:inline="text" class="name-heading">All [[${shelfOwner.username}]]'s Shelves</h1>
+                <span><a th:if="${currentUser.id != shelfOwner.id}" th:href="'/' + ${shelfOwner.id}" th:inline="text" class="btn btn-info see-more">Back to [[${shelfOwner.username}]]'s Home Page</a></span>
             </div>
-        </div>
+            <hr th:if="${currentUser.id == shelfOwner.id}"/>
+            <div th:if="${currentUser.id == shelfOwner.id}">
+                <h3>Add a new shelf</h3>
+                <form action="/shelf" class="form-inline" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <div class="form-group">
+                        <label for="name">New Shelf Name: </label>
+                        <input type="text" id="name" class="form-control" name="name" placeholder="Shelf Name"/>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Create Shelf"/>
+                </form>
+            </div>
+            <hr/>
+        </section>
+        <section class="row col-md-12 container">
+            <div th:each="shelf : ${shelves}" class="row">
+                <div class="row shelf container">
+                    <div class="shelf-info">
+                        <h4 class="shelf-name" th:text="${shelf.name}"></h4>
+                        <span><a class="btn btn-success see-more" th:href="'/shelf/' + ${shelf.id}">See More</a></span>
+                    </div>
+                    <div th:each="shelfBook : ${shelf.books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+                        <div class="book-cover">
+                            <img th:src="${shelfBook.img}" alt="book cover"/>
+                        </div>
+                        <div class="caption">
+                            <div class="book-info">
+                                <p th:text="${shelfBook.title}"></p>
+                                <p th:text="${shelfBook.author}"></p>
+                                <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
+                            </div>
+                            <div class="book-btns">
+                                <a th:if="${currentUser.id == shelfOwner.id}" th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
+                                <a th:if="${shelfBook.user.username != currentUser.username and allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
+                                <a th:if="${currentUser.id != shelfOwner.id and !allBorrowedBooks.contains(shelfBook)}" th:href="'/book/' + ${shelfBook.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
+                                <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-info btn-block">See Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </section>
     </div>
     <span th:include="includes :: js"></span>
 </body>
