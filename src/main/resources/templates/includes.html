@@ -4,42 +4,43 @@
     <meta charset="UTF-8"/>
     <title>Welcome to your Library</title>
 
-    <!--<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-    <div th:fragment="navbar">
-        <nav class="teal lighten-3">
-            <div class="nav-wrapper container">
-                <a href="/" class="brand-logo">Digital Library</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="/">My Books</a></li>
-                    <li><a href="/shelf">My Shelves</a></li>
-                    <li><a href="/friends">My Friends</a></li>
-                    <li><a href="/requests">Requests</a></li>
-                    <li><form th:action="@{/logout}" method="post"><input type="submit" class="btn btn-flat" value="Logout"/></form></li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                    <li><a href="/">My Books</a></li>
-                    <li><a href="/shelf">My Shelves</a></li>
-                    <li><a href="/friends">My Friends</a></li>
-                    <li><a href="/requests">Requests</a></li>
-                    <li><form th:action="@{/logout}" method="post"><input type="submit" class="btn btn-flat" value="Logout"/></form></li>
-                </ul>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Digital Bookshelf</a>
             </div>
-        </nav>
-    </div>
 
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">My Books</a></li>
+                    <li><a href="/shelf">My Shelves</a></li>
+                    <li><a href="/friends">My Friends</a></li>
+                    <li><a href="/requests">Requests</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><form th:action="@{/logout}" method="post"><input type="submit" class="btn btn-link" value="Logout"/></form></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
 
-    <span th:fragment="js">
-        <script th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js}"></script>
-        <script th:src="@{/js/main.js}"></script>
-        <!--<script type="application/javascript" th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>-->
-        <!--<script type="application/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>-->
+<span th:fragment="js">
+        <script type="application/javascript" th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+        <script type="application/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
     </span>
 </body>
 </html>
