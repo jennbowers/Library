@@ -41,7 +41,11 @@
             <span th:text="${author}"></span>
         </div>
         <div class="book-btns">
-            <form action="/bookAdd" method="post">
+            <button th:if="${ownedBooks.contains(volume.id)}" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+                <span> You Own</span>
+            </button>
+            <form th:if="${!ownedBooks.contains(volume.id)}" action="/bookAdd" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input type="hidden" name="title" th:value="${volume.volumeInfo.title}"/>
                 <input type="hidden" name="authors" th:value="${volume.volumeInfo.authors}"/>

@@ -36,7 +36,7 @@
     padding-bottom: 15px;
 }
 
-.shelf-name, .all-books-name, .name-heading. .inline {
+.shelf-name, .all-books-name, .name-heading, .inline {
     display: inline;
 }
 
@@ -56,6 +56,8 @@
 .more-padding{
     padding-top: 10px;
     padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .more-margin-right{
@@ -68,4 +70,17 @@
 
 .side-by-side-right{
     float: right;
+}
+
+.book-detail-info-centered{
+    text-align: center;
+}
+
+.book-detail-info-left{
+    text-align: left;
+}
+
+#shelves-group{
+    margin-right: 0;
+    margin-left: 0;
 }

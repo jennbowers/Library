@@ -4,28 +4,30 @@
     <meta charset="UTF-8"/>
     <title th:text="${book.title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>
-            <span th:text="${book.user.firstName}"></span>
-            <span>'s book: </span>
-            <span th:text="${book.title}"></span>
-        </h1>
-        <div class="book-detail-info">
-            <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}">This book has been borrowed</p>
-            <img th:src="${book.img}" alt="book cover"/>
-            <h4 th:text="${book.title}"></h4>
-            <p th:text="${book.author}"></p>
-            <p>
-                <span>Date Published:</span>
-                <span th:text="${book.datePublished}"></span>
-            </p>
-            <p>
-                <span th:if="${book.rating != 0}">Owner's Rating: </span>
-                <span th:if="${book.rating != 0}" th:switch="${book.rating}">
+        <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
+        <p th:if="${book.user.username != currentUser.username and ifBorrowed != null and ifPending == null}" class="borrowed-text">This book has been borrowed</p>
+        <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
+            <div class="book-detail-info">
+                <div class="book-detail-info-centered">
+                    <img th:src="${book.img}" alt="book cover"/>
+                    <h4 th:text="${book.title}"></h4>
+                    <p th:text="${book.author}"></p>
+                    <p>
+                        <span>Date Published:</span>
+                        <span th:text="${book.datePublished}"></span>
+                    </p>
+                    <p>
+                        <span>Copies Owned:</span>
+                        <span th:text="${book.copies}"></span>
+                    </p>
+                    <p>
+                        <span th:if="${book.rating != 0}">Owner's Rating: </span>
+                        <span th:if="${book.rating != 0}" th:switch="${book.rating}">
                     <span th:case="5">
                         <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -62,26 +64,28 @@
                         <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                     </span>
                 </span>
-            </p>
-            <p>
-                <span>Copies Owned:</span>
-                <span th:text="${book.copies}"></span>
-            </p>
-            <p>
-                <span>Shelves:</span>
-                <span th:each="shelf : ${shelves}">
+                    </p>
+                    <p>
+                        <span>Shelves:</span>
+                        <span th:each="shelf, iterStat : ${shelves}">
                     <!--TH IF NOT LAST INDEX THEN COMMA AFTER-->
                     <span th:text="${shelf.name}"></span>
+                    <span th:if="${!iterStat.last}">, </span>
                 </span>
-            </p>
-            <p th:text="${book.summary}"></p>
-        </div>
-        <div class="book-btns">
-            <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success glyphicon glyphicon-ok"></a>
-            <a th:if="${book.user.username != currentUser.username and ifBorrowed != null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-            <p th:if="${book.user.username != currentUser.username and ifPending != null}" class="btn btn-success">Request is Pending</p>
-            <a th:if="${book.user.username != currentUser.username and ifBorrowed == null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
-            <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+                    </p>
+                </div>
+                <p th:text="${book.summary}"></p>
+            </div>
+            <div class="book-btns book-detail-info-centered">
+                <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <span> You Own</span>
+                </a>
+                <a th:if="${book.user.username != currentUser.username and ifBorrowed != null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+                <p th:if="${book.user.username != currentUser.username and ifPending != null}" class="btn btn-success">Request is Pending</p>
+                <a th:if="${book.user.username != currentUser.username and ifBorrowed == null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
+                <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+            </div>
         </div>
     </div>
     <span th:include="includes :: js"></span>

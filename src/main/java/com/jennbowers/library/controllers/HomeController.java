@@ -77,6 +77,13 @@ public class HomeController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+        List<Book> allOwnedBooks = bookRepo.findAllByUser(user);
+        List<String> ownedBooksGoogleId = new ArrayList<>();
+        for(Book book : allOwnedBooks) {
+            String googleId = book.getGoogleId();
+            ownedBooksGoogleId.add(googleId);
+        }
+        model.addAttribute("ownedBooks", ownedBooksGoogleId);
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
         model.addAttribute("searchText", searchText);

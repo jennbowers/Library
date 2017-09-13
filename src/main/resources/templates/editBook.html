@@ -4,96 +4,98 @@
     <meta charset="UTF-8"/>
     <title th:text="${book.title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
     <div class="container">
-        <h1>
-            <span>Edit </span>
-            <span th:text="${book.title}"></span>
-        </h1>
-        <div class="book-detail-info">
-            <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}">This book has been borrowed</p>
-            <img th:src="${book.img}" alt="book cover"/>
-            <h4 th:text="${book.title}"></h4>
-            <p th:text="${book.author}"></p>
-            <p>
-                <span>Date Published:</span>
-                <span th:text="${book.datePublished}"></span>
-            </p>
-            <form class="form-horizontal" method="post" th:action="'/book/' + ${book.id} + '/edit'">
-                <div class="form-group">
-                    <span>
-                        <label for="stars-radio-group" class="rating-header">Rating*:</label>
-                    </span>
-                    <span class="stars-radio-group" id="stars-radio-group">
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="norating" th:checked="${book.rating == 0}" value="0"/>
-                            <span><p>No Rating</p></span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="onestar" th:checked="${book.rating == 1}" value="1"/>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="twostars" th:checked="${book.rating == 2}" value="2"/>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="threestars" th:checked="${book.rating == 3}" value="3"/>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="fourstars" th:checked="${book.rating == 4}" value="4"/>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" id="fivestars" th:checked="${book.rating == 5}" value="5"/>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                        </label>
-                    </span>
+        <h1 th:inline="text">Edit [[${book.title}]]</h1>
+        <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
+            <div class="book-detail-info">
+                <div class="book-detail-info-centered">
+                    <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}">This book has been borrowed</p>
+                    <img th:src="${book.img}" alt="book cover"/>
+                    <h4 th:text="${book.title}"></h4>
+                    <p th:text="${book.author}"></p>
+                    <p>
+                        <span>Date Published:</span>
+                        <span th:text="${book.datePublished}"></span>
+                    </p>
+                    <form class="form-horizontal" method="post" th:action="'/book/' + ${book.id} + '/edit'">
+                        <div class="form-group">
+                            <label for="copies" class="control-label">Copies Owned: </label>
+                            <input type="text" id="copies" name="copies" th:value="${book.copies}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="stars-radio-group" class="rating-header control-label">Rating*:</label>
+                            <span class="stars-radio-group" id="stars-radio-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="norating" th:checked="${book.rating == 0}" value="0"/>
+                                <span>No Rating</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="onestar" th:checked="${book.rating == 1}" value="1"/>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="twostars" th:checked="${book.rating == 2}" value="2"/>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="threestars" th:checked="${book.rating == 3}" value="3"/>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="fourstars" th:checked="${book.rating == 4}" value="4"/>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="rating" id="fivestars" th:checked="${book.rating == 5}" value="5"/>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            </label>
+                        </span>
+                        </div>
+                        <div class="form-group book-detail-info-left" id="shelves-group">
+                            <label for="shelves" class="control-label">Shelves*:</label>
+                            <p>*To select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one shelf MUST be selected to save changes.</p>
+                            <select multiple="multiple" name="shelves" id="shelves" class="form-control">
+                                <option th:each="shelf : ${allShelves}" th:selected="${selectedShelves.contains(shelf)}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
+                            </select>
+                        </div>
+                        <p th:text="${book.summary}" class="book-detail-info-left"></p>
+                        <div class="book-btns">
+                            <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <span> You Own</span>
+                            </a>
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="copies">Copies Owned: </label>
-                    <input type="text" id="copies" name="copies" th:value="${book.copies}"/>
-                </div>
-                <p>
-                    <span>Shelves*:</span>
-                    <p>*To select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one shelf MUST be selected to save changes.</p>
-                    <select multiple="multiple" name="shelves" id="shelves" class="form-control">
-                        <option th:each="shelf : ${allShelves}" th:selected="${selectedShelves.contains(shelf)}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
-                    </select>
-                </p>
-                <p th:text="${book.summary}"></p>
-                <div class="book-btns">
-                    <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
-                    <button type="submit" class="btn btn-success">Save Changes</button>
-                </div>
-            </form>
-            <form th:if="${book.user.username == currentUser.username}" th:action="'/book/' + ${book.id} + '/remove'" method="post">
-                <input type="submit" class="btn btn-danger" value="Delete Book"/>
-            </form>
+                <form th:if="${book.user.username == currentUser.username}" th:action="'/book/' + ${book.id} + '/remove'" method="post" class="book-detail-info-centered more-padding">
+                    <input type="submit" class="btn btn-danger" value="Delete Book"/>
+                </form>
+            </div>
         </div>
     </div>
 
