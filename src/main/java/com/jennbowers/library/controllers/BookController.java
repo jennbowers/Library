@@ -92,7 +92,9 @@ public class BookController {
                 }
             }
         }
+
         model.addAttribute("ifBorrowed", allBorrowedBooks);
+
         List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
         List<Book> allPendingBooks = new ArrayList<>();
         if(ifPending != null) {

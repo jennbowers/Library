@@ -8,5 +8,6 @@ public interface FriendRequestRepository extends CrudRepository<FriendRequest, L
     Iterable<FriendRequest> findAllByTouserAndActive(User user, Boolean booleanParam);
     Iterable<FriendRequest> findAllByFromuserAndActive(User user, Boolean booleanParam);
     Iterable<FriendRequest> findAllByTouserAndPending(User user, Boolean booleanParam);
+    Iterable<FriendRequest> findAllByTouser(User user);
     Iterable<FriendRequest> findAllByFromuserAndPending(User user, Boolean booleanParam);
 }

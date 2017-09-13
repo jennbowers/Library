@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,14 @@ public class RequestController {
                           Model model) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
-        Iterable<FriendRequest> friendRequests = friendRequestRepo.findAllByTouserAndPending(user, true);
+//        Iterable<FriendRequest> friendRequests = friendRequestRepo.findAllByTouserAndPending(user, true);
+        Iterable<FriendRequest> allFriendRequests = friendRequestRepo.findAllByTouser(user);
+        List<FriendRequest> friendRequests = new ArrayList<>();
+        for(FriendRequest friendRequest : allFriendRequests) {
+            if(friendRequest.isPending()){
+                friendRequests.add(friendRequest);
+            }
+        }
         model.addAttribute("friendRequests", friendRequests);
 
         Iterable<BookRequest> bookRequests = bookRequestRepo.findAllByTouserAndPending(user, true);

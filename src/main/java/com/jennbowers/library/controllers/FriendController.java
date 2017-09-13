@@ -225,7 +225,10 @@ public class FriendController {
 //    GET request for friend's home page
     @RequestMapping("/{userId}")
     public String friendHome (Model model,
+                              Principal principal,
                               @PathVariable("userId") Long userId) {
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
         User user = userRepo.findOne(userId);
         model.addAttribute("user", user);
         Iterable<Book> books = bookRepo.findAllByUser(user);
@@ -241,7 +244,18 @@ public class FriendController {
                     }
                 }
             }
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
+
+            if(ifPending == null) {
+                System.out.println("null");
+            }
+
+
+            for(BookRequest ifpendingbook : ifPending) {
+                System.out.println(ifpendingbook.getBookid().getTitle());
+                System.out.println(ifpendingbook.isPending());
+            }
+
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
                     if(pending.isPending()){
@@ -249,6 +263,10 @@ public class FriendController {
                     }
                 }
             }
+        }
+
+        for(Book book : allPendingBooks){
+            System.out.println(book.getTitle());
         }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         model.addAttribute("allPendingBooks", allPendingBooks);
