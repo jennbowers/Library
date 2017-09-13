@@ -18,6 +18,8 @@ public interface BookRequestRepository extends CrudRepository<BookRequest, Long>
     Iterable<BookRequest> findAllByFromuserAndPending(User user, Boolean booleanParam);
     List<BookRequest> findAllByTouserAndFromuserAndPending(User touser, User fromuser, Boolean booleanParam);
     List<BookRequest> findAllByBookidAndActive(Book book, Boolean booleanParam);
+    List<BookRequest> findAllByBookid(Book book);
     List<BookRequest> findAllByBookidAndFromuserAndPending(Book book, User user, Boolean booleanParam);
+    List<BookRequest> findAllByBookidAndFromuser(Book book, User user);
     List<BookRequest> findAllByActive(Boolean booleanParam);
 }

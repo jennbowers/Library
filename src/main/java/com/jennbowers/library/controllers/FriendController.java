@@ -231,13 +231,21 @@ public class FriendController {
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
             if(ifBorrowed != null) {
-                allBorrowedBooks.add(book);
+                for(BookRequest borrow : ifBorrowed){
+                    if(borrow.isActive()){
+                        allBorrowedBooks.add(book);
+                    }
+                }
             }
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
             if(ifPending != null) {
-                allPendingBooks.add(book);
+                for(BookRequest pending : ifPending){
+                    if(pending.isPending()){
+                        allPendingBooks.add(book);
+                    }
+                }
             }
         }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
@@ -266,14 +274,21 @@ public class FriendController {
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
             if(ifBorrowed != null) {
-                allBorrowedBooks.add(book);
+                for(BookRequest borrow : ifBorrowed){
+                    if(borrow.isActive()){
+                        allBorrowedBooks.add(book);
+                    }
+                }
             }
-
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuserAndPending(book, user, true);
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
             if(ifPending != null) {
-                allPendingBooks.add(book);
+                for(BookRequest pending : ifPending){
+                    if(pending.isPending()){
+                        allPendingBooks.add(book);
+                    }
+                }
             }
         }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
@@ -284,22 +299,40 @@ public class FriendController {
     //    GET request for all Books page
     @RequestMapping(value = "/{userId}/bookAll", method = RequestMethod.GET)
     public String index (Model model,
+                         Principal principal,
                          @PathVariable("userId") Long userId){
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        model.addAttribute("user", currentUser);
 
         User user = userRepo.findOne(userId);
-        model.addAttribute("user", user);
+//        model.addAttribute("user", user);
 
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
 
         List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
             if(ifBorrowed != null) {
-                allBorrowedBooks.add(book);
+                for(BookRequest borrow : ifBorrowed){
+                    if(borrow.isActive()){
+                        allBorrowedBooks.add(book);
+                    }
+                }
+            }
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
+            if(ifPending != null) {
+                for(BookRequest pending : ifPending){
+                    if(pending.isPending()){
+                        allPendingBooks.add(book);
+                    }
+                }
             }
         }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+        model.addAttribute("allPendingBooks", allPendingBooks);
 
         return "book";
     }
@@ -309,24 +342,42 @@ public class FriendController {
     public String friendShelf (Model model,
                                Principal principal,
                                @PathVariable("userId") Long userId) {
+        String username = principal.getName();
+        User currentUser = userRepo.findByUsername(username);
+        model.addAttribute("currentUser", currentUser);
         User shelfOwner = userRepo.findOne(userId);
         model.addAttribute("shelfOwner", shelfOwner);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(shelfOwner);
         model.addAttribute("shelves", shelves);
         List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
         for(Shelf shelf : shelves) {
             List<Book> books = shelf.getBooks();
             for(Book book : books) {
-                List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+                List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
                 if(ifBorrowed != null) {
-                    allBorrowedBooks.add(book);
+                    for(BookRequest borrow : ifBorrowed){
+                        if(borrow.isActive()){
+                            allBorrowedBooks.add(book);
+                        }
+                    }
+                }
+                List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
+                if(ifPending != null) {
+                    for(BookRequest pending : ifPending){
+                        if(pending.isPending()){
+                            allPendingBooks.add(book);
+                        }
+                    }
                 }
             }
         }
+
+        for(Book book : allPendingBooks){
+            System.out.println(book.getTitle());
+        }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
-        String username = principal.getName();
-        User currentUser = userRepo.findByUsername(username);
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("allPendingBooks", allPendingBooks);
         return "shelf";
     }
 

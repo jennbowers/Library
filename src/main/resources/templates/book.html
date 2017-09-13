@@ -35,7 +35,7 @@
         </form>
     </section>
     <section class="col-md-12">
-        <h3>My Books</h3>
+        <h3 th:inline="text">All [[${{user.username}}]]'s Books</h3>
         <div class="row">
             <div th:each="book: ${books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">
@@ -48,7 +48,10 @@
                         <p th:if="${allBorrowedBooks.contains(book)}" class="borrowed-text">This book has been borrowed</p>
                     </div>
                     <div class="book-btns">
-                        <a th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
+                        <a  th:if="${book.user == user}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
+                        <a th:if="${book.user != user and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
+                        <button th:if="${book.user != user and allPendingBooks.contains(book)}" class="btn btn-info btn-block">Request is Pending</button>
+                        <a th:if="${book.user != user and !allBorrowedBooks.contains(book) and !allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
                         <a th:href="'/book/' + ${book.id}" class="btn btn-info btn-block">See Details</a>
                     </div>
                 </div>

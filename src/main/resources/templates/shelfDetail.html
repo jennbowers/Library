@@ -14,8 +14,8 @@
                 <h1 th:text="${shelf.name}" class="name-heading"></h1>
                 <span><a th:if="${currentUser == shelf.user}" href="/shelf" th:inline="text" class="btn btn-info see-more">Back to your Shelves</a></span>
                 <span><a th:if="${currentUser != shelf.user}" th:href="'/' + ${shelf.user.id} + '/shelf'" th:inline="text" class="btn btn-info see-more">Back to [[${shelf.user.username}]]'s Shelves</a></span>
+                <span><a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-info see-more edit-shelf">Edit Shelf</a></span>
             </div>
-            <a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-info">Edit Shelf</a>
         </section>
         <section class="row col-md-12 container">
             <div th:each="shelfBook : ${shelf.books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
