@@ -34,6 +34,29 @@ public class BookController {
     @Autowired
     BookRequestRepository bookRequestRepo;
 
+    //    GET request for all Books page
+    @RequestMapping(value = "/book", method = RequestMethod.GET)
+    public String index (Model model,
+                         Principal principal){
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("user", user);
+
+        Iterable<Book> books = bookRepo.findAllByUser(user);
+        model.addAttribute("books", books);
+
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        for(Book book : books) {
+            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
+            if(ifBorrowed != null) {
+                allBorrowedBooks.add(book);
+            }
+        }
+        model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+
+        return "book";
+    }
+
 //    GET request for user's book detail page
     @RequestMapping("/book/{bookId}")
     public String bookDetail (Model model,

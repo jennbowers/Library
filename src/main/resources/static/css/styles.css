@@ -1,3 +1,43 @@
-/*.search-btn{*/
-    /*margin-top:22px;*/
-/*}*/
+.logout {
+    margin-top: 7px;
+}
+
+.form-control{
+    width: 20%;
+}
+
+.all-books{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.thumbnail{
+    text-align: center;
+    padding: 0;
+}
+
+.book-cover{
+    height: 200px;
+}
+
+.book-info{
+    height: 125px;
+}
+
+.borrowed-text {
+    font-style: italic;
+}
+
+.shelf-info{
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+
+.shelf-name, .all-books-name {
+    display: inline;
+}
+
+.see-more {
+    display: inline;
+    float: right;
+}

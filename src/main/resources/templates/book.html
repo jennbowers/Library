@@ -31,17 +31,13 @@
                     <option value="add">Search to Add a New Book</option>
                 </select>
             </div>
-            <input type="submit" class="btn btn-success" value="Search"/>
+            <input type="submit" class="btn btn-info" value="Search"/>
         </form>
-        <hr/>
     </section>
     <section class="col-md-12">
-        <div class="all-books">
-            <h3 class="all-books-name">My Books</h3>
-            <span><a class="btn btn-success see-more" href="/book">See More</a></span>
-        </div>
+        <h3>My Books</h3>
         <div class="row">
-            <div th:each="book, iterStat: ${books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+            <div th:each="book: ${books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">
                     <img th:src="${book.img}" alt="book cover"/>
                 </div>
@@ -59,36 +55,6 @@
             </div>
         </div>
         <hr/>
-    </section>
-    <section class="row col-md-12">
-        <h3>My Shelves</h3>
-        <div class="container">
-            <div th:each="shelf : ${shelves}" class="row">
-                <div class="row shelf container">
-                    <div class="shelf-info">
-                        <h4 class="shelf-name" th:text="${shelf.name}"></h4>
-                        <span><a class="btn btn-success see-more" th:href="'/shelf/' + ${shelf.id}">See More</a></span>
-                    </div>
-                    <div th:each="shelfBook, iterStat : ${shelf.books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
-                        <div class="book-cover">
-                            <img th:src="${shelfBook.img}" alt="book cover"/>
-                        </div>
-                        <div class="caption">
-                            <div class="book-info">
-                                <p th:text="${shelfBook.title}"></p>
-                                <p th:text="${shelfBook.author}"></p>
-                                <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
-                            </div>
-                            <div class="book-btns">
-                                <a th:href="'/book/' + ${shelfBook.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
-                                <a th:href="'/book/' + ${shelfBook.id}" class="btn btn-info btn-block">See Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-            </div>
-        </div>
     </section>
 </div>
 
