@@ -197,8 +197,6 @@ public class HomeController {
                         @PathVariable("searchIndex") Integer searchIndex,
                         @RequestParam("searchText") String searchText,
                         @RequestParam("searchBy") String searchBy) {
-//        System.out.println(searchText);
-//        System.out.println(searchBy);
         String searchIn = "add";
         model.addAttribute(("searchIn"), searchIn);
         model.addAttribute("searchText", searchText);
@@ -206,9 +204,15 @@ public class HomeController {
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
         model.addAttribute("currentUser", currentUser);
+        List<Book> allOwnedBooks = bookRepo.findAllByUser(currentUser);
+        List<String> ownedBooksGoogleId = new ArrayList<>();
+        for(Book book : allOwnedBooks) {
+            String googleId = book.getGoogleId();
+            ownedBooksGoogleId.add(googleId);
+        }
+        model.addAttribute("ownedBooks", ownedBooksGoogleId);
 //        Search API
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-//        System.out.println("jsonFactory" + jsonFactory);
         String prefixParam = null;
 //        https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
         String searchTextModified = searchText.replaceAll("\\s+", "\\+");
