@@ -36,7 +36,7 @@
     <section class="col-md-12">
         <div class="all-books">
             <h3 th:inline="text" class="all-books-name">[[${user.firstName}]]'s Books</h3>
-            <span><a class="btn btn-success see-more" th:href="'/book/' + ${user.id}">See More</a></span>
+            <span><a class="btn btn-success see-more" th:href="'/' + ${user.id} + '/bookAll'">See More</a></span>
         </div>
         <div class="row">
             <div th:each="book, iterStat: ${books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">

@@ -282,7 +282,7 @@ public class FriendController {
     }
 
     //    GET request for all Books page
-    @RequestMapping(value = "/book/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/bookAll", method = RequestMethod.GET)
     public String index (Model model,
                          @PathVariable("userId") Long userId){
 

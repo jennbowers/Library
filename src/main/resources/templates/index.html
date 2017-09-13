@@ -38,7 +38,7 @@
     <section class="col-md-12">
         <div class="all-books">
             <h3 class="all-books-name">My Books</h3>
-            <span><a class="btn btn-success see-more" href="/book">See More</a></span>
+            <span><a class="btn btn-success see-more" href="/bookAll">See More</a></span>
         </div>
         <div class="row">
             <div th:each="book, iterStat: ${books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">

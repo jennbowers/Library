@@ -77,7 +77,7 @@
             <p th:text="${book.summary}"></p>
         </div>
         <div class="book-btns">
-            <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success">ascii check</a>
+            <a th:if="${book.user.username == currentUser.username}" href="#" class="btn btn-success glyphicon glyphicon-ok"></a>
             <a th:if="${book.user.username != currentUser.username and ifBorrowed != null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
             <p th:if="${book.user.username != currentUser.username and ifPending != null}" class="btn btn-success">Request is Pending</p>
             <a th:if="${book.user.username != currentUser.username and ifBorrowed == null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>

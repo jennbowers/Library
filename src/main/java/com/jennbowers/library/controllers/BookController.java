@@ -35,7 +35,7 @@ public class BookController {
     BookRequestRepository bookRequestRepo;
 
     //    GET request for all Books page
-    @RequestMapping(value = "/book", method = RequestMethod.GET)
+    @RequestMapping(value = "/bookAll", method = RequestMethod.GET)
     public String index (Model model,
                          Principal principal){
         String username = principal.getName();
