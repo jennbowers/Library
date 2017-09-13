@@ -160,10 +160,12 @@ public class FriendController {
 //    POST request to remove a friend
     @RequestMapping(value = "/friends/remove", method = RequestMethod.POST)
     public String friendRemove (Principal principal,
-                                @RequestParam("friendId") String friendIdString) {
-        Long friendId = Long.parseLong(friendIdString);
+                                @RequestParam("friendId") Long friendId) {
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
+
+//        System.out.println(friendIdString);
+//        Long friendId = Long.parseLong(friendIdString);
         User friendUser = userRepo.findOne(friendId);
         List<BookRequest> allRequests = new ArrayList<>();
 //        find all book requests between the current user and the friendId
@@ -216,7 +218,7 @@ public class FriendController {
             }
         }
 
-        return "redirect:/friend";
+        return "redirect:/friends";
     }
 
 
