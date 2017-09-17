@@ -10,7 +10,7 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
-        <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}" class="borrowed-text">This book has been borrowed</p>
+        <p th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
         <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
             <div class="book-detail-info">
                 <div class="book-detail-info-centered">
@@ -81,9 +81,9 @@
                     <span class="glyphicon glyphicon-ok"></span>
                     <span> You Own</span>
                 </a>
-                <a th:if="${book.user.username != currentUser.username and ifBorrowed != null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
-                <p th:if="${book.user.username != currentUser.username and ifPending != null and ifBorrowed == null}" class="btn btn-success">Request is Pending</p>
-                <a th:if="${book.user.username != currentUser.username and ifBorrowed == null and ifPending == null}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
+                <a th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Be Placed on Waitlist</a>
+                <p th:if="${book.user.username != currentUser.username and ifPending.contains(book) and ifBorrowed.isEmpty()}" class="btn btn-success">Request is Pending</p>
+                <a th:if="${book.user.username != currentUser.username and ifBorrowed.isEmpty() and ifPending.isEmpty()}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
             </div>
         </div>

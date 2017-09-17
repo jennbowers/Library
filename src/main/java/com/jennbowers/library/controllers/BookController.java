@@ -91,22 +91,14 @@ public class BookController {
 
 
         List<Book> allBorrowedBooks = new ArrayList<>();
-
         Helpers helpers = new Helpers();
         helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
-
         model.addAttribute("ifBorrowed", allBorrowedBooks);
 
-        List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
         List<Book> allPendingBooks = new ArrayList<>();
-        if(ifPending != null) {
-            for(BookRequest pending : ifPending){
-                if(pending.isActive()){
-                    allPendingBooks.add(book);
-                }
-            }
-        }
+        helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
         model.addAttribute("ifPending", allPendingBooks);
+
         return "bookDetail";
     }
 
