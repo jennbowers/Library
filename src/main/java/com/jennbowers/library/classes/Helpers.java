@@ -87,6 +87,19 @@ public class Helpers {
         return allBorrowedBooks;
     }
 
+    public List<Book> ifPending (Book book, User user, List<Book> allPendingBooks, BookRequestRepository bookRequestRepo) {
+        List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
+        if(ifPending != null) {
+            for(BookRequest pending : ifPending){
+                if(pending.isPending()){
+                    allPendingBooks.add(book);
+                }
+            }
+        }
+        return allPendingBooks;
+    }
+
+
 
 
 }

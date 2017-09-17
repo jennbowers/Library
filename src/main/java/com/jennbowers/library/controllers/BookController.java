@@ -125,10 +125,8 @@ public class BookController {
         String allAuthors;
         if(authors.size() > 1) {
             allAuthors = String.join(", ", authors);
-//            System.out.println(allAuthors);
         } else {
             allAuthors = authors.toString();
-//            System.out.println(allAuthors);
         }
         allAuthors = allAuthors.replace("[", "").replace("]", "");
         book.setAuthor(allAuthors);
