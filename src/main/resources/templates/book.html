@@ -50,7 +50,7 @@
                     <div class="book-btns">
                         <a  th:if="${book.user == user}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-info btn-block">Edit</a>
                         <a th:if="${book.user != user and allBorrowedBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Be Placed on Waitlist</a>
-                        <button th:if="${book.user != user and allPendingBooks.contains(book)}" class="btn btn-info btn-block">Request is Pending</button>
+                        <button th:if="${book.user != user and allPendingBooks.contains(book) and !allBorrowedBooks.contains(book)}" class="btn btn-info btn-block">Request is Pending</button>
                         <a th:if="${book.user != user and !allBorrowedBooks.contains(book) and !allPendingBooks.contains(book)}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-info btn-block">Borrow</a>
                         <a th:href="'/book/' + ${book.id}" class="btn btn-info btn-block">See Details</a>
                     </div>

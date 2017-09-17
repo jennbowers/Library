@@ -245,17 +245,6 @@ public class FriendController {
                 }
             }
             List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
-
-//            if(ifPending == null) {
-//                System.out.println("null");
-//            }
-
-
-//            for(BookRequest ifpendingbook : ifPending) {
-//                System.out.println(ifpendingbook.getBookid().getTitle());
-//                System.out.println(ifpendingbook.isPending());
-//            }
-
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
                     if(pending.isPending()){
@@ -265,9 +254,9 @@ public class FriendController {
             }
         }
 
-        for(Book book : allPendingBooks){
-            System.out.println(book.getTitle());
-        }
+//        for(Book book : allPendingBooks){
+//            System.out.println(book.getTitle());
+//        }
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         model.addAttribute("allPendingBooks", allPendingBooks);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);

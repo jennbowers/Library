@@ -53,6 +53,8 @@ public class BookController {
         for(Book book : books) {
             helpers.ifBorrowed(book, allBorrowedBooks,bookRequestRepo);
 
+//            PENDING ISN'T WORKING ON ALL BOOKS PAGE???
+//            helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
             List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
@@ -61,6 +63,11 @@ public class BookController {
                     }
                 }
             }
+        }
+
+
+        for(Book test: allPendingBooks) {
+            System.out.println(test.getTitle());
         }
 
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
