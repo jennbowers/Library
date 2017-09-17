@@ -1,5 +1,6 @@
 package com.jennbowers.library.controllers;
 
+import com.jennbowers.library.classes.Helpers;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
@@ -47,15 +48,11 @@ public class BookController {
 
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
+
+        Helpers helpers = new Helpers();
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
-            if(ifBorrowed != null) {
-                for(BookRequest borrow : ifBorrowed){
-                    if(borrow.isActive()){
-                        allBorrowedBooks.add(book);
-                    }
-                }
-            }
+            helpers.ifBorrowed(book, allBorrowedBooks,bookRequestRepo);
+
             List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
@@ -65,6 +62,7 @@ public class BookController {
                 }
             }
         }
+
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         model.addAttribute("allPendingBooks", allPendingBooks);
 
@@ -83,15 +81,12 @@ public class BookController {
         model.addAttribute("book", book);
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("shelves", shelves);
-        List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
+
+
         List<Book> allBorrowedBooks = new ArrayList<>();
-        if(ifBorrowed != null) {
-            for(BookRequest borrow : ifBorrowed){
-                if(borrow.isActive()){
-                    allBorrowedBooks.add(book);
-                }
-            }
-        }
+
+        Helpers helpers = new Helpers();
+        helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
 
         model.addAttribute("ifBorrowed", allBorrowedBooks);
 

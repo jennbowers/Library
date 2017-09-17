@@ -10,7 +10,7 @@
     <div th:include="includes :: navbar"></div>
     <div class="container">
         <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
-        <p th:if="${book.user.username != currentUser.username and !ifBorrowed.isEmpty() and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
+        <p th:if="${book.user.username != currentUser.username and ifBorrowed != null}" class="borrowed-text">This book has been borrowed</p>
         <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
             <div class="book-detail-info">
                 <div class="book-detail-info-centered">

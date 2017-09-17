@@ -1,7 +1,10 @@
 package com.jennbowers.library.classes;
 
+import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.FriendRequestRepository;
 import com.jennbowers.library.interfaces.UserRepository;
+import com.jennbowers.library.models.Book;
+import com.jennbowers.library.models.BookRequest;
 import com.jennbowers.library.models.FriendRequest;
 import com.jennbowers.library.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +74,19 @@ public class Helpers {
 
         return allNotFriends;
     }
-    
+
+    public List<Book> ifBorrowed (Book book, List<Book> allBorrowedBooks, BookRequestRepository bookRequestRepo) {
+        List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
+        if(ifBorrowed != null) {
+            for(BookRequest borrow : ifBorrowed){
+                if(borrow.isActive()){
+                    allBorrowedBooks.add(book);
+                }
+            }
+        }
+        return allBorrowedBooks;
+    }
+
+
+
 }

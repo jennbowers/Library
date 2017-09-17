@@ -246,15 +246,15 @@ public class FriendController {
             }
             List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
 
-            if(ifPending == null) {
-                System.out.println("null");
-            }
+//            if(ifPending == null) {
+//                System.out.println("null");
+//            }
 
 
-            for(BookRequest ifpendingbook : ifPending) {
-                System.out.println(ifpendingbook.getBookid().getTitle());
-                System.out.println(ifpendingbook.isPending());
-            }
+//            for(BookRequest ifpendingbook : ifPending) {
+//                System.out.println(ifpendingbook.getBookid().getTitle());
+//                System.out.println(ifpendingbook.isPending());
+//            }
 
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
