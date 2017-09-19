@@ -254,9 +254,7 @@ public class FriendController {
             }
         }
 
-//        for(Book book : allPendingBooks){
-//            System.out.println(book.getTitle());
-//        }
+
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         model.addAttribute("allPendingBooks", allPendingBooks);
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
@@ -389,11 +387,5 @@ public class FriendController {
         model.addAttribute("allPendingBooks", allPendingBooks);
         return "shelf";
     }
-
-//    GET request to see a specific shelf owned by a friend
-//    @RequestMapping("/{userId}/shelf/{shelfId}")
-//    public String friendShelfDetail () {
-//        return "friendShelfDetail";
-//    }
 
 }
