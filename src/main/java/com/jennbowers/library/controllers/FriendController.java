@@ -233,17 +233,21 @@ public class FriendController {
         model.addAttribute("user", user);
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
+        Helpers helpers = new Helpers();
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
-            if(ifBorrowed != null) {
-                for(BookRequest borrow : ifBorrowed){
-                    if(borrow.isActive()){
-                        allBorrowedBooks.add(book);
-                    }
-                }
-            }
+//            TEST THIS CODE!!
+            helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
+//            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
+//            if(ifBorrowed != null) {
+//                for(BookRequest borrow : ifBorrowed){
+//                    if(borrow.isActive()){
+//                        allBorrowedBooks.add(book);
+//                    }
+//                }
+//            }
+
             List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
