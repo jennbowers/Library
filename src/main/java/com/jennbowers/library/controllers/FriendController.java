@@ -248,14 +248,16 @@ public class FriendController {
 //                }
 //            }
 
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
-            if(ifPending != null) {
-                for(BookRequest pending : ifPending){
-                    if(pending.isPending()){
-                        allPendingBooks.add(book);
-                    }
-                }
-            }
+//            TEST THIS CODE!!
+            helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
+//            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
+//            if(ifPending != null) {
+//                for(BookRequest pending : ifPending){
+//                    if(pending.isPending()){
+//                        allPendingBooks.add(book);
+//                    }
+//                }
+//            }
         }
 
 
