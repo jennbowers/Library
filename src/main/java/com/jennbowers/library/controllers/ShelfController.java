@@ -74,7 +74,7 @@ public class ShelfController {
     }
 //    GET request for displaying all books on shelf... shelf detail page
 
-    @RequestMapping("/shelf/{shelfId}")
+    @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.GET)
     public String shelfDetail (Model model,
                                Principal principal,
                                @PathVariable("shelfId") Long shelfId) {
@@ -84,22 +84,17 @@ public class ShelfController {
         Shelf shelf = shelfRepo.findOne(shelfId);
         model.addAttribute("shelf", shelf);
         List<Book> allBorrowedBooks = new ArrayList<>();
+        Helpers helpers = new Helpers();
         List<Book> books = shelf.getBooks();
+
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
-            if(ifBorrowed != null) {
-                allBorrowedBooks.add(book);
-            }
+//                System.out.println(shelf.getName() + ": " + book.getTitle());
+            helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
         }
+
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         return "shelfDetail";
     }
-    //        return "shelfDetail";
-    //    public String shelfPost () {
-    //    @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.POST)
-//    POST request for searching through books on shelf... on shelf detail page
-
-//    }
 
 //    POST request for removing a shelf
     @RequestMapping(value = "/shelf/{shelfId}/remove", method = RequestMethod.POST)
