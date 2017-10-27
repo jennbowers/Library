@@ -1,5 +1,6 @@
 package com.jennbowers.library.controllers;
 
+import com.jennbowers.library.classes.Helpers;
 import com.jennbowers.library.interfaces.BookRepository;
 import com.jennbowers.library.interfaces.BookRequestRepository;
 import com.jennbowers.library.interfaces.ShelfRepository;
@@ -45,15 +46,16 @@ public class ShelfController {
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(currentUser);
         model.addAttribute("shelves", shelves);
         List<Book> allBorrowedBooks = new ArrayList<>();
+        Helpers helpers = new Helpers();
+
         for(Shelf shelf : shelves) {
             List<Book> books = shelf.getBooks();
             for(Book book : books) {
-                List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
-                if(ifBorrowed != null) {
-                    allBorrowedBooks.add(book);
-                }
+//                System.out.println(shelf.getName() + ": " + book.getTitle());
+                helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
             }
         }
+
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
         return "shelf";
     }
