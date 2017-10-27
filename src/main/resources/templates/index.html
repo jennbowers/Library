@@ -61,7 +61,10 @@
         <hr/>
     </section>
     <section class="row col-md-12">
-        <h3>My Shelves</h3>
+        <div class="shelf-info">
+            <h3 class="shelf-name">My Shelves</h3>
+            <span><a class="btn btn-success see-more" href="/shelf">See All Shelves</a></span>
+        </div>
         <div class="container">
             <div th:each="shelf : ${shelves}" class="row">
                 <div class="row shelf container">
