@@ -42,6 +42,7 @@ public class BookController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+        model.addAttribute("currentUser", user);
 
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
@@ -53,11 +54,6 @@ public class BookController {
         for(Book book : books) {
             helpers.ifBorrowed(book, allBorrowedBooks,bookRequestRepo);
             helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
-        }
-
-
-        for(Book test: allPendingBooks) {
-            System.out.println(test.getTitle());
         }
 
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
@@ -74,11 +70,12 @@ public class BookController {
         String currentUser = principal.getName();
         User user = userRepo.findByUsername(currentUser);
         model.addAttribute("currentUser", user);
+
         Book book = bookRepo.findOne(bookId);
         model.addAttribute("book", book);
+
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("shelves", shelves);
-
 
         List<Book> allBorrowedBooks = new ArrayList<>();
         Helpers helpers = new Helpers();
@@ -167,12 +164,16 @@ public class BookController {
         User bookOwner = book.getUser();
         String bookOwnerString = bookOwner.getUsername();
         model.addAttribute("book", book);
+
         List<Shelf> shelves = book.getShelves();
         model.addAttribute("selectedShelves", shelves);
+
         List<Shelf> allShelves = shelfRepo.findAllByUser(user);
         model.addAttribute("allShelves", allShelves);
+
         List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookidAndActive(book, true);
         model.addAttribute("ifBorrowed", ifBorrowed);
+
         if(currentUser.equals(bookOwnerString)) {
             return "editBook";
         } else {

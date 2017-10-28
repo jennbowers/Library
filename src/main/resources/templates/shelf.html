@@ -13,6 +13,7 @@
             <div class="heading">
                 <h1 th:inline="text" class="name-heading">All [[${shelfOwner.username}]]'s Shelves</h1>
                 <span><a th:if="${currentUser.id != shelfOwner.id}" th:href="'/' + ${shelfOwner.id}" th:inline="text" class="btn btn-info see-more">Back to [[${shelfOwner.username}]]'s Home Page</a></span>
+                <span><a th:if="${currentUser.id == shelfOwner.id}" href="/" th:inline="text" class="btn btn-info see-more">Back to your Home Page</a></span>
             </div>
             <hr th:if="${currentUser.id == shelfOwner.id}"/>
             <div th:if="${currentUser.id == shelfOwner.id}">

@@ -35,7 +35,12 @@
         </form>
     </section>
     <section class="col-md-12">
-        <h3 th:inline="text">All [[${{user.username}}]]'s Books</h3>
+        <div class="heading">
+            <h3 th:inline="text" th:if="${currentUser.id != user.id}" class="name-heading">All of [[${{user.username}}]]'s Books</h3>
+            <h3 th:inline="text" th:if="${currentUser.id == user.id}" class="name-heading">All of your Books</h3>
+            <span><a th:if="${currentUser.id != user.id}" th:href="'/' + ${user.id}" th:inline="text" class="btn btn-info see-more">Back to [[${user.username}]]'s Home Page</a></span>
+            <span><a th:if="${currentUser.id == user.id}" href="/" th:inline="text" class="btn btn-info see-more">Back to your Home Page</a></span>
+        </div>
         <div class="row">
             <div th:each="book: ${books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">

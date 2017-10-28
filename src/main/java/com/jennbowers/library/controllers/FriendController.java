@@ -295,10 +295,10 @@ public class FriendController {
                          @PathVariable("userId") Long userId){
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
-        model.addAttribute("user", currentUser);
+        model.addAttribute("currentUser", currentUser);
 
         User user = userRepo.findOne(userId);
-//        model.addAttribute("user", user);
+        model.addAttribute("user", user);
 
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
