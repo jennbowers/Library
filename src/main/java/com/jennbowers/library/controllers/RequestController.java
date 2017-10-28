@@ -37,7 +37,7 @@ public class RequestController {
                           Model model) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
-//        Iterable<FriendRequest> friendRequests = friendRequestRepo.findAllByTouserAndPending(user, true);
+
         Iterable<FriendRequest> allFriendRequests = friendRequestRepo.findAllByTouser(user);
         List<FriendRequest> friendRequests = new ArrayList<>();
         for(FriendRequest friendRequest : allFriendRequests) {

@@ -164,10 +164,9 @@ public class FriendController {
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
 
-//        System.out.println(friendIdString);
-//        Long friendId = Long.parseLong(friendIdString);
         User friendUser = userRepo.findOne(friendId);
         List<BookRequest> allRequests = new ArrayList<>();
+
 //        find all book requests between the current user and the friendId
         List<BookRequest> allActiveRequestsFromCurrentUser = bookRequestRepo.findAllByTouserAndFromuserAndActive(currentUser, friendUser, true);
         allRequests.addAll(allActiveRequestsFromCurrentUser);
