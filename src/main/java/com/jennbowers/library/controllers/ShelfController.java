@@ -43,8 +43,10 @@ public class ShelfController {
         User currentUser = userRepo.findByUsername(username);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("shelfOwner", currentUser);
+
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(currentUser);
         model.addAttribute("shelves", shelves);
+
         List<Book> allBorrowedBooks = new ArrayList<>();
         Helpers helpers = new Helpers();
 
@@ -80,10 +82,13 @@ public class ShelfController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("currentUser", user);
+
         Shelf shelf = shelfRepo.findOne(shelfId);
         model.addAttribute("shelf", shelf);
+
         List<Book> allBorrowedBooks = new ArrayList<>();
         List<Book> allPendingBooks = new ArrayList<>();
+
         Helpers helpers = new Helpers();
         List<Book> books = shelf.getBooks();
 

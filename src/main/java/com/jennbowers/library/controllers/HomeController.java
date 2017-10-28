@@ -52,22 +52,12 @@ public class HomeController {
         Iterable<Book> books = bookRepo.findAllByUser(user);
         model.addAttribute("books", books);
 
+        Helpers helpers = new Helpers();
         List<Book> allBorrowedBooks = new ArrayList<>();
+
         for(Book book : books) {
-            List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
-            if(ifBorrowed != null) {
-                for(BookRequest borrow : ifBorrowed){
-                    if(borrow.isActive()){
-                        allBorrowedBooks.add(book);
-                    }
-                }
-            }
+            helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
         }
-
-        for(Book book :allBorrowedBooks) {
-            System.out.println(book.getTitle());
-        }
-
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
 
         Iterable<Shelf> shelves = shelfRepo.findAllByUser(user);
@@ -86,18 +76,25 @@ public class HomeController {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
+
         List<Book> allOwnedBooks = bookRepo.findAllByUser(user);
+
         List<String> ownedBooksGoogleId = new ArrayList<>();
         for(Book book : allOwnedBooks) {
             String googleId = book.getGoogleId();
             ownedBooksGoogleId.add(googleId);
         }
         model.addAttribute("ownedBooks", ownedBooksGoogleId);
-        List<Book> allBorrowedBooks = new ArrayList<>();
-        List<Book> allPendingBooks = new ArrayList<>();
+
         model.addAttribute("searchText", searchText);
         model.addAttribute("searchBy", searchBy);
+
         Iterable<Book> books = null;
+
+        Helpers helpers = new Helpers();
+        List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
+
         switch (searchIn) {
 //        Search in my books
             case "mine":
@@ -107,23 +104,10 @@ public class HomeController {
                     books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchText);
                 }
                 model.addAttribute("books", books);
+
                 for(Book book : books) {
-                    List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
-                    if(ifBorrowed != null) {
-                        for(BookRequest borrow : ifBorrowed){
-                            if(borrow.isActive()){
-                                allBorrowedBooks.add(book);
-                            }
-                        }
-                    }
-                    List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
-                    if(ifPending != null) {
-                        for(BookRequest pending : ifPending){
-                            if(pending.isPending()){
-                                allPendingBooks.add(book);
-                            }
-                        }
-                    }
+                    helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
+                    helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
                 }
                 model.addAttribute("allBorrowedBooks", allBorrowedBooks);
                 model.addAttribute("allPendingBooks", allPendingBooks);
@@ -139,22 +123,8 @@ public class HomeController {
                 model.addAttribute("books", books);
 
                 for(Book book : books) {
-                    List<BookRequest> ifBorrowed = bookRequestRepo.findAllByBookid(book);
-                    if(ifBorrowed != null) {
-                        for(BookRequest borrow : ifBorrowed){
-                            if(borrow.isActive()){
-                                allBorrowedBooks.add(book);
-                            }
-                        }
-                    }
-                    List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
-                    if(ifPending != null) {
-                        for(BookRequest pending : ifPending){
-                            if(pending.isPending()){
-                                allPendingBooks.add(book);
-                            }
-                        }
-                    }
+                    helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
+                    helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
                 }
                 model.addAttribute("allBorrowedBooks", allBorrowedBooks);
                 model.addAttribute("allPendingBooks", allPendingBooks);
@@ -162,7 +132,6 @@ public class HomeController {
                 String searchInBorrow = "borrow";
                 model.addAttribute("searchInBorrow", searchInBorrow);
 
-                Helpers helpers = new Helpers();
                 List<User> notFriends = helpers.findAllNotFriends(user, friendRequestRepo, userRepo);
                 model.addAttribute("notFriends", notFriends);
 
@@ -176,7 +145,7 @@ public class HomeController {
 //        Search API
             case "add":
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-//                System.out.println("jsonFactory" + jsonFactory);
+
                 String prefixParam = null;
 //                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
                 String searchTextModified = searchText.replaceAll("\\s+", "\\+");
@@ -195,7 +164,6 @@ public class HomeController {
                     try {
                         Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                         List<Volume> volumesList = volumes.getItems();
-//                        System.out.println("Something's working!" + volumesList);
                         model.addAttribute("volumes", volumesList);
                         // Success!
                         return "searchApi";
@@ -210,7 +178,6 @@ public class HomeController {
             default:
                 break;
         }
-
         return "searchApi";
     }
 
@@ -223,11 +190,15 @@ public class HomeController {
                         @RequestParam("searchBy") String searchBy) {
         String searchIn = "add";
         model.addAttribute(("searchIn"), searchIn);
+
         model.addAttribute("searchText", searchText);
+
         model.addAttribute("searchBy", searchBy);
+
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
         model.addAttribute("currentUser", currentUser);
+
         List<Book> allOwnedBooks = bookRepo.findAllByUser(currentUser);
         List<String> ownedBooksGoogleId = new ArrayList<>();
         for(Book book : allOwnedBooks) {
@@ -235,6 +206,7 @@ public class HomeController {
             ownedBooksGoogleId.add(googleId);
         }
         model.addAttribute("ownedBooks", ownedBooksGoogleId);
+
 //        Search API
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         String prefixParam = null;

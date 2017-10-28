@@ -40,6 +40,7 @@ public class RequestController {
 
         Iterable<FriendRequest> allFriendRequests = friendRequestRepo.findAllByTouser(user);
         List<FriendRequest> friendRequests = new ArrayList<>();
+
         for(FriendRequest friendRequest : allFriendRequests) {
             if(friendRequest.isPending()){
                 friendRequests.add(friendRequest);
@@ -67,12 +68,13 @@ public class RequestController {
                                 @RequestParam("answer") String answer) {
         FriendRequest friendRequest = friendRequestRepo.findOne(requestId);
         friendRequest.setPending(false);
+
         if(answer.equals("Accept")) {
             friendRequest.setActive(true);
-        } else if (answer.equals("Deny")) {
+        } else if (answer.equals("Deny")) { }
 
-        }
         friendRequestRepo.save(friendRequest);
+
         return "redirect:/requests";
     }
 
@@ -82,7 +84,9 @@ public class RequestController {
                               @RequestParam("dueDate") java.sql.Date dueDate) {
         BookRequest bookRequest = bookRequestRepo.findOne(requestId);
         Book book = bookRequest.getBookid();
+
         List<BookRequest> activeBorrow = bookRequestRepo.findAllByBookidAndActive(book, true);
+
         if (activeBorrow == null || activeBorrow.size() <= book.getCopies()) {
             bookRequest.setPending(false);
             bookRequest.setActive(true);
@@ -90,7 +94,9 @@ public class RequestController {
             bookRequest.setBorrowed(borrowedDate);
             bookRequest.setDue(dueDate);
         }
+
         bookRequestRepo.save(bookRequest);
+
         return "redirect:/requests";
     }
 
@@ -101,6 +107,7 @@ public class RequestController {
         bookRequest.setPending(false);
         bookRequest.setActive(false);
         bookRequestRepo.save(bookRequest);
+
         return "redirect:/requests";
     }
 }
