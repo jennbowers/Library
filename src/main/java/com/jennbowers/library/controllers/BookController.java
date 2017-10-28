@@ -52,17 +52,7 @@ public class BookController {
         Helpers helpers = new Helpers();
         for(Book book : books) {
             helpers.ifBorrowed(book, allBorrowedBooks,bookRequestRepo);
-
-//            PENDING ISN'T WORKING ON ALL BOOKS PAGE???
-//            helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
-            if(ifPending != null) {
-                for(BookRequest pending : ifPending){
-                    if(pending.isPending()){
-                        allPendingBooks.add(book);
-                    }
-                }
-            }
+            helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
         }
 
 

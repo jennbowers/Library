@@ -314,7 +314,7 @@ public class FriendController {
                     }
                 }
             }
-            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, user);
+            List<BookRequest> ifPending = bookRequestRepo.findAllByBookidAndFromuser(book, currentUser);
             if(ifPending != null) {
                 for(BookRequest pending : ifPending){
                     if(pending.isPending()){

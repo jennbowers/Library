@@ -51,7 +51,6 @@ public class ShelfController {
         for(Shelf shelf : shelves) {
             List<Book> books = shelf.getBooks();
             for(Book book : books) {
-//                System.out.println(shelf.getName() + ": " + book.getTitle());
                 helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
             }
         }
@@ -72,8 +71,8 @@ public class ShelfController {
         shelfRepo.save(shelf);
         return "redirect:/shelf";
     }
-//    GET request for displaying all books on shelf... shelf detail page
 
+//    GET request for displaying all books on shelf... shelf detail page
     @RequestMapping(value = "/shelf/{shelfId}", method = RequestMethod.GET)
     public String shelfDetail (Model model,
                                Principal principal,
@@ -84,15 +83,17 @@ public class ShelfController {
         Shelf shelf = shelfRepo.findOne(shelfId);
         model.addAttribute("shelf", shelf);
         List<Book> allBorrowedBooks = new ArrayList<>();
+        List<Book> allPendingBooks = new ArrayList<>();
         Helpers helpers = new Helpers();
         List<Book> books = shelf.getBooks();
 
         for(Book book : books) {
-//                System.out.println(shelf.getName() + ": " + book.getTitle());
             helpers.ifBorrowed(book, allBorrowedBooks, bookRequestRepo);
+            helpers.ifPending(book, user, allPendingBooks, bookRequestRepo);
         }
 
         model.addAttribute("allBorrowedBooks", allBorrowedBooks);
+        model.addAttribute("allPendingBooks", allPendingBooks);
         return "shelfDetail";
     }
 
