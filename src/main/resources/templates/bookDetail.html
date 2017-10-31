@@ -8,9 +8,23 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section th:if="${ifBorrowed.contains(book) and ifPending.isEmpty()}" class="header-img">
+        <div class="container">
+            <section class="row col-md-12">
+                <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
+                <p th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
+            </section>
+        </div>
+    </section>
+    <section th:if="${!ifBorrowed.contains(book) and ifPending.isEmpty()}" class="small-header-img">
+        <div class="container">
+            <section class="row col-md-12">
+                <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
+                <p th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
+            </section>
+        </div>
+    </section>
     <div class="container">
-        <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
-        <p th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
         <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
             <div class="book-detail-info">
                 <div class="book-detail-info-centered">
@@ -85,6 +99,8 @@
                 <p th:if="${book.user.username != currentUser.username and ifPending.contains(book) and ifBorrowed.isEmpty()}" class="btn btn-success">Request is Pending</p>
                 <a th:if="${book.user.username != currentUser.username and ifBorrowed.isEmpty() and ifPending.isEmpty()}" th:href="'/book/' + ${book.id} + '/borrow'" class="btn btn-success">Borrow</a>
                 <a th:if="${book.user.username == currentUser.username}" th:href="'/book/' + ${book.id} + '/edit'" class="btn btn-success">Edit</a>
+                <a th:if="${currentUser.id != book.user.id}" th:href="'/' + ${book.user.id}" th:inline="text" class="btn btn-success">Back to [[${book.user.username}]]'s Home Page</a>
+                <a th:if="${currentUser.id == book.user.id}" href="/" th:inline="text" class="btn btn-success">Back to your Home Page</a>
             </div>
         </div>
     </div>

@@ -8,33 +8,36 @@
 </head>
 <body>
 <div th:include="includes :: navbar"></div>
-<div class="container">
-    <section class="row col-md-12">
-        <h1>
-            <span>Welcome </span>
-            <span th:text="${user.firstName}"></span>
-        </h1>
-        <form class="form-inline" th:action="@{/searchToAdd}">
-            <div class="form-group">
-                <input type="text" name="searchText" class="form-control" placeholder="Search"/>
+    <section class="header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1>
+                    <span>Welcome </span>
+                    <span th:text="${user.firstName}"></span>
+                </h1>
+                <form class="form-inline" th:action="@{/searchToAdd}">
+                    <div class="form-group">
+                        <input type="text" name="searchText" class="form-control" placeholder="Search"/>
+                    </div>
+                    <div class="form-group">
+                        <select name="searchBy" class="form-control">
+                            <option value="title">Title</option>
+                            <option value="author">Author</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="searchIn" class="form-control">
+                            <option value="mine">Search in My Collection</option>
+                            <option value="borrow">Search to Borrow</option>
+                            <option value="add">Search to Add a New Book</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Search"/>
+                </form>
             </div>
-            <div class="form-group">
-                <select name="searchBy" class="form-control">
-                    <option value="title">Title</option>
-                    <option value="author">Author</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <select name="searchIn" class="form-control">
-                    <option value="mine">Search in My Collection</option>
-                    <option value="borrow">Search to Borrow</option>
-                    <option value="add">Search to Add a New Book</option>
-                </select>
-            </div>
-            <input type="submit" class="btn btn-success" value="Search"/>
-        </form>
-        <hr/>
+        </div>
     </section>
+<div class="container">
     <section class="col-md-12">
         <div class="all-books">
             <h3 class="all-books-name">My Books</h3>

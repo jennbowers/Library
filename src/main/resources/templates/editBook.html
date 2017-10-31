@@ -8,8 +8,14 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1 th:inline="text">Edit [[${book.title}]]</h1>
+            </div>
+        </div>
+    </section>
     <div class="container">
-        <h1 th:inline="text">Edit [[${book.title}]]</h1>
         <div class="book-panel panel panel-default more-padding col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1">
             <div class="book-detail-info">
                 <div class="book-detail-info-centered">

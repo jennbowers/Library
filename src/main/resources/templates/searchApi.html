@@ -8,28 +8,33 @@
 </head>
 <body>
 <div th:include="includes :: navbar"></div>
+<section class="header-img">
+    <div class="container">
+        <div class="row col-md-12">
+            <h1>Search to Add a Book</h1>
+            <form class="form-inline" th:action="@{/searchToAdd}">
+                <div class="form-group">
+                    <input type="text" name="searchText" class="form-control" placeholder="Search"/>
+                </div>
+                <div class="form-group">
+                    <select name="searchBy" class="form-control">
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="searchIn" class="form-control">
+                        <option value="mine">Search in My Collection</option>
+                        <option value="borrow">Search to Borrow</option>
+                        <option value="add">Search to Add a New Book</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-success" value="Search"/>
+            </form>
+        </div>
+    </div>
+</section>
 <div class="container">
-    <h1>Search to add a book</h1>
-    <form class="form-inline" th:action="@{/searchToAdd}">
-        <div class="form-group">
-            <input type="text" name="searchText" class="form-control" placeholder="Search"/>
-        </div>
-        <div class="form-group">
-            <select name="searchBy" class="form-control">
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select name="searchIn" class="form-control">
-                <option value="mine">Search in My Collection</option>
-                <option value="borrow">Search to Borrow</option>
-                <option value="add">Search to Add a New Book</option>
-            </select>
-        </div>
-        <input type="submit" class="btn btn-success" value="Search"/>
-    </form>
-    <hr/>
     <div class="row">
         <div th:if="${volumes != null}" th:each="volume : ${volumes}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
             <div class="book-cover">

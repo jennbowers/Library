@@ -8,13 +8,19 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1 th:text="${shelf.name}"></h1>
+            </div>
+        </div>
+    </section>
     <div class="container">
         <section class="row col-md-12">
             <div class="heading">
-                <h1 th:text="${shelf.name}" class="name-heading"></h1>
-                <span><a th:if="${currentUser == shelf.user}" href="/shelf" th:inline="text" class="btn btn-info see-more">Back to your Shelves</a></span>
-                <span><a th:if="${currentUser != shelf.user}" th:href="'/' + ${shelf.user.id} + '/shelf'" th:inline="text" class="btn btn-info see-more">Back to [[${shelf.user.username}]]'s Shelves</a></span>
-                <span><a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-info see-more edit-shelf">Edit Shelf</a></span>
+                <span><a th:if="${currentUser == shelf.user}" href="/shelf" th:inline="text" class="btn btn-success see-more">Back to your Shelves</a></span>
+                <span><a th:if="${currentUser != shelf.user}" th:href="'/' + ${shelf.user.id} + '/shelf'" th:inline="text" class="btn btn-success see-more">Back to [[${shelf.user.username}]]'s Shelves</a></span>
+                <span><a th:if="${shelf.user.id == currentUser.id}" th:href="'/shelf/' + ${shelf.id} + '/edit'" class="btn btn-success see-more edit-shelf">Edit Shelf</a></span>
             </div>
         </section>
         <section class="row col-md-12 container">

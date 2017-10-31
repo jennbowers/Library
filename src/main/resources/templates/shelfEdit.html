@@ -8,17 +8,23 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1>
+                    <span>Edit </span>
+                    <span th:text="${shelf.name}"></span>
+                </h1>
+            </div>
+        </div>
+    </section>
     <div class="container">
-        <h1>
-            <span>Edit </span>
-            <span th:text="${shelf.name}"></span>
-        </h1>
         <form th:action="'/shelf/' + ${shelf.id} + '/edit'" method="post">
             <div class="form-group">
-                <label for="name">Name: </label>
+                <label for="name"><h3>Name: </h3></label>
                 <input type="text" class="form-control" name="name" id="name" th:value="${shelf.name}"/>
             </div>
-            <h3>Add/Remove Books on your shelf</h3>
+            <h3>Add/Remove Books on your Shelf: </h3>
             <p>*To select multiple books, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one book MUST be selected to save changes.</p>
             <select multiple="multiple" name="books" id="books" class="form-control more-padding">
                 <option th:each="book : ${allBooks}" th:selected="${booksOnShelf.contains(book)}" th:value="${book.id}" th:text="${book.title}"></option>

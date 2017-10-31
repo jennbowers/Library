@@ -9,10 +9,17 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1>Requests</h1>
+            </div>
+        </div>
+    </section>
     <div class="container">
         <div class="friend-requests">
-            <h1>Friend Requests</h1>
-            <p th:if="${#lists.isEmpty(friendRequests)}">You have no pending friend requests to respond to</p>
+            <h2>Friend Requests</h2>
+            <p th:if="${#lists.isEmpty(friendRequests)}" class="empty">You have no pending friend requests to respond to</p>
             <div th:each="request : ${friendRequests}" class="more-padding">
                 <p th:inline="text" class="more-padding">[[${request.fromuser.username}]] has sent you a friend request!</p>
                 <form th:action="'/requests/friend/' + ${request.id}" method="post">
@@ -22,10 +29,11 @@
                 <hr/>
             </div>
         </div>
+        <hr/>
         <div class="book-requests">
-            <h1>Book Requests</h1>
-            <h4 class="more-padding">Pending Requests to Me:</h4>
-            <p th:if="${#lists.isEmpty(bookRequests)}">You have no pending borrow requests to respond to</p>
+            <h2 class="more-bottom-padding">Book Requests</h2>
+            <h4>Pending Requests to Me:</h4>
+            <p th:if="${#lists.isEmpty(bookRequests)}" class="empty">You have no pending borrow requests to respond to</p>
             <p th:if="${message != null}" th:text="${message}"></p>
             <div th:each="request : ${bookRequests}">
                 <p th:inline="text">[[${{request.fromuser.username}}]] would like to borrow [[${request.bookid.title}]]</p>
@@ -45,21 +53,21 @@
             </div>
             <hr th:if="${bookRequests.isEmpty()}"/>
             <h4>Pending Requests from Me:</h4>
-            <p th:if="${#lists.isEmpty(pendingBooksFromMe)}">You have no pending borrow requests you are waiting for others to reply to</p>
+            <p th:if="${#lists.isEmpty(pendingBooksFromMe)}" class="empty">You have no pending borrow requests you are waiting for others to reply to</p>
             <div th:if="${pendingBooksFromMe}" th:each="request : ${pendingBooksFromMe}">
                 <p th:inline="text">You have requested to borrow [[${request.bookid.title}]] from [[${request.touser.username}]]</p>
                 <hr/>
             </div>
             <hr th:if="${pendingBooksFromMe.isEmpty()}"/>
             <h4>Books I'm borrowing: </h4>
-            <p th:if="${#lists.isEmpty(booksIBorrowed)}">You are not currently borrowing any books or they have all expired</p>
+            <p th:if="${#lists.isEmpty(booksIBorrowed)}" class="empty">You are not currently borrowing any books or they have all expired</p>
             <div th:each="request : ${booksIBorrowed}">
                 <p th:inline="text">You are borrowing [[${request.bookid.title}]] from [[${request.touser.username}]] and it's due on: [[${#dates.format(request.due, 'MM-dd-yyyy')}]]</p>
                 <hr/>
             </div>
             <hr th:if="${booksIBorrowed.isEmpty()}"/>
             <h4>My Books that are Checked Out: </h4>
-            <p th:if="${#lists.isEmpty(myBooksThatAreBorrowed)}">You do not currently have any books from your collection that are being borrowed.</p>
+            <p th:if="${#lists.isEmpty(myBooksThatAreBorrowed)}" class="empty">You do not currently have any books from your collection that are being borrowed.</p>
             <div th:each="request : ${myBooksThatAreBorrowed}">
                 <p th:inline="text">Your book [[${request.bookid.title}]] is being borrowed by [[${request.fromuser.username}]] and it's due on: [[${#dates.format(request.due, 'MM-dd-yyyy')}]]</p>
                 <hr/>

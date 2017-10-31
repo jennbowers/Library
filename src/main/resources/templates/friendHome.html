@@ -8,31 +8,34 @@
 </head>
 <body>
 <div th:include="includes :: navbar"></div>
+<section class="header-img">
+    <div class="container">
+        <section class="row col-md-12">
+            <h1>
+                <span th:text="${user.firstName}"></span>
+                <span>'s Library</span>
+            </h1>
+            <form class="form-inline" th:action="'/' + ${user.id}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="searchQuery" placeholder="Search"/>
+                </div>
+                <div class="form-group">
+                    <select name="searchType" class="form-control">
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                    </select>
+                </div>
+                <span>
+                    <input type="submit" class="btn btn-success" value="Search"/>
+                </span>
+                <span>
+                    <a th:href="'/' + ${user.id}" class="btn btn-warning">Clear Search</a>
+                </span>
+            </form>
+        </section>
+    </div>
+</section>
 <div class="container">
-    <section class="row col-md-12">
-        <h1>
-            <span th:text="${user.firstName}"></span>
-            <span>'s Library</span>
-        </h1>
-        <form class="form-inline" th:action="'/' + ${user.id}" method="post">
-            <div class="form-group">
-                <input type="text" class="form-control" name="searchQuery" placeholder="Search"/>
-            </div>
-            <div class="form-group">
-                <select name="searchType" class="form-control">
-                    <option value="title">Title</option>
-                    <option value="author">Author</option>
-                </select>
-            </div>
-            <span>
-                <input type="submit" class="btn btn-success" value="Search"/>
-            </span>
-            <span>
-                <a th:href="'/' + ${user.id}" class="btn btn-warning">Clear Search</a>
-            </span>
-        </form>
-        <hr/>
-    </section>
     <section class="col-md-12">
         <div class="all-books">
             <h3 th:inline="text" class="all-books-name">[[${user.firstName}]]'s Books</h3>

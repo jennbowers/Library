@@ -8,17 +8,22 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <h1 th:inline="text">All [[${shelfOwner.username}]]'s Shelves</h1>
+            </div>
+        </div>
+    </section>
     <div class="container">
         <section class="row col-md-12">
-            <div class="heading">
-                <h1 th:inline="text" class="name-heading">All [[${shelfOwner.username}]]'s Shelves</h1>
-                <span><a th:if="${currentUser.id != shelfOwner.id}" th:href="'/' + ${shelfOwner.id}" th:inline="text" class="btn btn-info see-more">Back to [[${shelfOwner.username}]]'s Home Page</a></span>
-                <span><a th:if="${currentUser.id == shelfOwner.id}" href="/" th:inline="text" class="btn btn-info see-more">Back to your Home Page</a></span>
+            <div th:if="${currentUser.id != shelfOwner.id}" class="heading">
+                <span><a th:href="'/' + ${shelfOwner.id}" th:inline="text" class="btn btn-success see-more">Back to [[${shelfOwner.username}]]'s Home Page</a></span>
             </div>
             <hr th:if="${currentUser.id == shelfOwner.id}"/>
             <div th:if="${currentUser.id == shelfOwner.id}">
                 <h3>Add a new shelf</h3>
-                <form action="/shelf" class="form-inline" method="post">
+                <form action="/shelf" class="form-inline name-heading" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <div class="form-group">
                         <label for="name">New Shelf Name: </label>
@@ -26,8 +31,9 @@
                     </div>
                     <input type="submit" class="btn btn-success" value="Create Shelf"/>
                 </form>
+                <span><a href="/" th:inline="text" class="btn btn-success see-more">Back to your Home Page</a></span>
+                <hr/>
             </div>
-            <hr/>
         </section>
         <section class="row col-md-12 container">
             <div th:each="shelf : ${shelves}" class="row">

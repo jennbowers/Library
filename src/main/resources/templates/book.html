@@ -8,38 +8,42 @@
 </head>
 <body>
 <div th:include="includes :: navbar"></div>
-<div class="container">
-    <section class="row col-md-12">
-        <h1>
-            <span>Welcome </span>
-            <span th:text="${user.firstName}"></span>
-        </h1>
-        <form class="form-inline" th:action="@{/searchToAdd}">
-            <div class="form-group">
-                <input type="text" name="searchText" class="form-control" placeholder="Search"/>
-            </div>
-            <div class="form-group">
-                <select name="searchBy" class="form-control">
-                    <option value="title">Title</option>
-                    <option value="author">Author</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <select name="searchIn" class="form-control">
-                    <option value="mine">Search in My Collection</option>
-                    <option value="borrow">Search to Borrow</option>
-                    <option value="add">Search to Add a New Book</option>
-                </select>
-            </div>
-            <input type="submit" class="btn btn-success" value="Search"/>
-        </form>
+    <section class="header-img">
+        <div class="container">
+            <section class="row col-md-12">
+                <h1>
+                    <span>Welcome </span>
+                    <span th:text="${user.firstName}"></span>
+                </h1>
+                <form class="form-inline" th:action="@{/searchToAdd}">
+                    <div class="form-group">
+                        <input type="text" name="searchText" class="form-control" placeholder="Search"/>
+                    </div>
+                    <div class="form-group">
+                        <select name="searchBy" class="form-control">
+                            <option value="title">Title</option>
+                            <option value="author">Author</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="searchIn" class="form-control">
+                            <option value="mine">Search in My Collection</option>
+                            <option value="borrow">Search to Borrow</option>
+                            <option value="add">Search to Add a New Book</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Search"/>
+                </form>
+            </section>
+        </div>
     </section>
+<div class="container">
     <section class="col-md-12">
         <div class="heading">
             <h3 th:inline="text" th:if="${currentUser.id != user.id}" class="name-heading">All of [[${{user.username}}]]'s Books</h3>
             <h3 th:inline="text" th:if="${currentUser.id == user.id}" class="name-heading">All of your Books</h3>
-            <span><a th:if="${currentUser.id != user.id}" th:href="'/' + ${user.id}" th:inline="text" class="btn btn-info see-more">Back to [[${user.username}]]'s Home Page</a></span>
-            <span><a th:if="${currentUser.id == user.id}" href="/" th:inline="text" class="btn btn-info see-more">Back to your Home Page</a></span>
+            <span><a th:if="${currentUser.id != user.id}" th:href="'/' + ${user.id}" th:inline="text" class="btn btn-success see-more">Back to [[${user.username}]]'s Home Page</a></span>
+            <span><a th:if="${currentUser.id == user.id}" href="/" th:inline="text" class="btn btn-success see-more">Back to your Home Page</a></span>
         </div>
         <div class="row">
             <div th:each="book: ${books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">

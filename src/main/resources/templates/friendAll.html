@@ -8,10 +8,18 @@
 </head>
 <body>
     <div th:include="includes :: navbar"></div>
+    <section class="small-header-img">
+        <div class="container">
+            <div class="row col-md-12">
+                <section class="row col-md-12">
+                    <h1>User's friends</h1>
+                </section>
+            </div>
+        </div>
+    </section>
     <div class="container">
         <section class="row col-md-12">
-            <h1>User's friends</h1>
-            <div th:if="${friends}" th:each="friend: ${friends}">
+            <div th:if="${friends}" th:each="friend: ${friends}" class="more-margin">
                 <form action="/friends/remove" method="post">
                     <a th:href="'/' + ${friend.id}" th:inline="text">Username: [[${friend.username}]]</a>
                     <p th:inline="text">Name: [[${friend.firstName}]] [[${friend.lastName}]]</p>
@@ -19,12 +27,9 @@
                     <input type="hidden" name="friendId" th:value="${friend.id}"/>
                     <button type="submit" name="deleteFriend" class="btn btn-danger btn-xs glyphicon glyphicon-remove inline"></button>
                 </form>
-                <hr/>
             </div>
             <hr/>
-        </section>
-        <section class="row col-md-12">
-            <h4>Search for users by their name:</h4>
+            <h4>Search for users by their full name:</h4>
             <form th:action="'/friends/search/name'" method="post">
                 <div class="form-group">
                     <label for="first-name">First Name:</label>
@@ -41,8 +46,9 @@
             <form th:action="'/friends'" class="reset-search">
                 <input type="submit" class="btn btn-success" value="Reset Search and See All Friends"/>
             </form>
+            <hr/>
         </section>
-        <section class="row col-md-12">
+        <section class="row col-md-12 more-bottom-padding">
             <h4>Search for users by their username:</h4>
             <form th:action="'/friends/search/username'" method="post">
                 <div class="form-group">
@@ -56,11 +62,11 @@
             </form>
             <hr/>
         </section>
-        <section class="row col-md-12 more-height">
+        <section class="row col-md-12 more-height more-bottom-padding">
             <h4>Search Results: </h4>
-            <p th:if="${notFriends == null and pendingSearchFriends == null and activeSearchFriends == null}">No Search Results</p>
+            <p th:if="${notFriends == null and pendingSearchFriends == null and activeSearchFriends == null}" class="empty">No Search Results</p>
             <div th:if="${notFriends}" th:each="user: ${notFriends}">
-                <p th:if="${user == null}">No Search Results</p>
+                <p th:if="${user == null}" class="empty">No Search Results</p>
                 <p th:inline="text">Username: [[${user.username}]]</p>
                 <p th:inline="text">Name: [[${user.firstName}]] [[${user.lastName}]]</p>
                 <form th:action="'/friends'" method="post">
@@ -71,14 +77,14 @@
                 </form>
             </div>
             <div th:if="${pendingSearchFriends}" th:each="user: ${pendingSearchFriends}">
-                <p th:if="${user == null}">No Search Results</p>
+                <p th:if="${user == null}" class="empty">No Search Results</p>
                 <p th:inline="text">Username: [[${user.username}]]</p>
                 <p th:inline="text">Name: [[${user.firstName}]] [[${user.lastName}]]</p>
                 <button class="btn btn-success">Pending Request</button>
                 <hr/>
             </div>
             <div th:if="${activeSearchFriends}" th:each="user: ${activeSearchFriends}">
-                <p th:if="${user == null}">No Search Results</p>
+                <p th:if="${user == null}" class="empty">No Search Results</p>
                 <a th:href="'/' + ${user.id}" th:inline="text">Username: [[${user.username}]]</a>
                 <p th:inline="text">Name: [[${user.firstName}]] [[${user.lastName}]]</p>
                 <hr/>
