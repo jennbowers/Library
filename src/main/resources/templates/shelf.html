@@ -42,7 +42,7 @@
                         <h4 class="shelf-name" th:text="${shelf.name}"></h4>
                         <span><a class="btn btn-success see-more" th:href="'/shelf/' + ${shelf.id}">See More</a></span>
                     </div>
-                    <div th:each="shelfBook : ${shelf.books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
+                    <div th:each="shelfBook, iterStat: ${shelf.books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                         <div class="book-cover">
                             <img th:src="${shelfBook.img}" alt="book cover"/>
                         </div>

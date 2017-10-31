@@ -26,6 +26,8 @@ public class GoogleBookRequestBuilder {
 //            Set the query string
             System.out.println("Query: [" + query + "]");
             Books.Volumes.List volumesList = books.volumes().list(query);
+            volumesList.setStartIndex((long)0);
+            volumesList.setMaxResults((long)40);
             System.out.println("volumeslist" + volumesList);
 //            Execute the query
             Volumes volumes = volumesList.execute();

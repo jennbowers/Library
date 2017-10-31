@@ -32,6 +32,7 @@
 
 /* Title */
 .navbar-default .navbar-brand {
+    font-size: 20px;
     color: #F0F5DB;
 }
 .navbar-default .navbar-brand:hover,
@@ -161,6 +162,14 @@ h1, h2, h3, h4, h5, h6 {
 .see-more {
     display: inline;
     float: right;
+    margin-top: -8px;
+}
+
+.see-more-detail {
+    display: inline;
+    float: right;
+    margin-top: -8px;
+    margin-bottom: 8px;
 }
 
 .reset-search{
@@ -215,5 +224,6 @@ h1, h2, h3, h4, h5, h6 {
 .edit-shelf{
     margin-right: 10px;
 }
+
 
 
