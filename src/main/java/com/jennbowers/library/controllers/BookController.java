@@ -222,6 +222,13 @@ public class BookController {
 //    POST request for removing a book
     @RequestMapping(value = "/book/{bookId}/remove", method = RequestMethod.POST)
     public String removeBookPost (@PathVariable("bookId") Long bookId) {
+        Book book = bookRepo.findOne(bookId);
+        List<BookRequest> bookRequests = bookRequestRepo.findAllByBookid(book);
+        for(BookRequest bookRequest : bookRequests) {
+            bookRequest.setPending(false);
+            bookRequest.setActive(false);
+            bookRequestRepo.delete(bookRequest.getId());
+        }
         bookRepo.delete(bookId);
         return "redirect:/";
     }
