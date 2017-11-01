@@ -11,10 +11,7 @@
 <section class="header-img">
     <div class="container">
         <section class="row col-md-12">
-            <h1>
-                <span th:text="${user.firstName}"></span>
-                <span>'s Library</span>
-            </h1>
+            <h1 th:inline="text">[[${user.firstName}]]'s Library</h1>
             <form class="form-inline" th:action="'/' + ${user.id}" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="searchQuery" placeholder="Search"/>
@@ -44,7 +41,7 @@
         <div class="row">
             <div th:each="book, iterStat: ${books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">
-                    <img th:src="${book.img}" alt="book cover"/>
+                    <img th:src="${book.img}" class="book-cover" alt="book cover"/>
                 </div>
                 <div class="caption">
                     <div class="book-info">
@@ -77,11 +74,11 @@
                     </div>
                     <div th:each="shelfBook, iterStat : ${shelf.books}" th:if="${iterStat.index >= iterStat.size-4}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                         <div class="book-cover">
-                            <img th:src="${shelfBook.img}" alt="book cover"/>
+                            <img th:src="${shelfBook.img}" class="book-cover" alt="book cover"/>
                         </div>
                         <div class="caption">
                             <div class="book-info">
-                                <p th:text="${shelfBook.title}"></p>
+                                <h5 th:text="${shelfBook.title}"></h5>
                                 <p th:text="${shelfBook.author}"></p>
                                 <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
                             </div>

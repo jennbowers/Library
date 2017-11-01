@@ -48,7 +48,7 @@
         <div class="row">
             <div th:each="book: ${books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">
-                    <img th:src="${book.img}" alt="book cover"/>
+                    <img th:src="${book.img}" class="book-cover" alt="book cover"/>
                 </div>
                 <div class="caption">
                     <div class="book-info">

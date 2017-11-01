@@ -30,7 +30,7 @@
                     <form class="form-horizontal" method="post" th:action="'/book/' + ${book.id} + '/edit'">
                         <div class="form-group">
                             <label for="copies" class="control-label">Copies Owned: </label>
-                            <input type="text" id="copies" name="copies" th:value="${book.copies}"/>
+                            <input type="text" id="copies" name="copies" th:value="${book.copies}" required="required"/>
                         </div>
                         <div class="form-group">
                             <label for="stars-radio-group" class="rating-header control-label">Rating*:</label>
@@ -84,7 +84,7 @@
                         <div class="form-group book-detail-info-left" id="shelves-group">
                             <label for="shelves" class="control-label">Shelves*:</label>
                             <p>*To select multiple shelves, hold down the cmd key (for mac users) or ctrl key (pc users) and click on your desired shelves. At least one shelf MUST be selected to save changes.</p>
-                            <select multiple="multiple" name="shelves" id="shelves" class="form-control">
+                            <select multiple="multiple" name="shelves" id="shelves" class="form-control" required="required">
                                 <option th:each="shelf : ${allShelves}" th:selected="${selectedShelves.contains(shelf)}" th:value="${shelf.id}" th:text="${shelf.name}"></option>
                             </select>
                         </div>

@@ -11,7 +11,11 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long>{
     List<Book> findAllByUser (User user);
     Iterable<Book> findAllByTitleIgnoreCase(String title);
+    Iterable<Book> findAllByTitleContaining(String title);
     Iterable<Book> findAllByUserAndTitleIgnoreCase(User user, String title);
+    Iterable<Book> findAllByUserAndTitleContaining(User user, String title);
     Iterable<Book> findAllByAuthorIgnoreCase(String author);
+    Iterable<Book> findAllByAuthorContaining(String author);
     Iterable<Book> findAllByUserAndAuthorIgnoreCase(User user, String author);
+    Iterable<Book> findAllByUserAndAuthorContaining(User user, String author);
 }

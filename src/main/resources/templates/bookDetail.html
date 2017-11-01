@@ -16,11 +16,10 @@
             </section>
         </div>
     </section>
-    <section th:if="${!ifBorrowed.contains(book) and ifPending.isEmpty()}" class="small-header-img">
+    <section th:if="${book.user.username != currentUser.username and ifBorrowed.isEmpty()}" class="small-header-img">
         <div class="container">
             <section class="row col-md-12">
                 <h1 th:inline="text">[[${book.user.username}]]'s book: [[${{book.title}}]]</h1>
-                <p th:if="${book.user.username != currentUser.username and ifBorrowed.contains(book) and ifPending.isEmpty()}" class="borrowed-text">This book has been borrowed</p>
             </section>
         </div>
     </section>

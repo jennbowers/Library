@@ -26,11 +26,11 @@
         <section class="row col-md-12 container">
             <div th:each="shelfBook : ${shelf.books}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
                 <div class="book-cover">
-                    <img th:src="${shelfBook.img}" alt="book cover"/>
+                    <img th:src="${shelfBook.img}" class="book-cover" alt="book cover"/>
                 </div>
                 <div class="caption">
                     <div class="book-info">
-                        <p th:text="${shelfBook.title}"></p>
+                        <h5 th:text="${shelfBook.title}"></h5>
                         <p th:text="${shelfBook.author}"></p>
                         <p th:if="${allBorrowedBooks.contains(shelfBook)}" class="borrowed-text">This book has been borrowed</p>
                     </div>

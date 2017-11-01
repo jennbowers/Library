@@ -38,7 +38,7 @@
     <div class="row">
         <div th:if="${volumes != null}" th:each="volume : ${volumes}" class="thumbnail col-xs-12 col-sm-4 col-md-3">
             <div class="book-cover">
-                <img th:if="${volume.volumeInfo.imageLinks != null}" th:src="${volume.volumeInfo.imageLinks.thumbnail}" alt="book cover"/>
+                <img th:if="${volume.volumeInfo.imageLinks != null}" th:src="${volume.volumeInfo.imageLinks.thumbnail}" class="book-cover" alt="book cover"/>
                 <!--Image for blank cover from here: https://authors.bookfunnel.com/help/adding_and_editing_your_books/-->
                 <img th:if="${volume.volumeInfo.imageLinks == null}" src="/img/no-cover-thumbnail.jpg" alt="missing book cover"/>
             </div>
