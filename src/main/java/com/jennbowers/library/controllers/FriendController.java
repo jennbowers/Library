@@ -248,17 +248,22 @@ public class FriendController {
     public String friendHomePost (Model model,
                                   Principal principal,
                                   @PathVariable("userId") Long userId,
-                                  @RequestParam("searchQuery") String searchQuery,
-                                  @RequestParam("searchType") String searchType) {
+//                                  @RequestParam("searchQuery") String searchQuery,
+                                  @RequestParam("titleSearch") String titleSearch,
+                                  @RequestParam("authorSearch") String authorSearch,
+//                                  @RequestParam("searchType") String searchType,
+                                  @RequestParam("searchBy") String searchBy) {
         String username = principal.getName();
         User currentUser = userRepo.findByUsername(username);
 
         User user = userRepo.findOne(userId);
         Iterable<Book> books = null;
-        if(searchType.equals("title")) {
-            books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchQuery);
-        } else if (searchType.equals("author")) {
-            books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchQuery);
+        if(searchBy.equals("title")) {
+            books = bookRepo.findAllByUserAndTitleIgnoreCase(user, titleSearch);
+        } else if (searchBy.equals("author")) {
+            books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, authorSearch);
+        } else if (searchBy.equals("titleAndAuthor")) {
+            books = bookRepo.findAllByTitleIgnoreCaseAndAuthorIgnoreCase(titleSearch, authorSearch);
         }
         model.addAttribute("user", user);
         model.addAttribute("books", books);

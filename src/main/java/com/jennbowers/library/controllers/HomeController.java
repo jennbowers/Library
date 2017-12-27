@@ -70,7 +70,6 @@ public class HomeController {
     @RequestMapping(value = "/searchToAdd", method = RequestMethod.GET)
     public String searchGet(Model model,
                             Principal principal,
-//                            @RequestParam("searchText") String searchText,
                             @RequestParam("titleSearch") String titleSearch,
                             @RequestParam("authorSearch") String authorSearch,
                             @RequestParam("searchBy") String searchBy,
@@ -88,7 +87,6 @@ public class HomeController {
         }
         model.addAttribute("ownedBooks", ownedBooksGoogleId);
 
-//        model.addAttribute("searchText", searchText);
         model.addAttribute("titleSearch", titleSearch);
         model.addAttribute("authorSearch", authorSearch);
         model.addAttribute("searchBy", searchBy);
@@ -154,8 +152,7 @@ public class HomeController {
             case "add":
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-                String prefixParam = null;
-//                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
+//          https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
                 String searchText = null;
                 String titleSearchModified;
                 String authorSearchModified;
@@ -200,13 +197,13 @@ public class HomeController {
     public String searchDetailGet(Model model,
                         Principal principal,
                         @PathVariable("searchIndex") Integer searchIndex,
-                        @RequestParam("searchText") String searchText,
+                        @RequestParam("titleSearch") String titleSearch,
+                        @RequestParam("authorSearch") String authorSearch,
                         @RequestParam("searchBy") String searchBy) {
         String searchIn = "add";
         model.addAttribute(("searchIn"), searchIn);
-
-        model.addAttribute("searchText", searchText);
-
+        model.addAttribute("titleSearch", titleSearch);
+        model.addAttribute("authorSearch", authorSearch);
         model.addAttribute("searchBy", searchBy);
 
         String username = principal.getName();
@@ -223,21 +220,26 @@ public class HomeController {
 
 //        Search API
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        String prefixParam = null;
-//        https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
-        String searchTextModified = searchText.replaceAll("\\s+", "\\+");
+
+//      https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
+        String searchText = null;
+        String titleSearchModified;
+        String authorSearchModified;
         if (searchBy.equals("title")) {
-            prefixParam = "intitle:";
+            titleSearchModified = titleSearch.replaceAll("\\s+", "\\+");
+            searchText = "intitle:" + titleSearchModified;
         } else if(searchBy.equals("author")){
-            prefixParam = "inauthor:";
+            authorSearchModified = authorSearch.replaceAll("\\s+", "\\+");
+            searchText = "inauthor:" + authorSearchModified;
+        } else if (searchBy.equals("titleAndAuthor")) {
+            titleSearchModified = titleSearch.replaceAll("\\s+", "\\+");
+            authorSearchModified = authorSearch.replaceAll("\\s+", "\\+");
+            searchText = "intitle:" + titleSearchModified + "+inauthor:" + authorSearchModified;
         }
 
         try {
-            String query = searchTextModified;
+            String query = searchText;
 
-            if (prefixParam != null) {
-                query = prefixParam + query;
-            }
             try {
                 Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                 List<Volume> volumesList = volumes.getItems();
