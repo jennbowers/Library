@@ -70,7 +70,9 @@ public class HomeController {
     @RequestMapping(value = "/searchToAdd", method = RequestMethod.GET)
     public String searchGet(Model model,
                             Principal principal,
-                            @RequestParam("searchText") String searchText,
+//                            @RequestParam("searchText") String searchText,
+                            @RequestParam("titleSearch") String titleSearch,
+                            @RequestParam("authorSearch") String authorSearch,
                             @RequestParam("searchBy") String searchBy,
                             @RequestParam("searchIn") String searchIn) {
         String username = principal.getName();
@@ -86,7 +88,9 @@ public class HomeController {
         }
         model.addAttribute("ownedBooks", ownedBooksGoogleId);
 
-        model.addAttribute("searchText", searchText);
+//        model.addAttribute("searchText", searchText);
+        model.addAttribute("titleSearch", titleSearch);
+        model.addAttribute("authorSearch", authorSearch);
         model.addAttribute("searchBy", searchBy);
 
         Iterable<Book> books = null;
@@ -99,9 +103,11 @@ public class HomeController {
 //        Search in my books
             case "mine":
                 if (searchBy.equals("title")){
-                    books = bookRepo.findAllByUserAndTitleIgnoreCase(user, searchText);
+                    books = bookRepo.findAllByUserAndTitleIgnoreCase(user, titleSearch);
                 } else if (searchBy.equals("author")) {
-                    books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, searchText);
+                    books = bookRepo.findAllByUserAndAuthorIgnoreCase(user, authorSearch);
+                } else if (searchBy.equals("titleAndAuthor")) {
+                    books = bookRepo.findAllByTitleIgnoreCaseAndAuthorIgnoreCase(titleSearch, authorSearch);
                 }
                 model.addAttribute("books", books);
 
@@ -116,9 +122,11 @@ public class HomeController {
 //        Search in friends & others books
             case "borrow":
                 if (searchBy.equals("title")){
-                    books = bookRepo.findAllByTitleIgnoreCase(searchText);
+                    books = bookRepo.findAllByTitleIgnoreCase(titleSearch);
                 } else if (searchBy.equals("author")) {
-                    books = bookRepo.findAllByAuthorIgnoreCase(searchText);
+                    books = bookRepo.findAllByAuthorIgnoreCase(authorSearch);
+                } else if (searchBy.equals("titleAndAuthor")) {
+                    books = bookRepo.findAllByTitleIgnoreCaseAndAuthorIgnoreCase(titleSearch, authorSearch);
                 }
                 model.addAttribute("books", books);
 
@@ -148,19 +156,25 @@ public class HomeController {
 
                 String prefixParam = null;
 //                https://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
-                String searchTextModified = searchText.replaceAll("\\s+", "\\+");
+                String searchText = null;
+                String titleSearchModified;
+                String authorSearchModified;
+
                 if (searchBy.equals("title")) {
-                    prefixParam = "intitle:";
+                    titleSearchModified = titleSearch.replaceAll("\\s+", "\\+");
+                    searchText = "intitle:" + titleSearchModified;
                 } else if(searchBy.equals("author")){
-                    prefixParam = "inauthor:";
+                    authorSearchModified = authorSearch.replaceAll("\\s+", "\\+");
+                    searchText = "inauthor:" + authorSearchModified;
+                } else if (searchBy.equals("titleAndAuthor")) {
+                    titleSearchModified = titleSearch.replaceAll("\\s+", "\\+");
+                    authorSearchModified = authorSearch.replaceAll("\\s+", "\\+");
+                    searchText = "intitle:" + titleSearchModified + "+inauthor:" + authorSearchModified;
                 }
 
                 try {
-                    String query = searchTextModified;
+                    String query = searchText;
 
-                    if (prefixParam != null) {
-                        query = prefixParam + query;
-                    }
                     try {
                         Volumes volumes = GoogleBookRequestBuilder.queryGoogleBooks(jsonFactory, query);
                         List<Volume> volumesList = volumes.getItems();
