@@ -71,7 +71,6 @@ public class Helpers {
 
         allNotFriends.remove(user);
 
-
         return allNotFriends;
     }
 
